@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="db_javaee@localhost" uuid="cb05d606-b2e0-4e90-9704-abbc04334229">
+    <data-source source="LOCAL" name="db_dispatch_command@localhost" uuid="0ca7f3de-5242-403b-8cfc-e39798932eec">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/db_javaee</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/db_dispatch_command</jdbc-url>
       <driver-properties>
         <property name="autoReconnect" value="true" />
         <property name="zeroDateTimeBehavior" value="convertToNull" />
