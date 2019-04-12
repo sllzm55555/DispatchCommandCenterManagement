@@ -6,4 +6,5 @@ public class UserEntity {
     private String sss;
     private String sssss;
     private String sssssss;
+    private UserEntity userEntity;
 }
