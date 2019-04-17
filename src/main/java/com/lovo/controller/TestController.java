@@ -10,5 +10,4 @@ public class TestController {
     public String start(){
         return "demo2";
     }
-
 }
