@@ -19,4 +19,9 @@ public class ResourceServiceImpl implements IResourceService {
     public List<ResourceEntity> findAllResource() {
         return (List<ResourceEntity>) resourceDao.findAll();
     }
+
+    @Override
+    public void saveResourceList(List<ResourceEntity> list) {
+        resourceDao.save(list);
+    }
 }

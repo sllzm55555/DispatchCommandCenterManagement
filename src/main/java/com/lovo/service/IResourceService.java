@@ -11,4 +11,10 @@ public interface IResourceService {
      * @return
      */
     public List<ResourceEntity> findAllResource();
+
+    /**
+     * 保存资源list对象
+     * @param list
+     */
+    public void saveResourceList(List<ResourceEntity> list);
 }
