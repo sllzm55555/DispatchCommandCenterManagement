@@ -46,4 +46,9 @@ public class EventController {
     public String gotoScheduleOfResourceDispatch() {
         return "scheduleOfResourceDispatch";
     }
+
+    @RequestMapping("goTosendResources")
+    public String gotoSendResources(){
+        return "sendResources";
+    }
 }
