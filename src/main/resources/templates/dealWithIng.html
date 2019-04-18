@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <meta charset="utf-8" />
-  <title>详情页面</title>
+  <title>处理中页面</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta content="" name="description" />
   <meta content="" name="author" />
@@ -32,7 +32,6 @@
   <!-- BEGIN CORE CSS FRAMEWORK -->
   <link th:href="@{staticResources/webarch/css/webarch.css}" rel="stylesheet" type="text/css" />
   <!-- END CORE CSS FRAMEWORK -->
-
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -162,7 +161,7 @@
           <ul class="sub-menu">
             <li> <a th:href="@{goToNoDealWith}"> 未处理事件 </a> </li>
             <li class=""> <a th:href="@{goToDealWithIng}"> 处理中事件 <span class=" label label-info pull-right m-r-30">NEW</span></a></li>
-            <li class=""> <a th:href="@{getToDealWithEd}"> 处理完成事件 <span class=" label label-info pull-right m-r-30">NEW</span></a></li>
+            <li class=""> <a th:href="@{goToDealWithEd}"> 处理完成事件 <span class=" label label-info pull-right m-r-30">NEW</span></a></li>
           </ul>
         </li>
         <li>
@@ -205,16 +204,15 @@
           <div class="grid simple ">
             <div class="grid-title">
               <div class="row form-row">
-                <span style="font-size: 28px">处理完成事件</span>
-                <form action="" class="pull-right">
-                  <input id="id" name="eventNum" type="text" class="form-control"
+                <span style="font-size: 28px">处理中事件</span>
+                <form action="
+" class="pull-right">
+                  <input id="eventNum" name="eventNum" type="text" class="form-control"
                          style="width: 150px;display: inline-block;" placeholder="事件编号"/>
-                  <input id="name" name="eventName" type="text" class="form-control"
-                         style="width: 150px;display: inline-block;" placeholder="事件名称"/>
-                  <input id="type" name="eventType" type="text" class="form-control"
+                  <input id="eventType" name="eventType" type="text" class="form-control"
                          style="width: 150px;display: inline-block;" placeholder="事件类型"/>
-                  <input id="time" name="endTime" type="date" class="form-control"
-                         style="width: 150px;display: inline-block;" placeholder="结束时间"/>
+                  <input id="endTime" name="endTime" type="date" class="form-control"
+                         style="width: 150px;display: inline-block;" placeholder="上报时间"/>
                   <button class="btn btn-success btn-cons" type="submit"><i class="icon-ok"></i>查询
                   </button>
                 </form>
@@ -226,30 +224,113 @@
                 <tr>
                   <th style="width:8%">事件编号</th>
                   <th style="width:22%" data-hide="phone,tablet">事件名称</th>
-                  <th style="width:10%">事件类型</th>
-                  <th style="width:10%" data-hide="phone,tablet">结束时间</th>
+                  <th style="width:10%">事件位置</th>
+                  <th style="width:10%" data-hide="phone,tablet">事件详情</th>
                   <th style="width:5%" data-hide="phone,tablet">操作</th>
                 </tr>
                 </thead>
                 <tbody>
-                  <tr th:each="event,trState:${list}">
-                    <td class="v-align-middle" th:text="${event.eventId}"></td>
-                    <td class="v-align-middle"><span class="muted" th:text="${event.eventName}"></span></td>
-                    <td><span class="muted" th:text="${event.eventType}"></span></td>
-                    <td class="v-align-middle" th:text="${event.endTime}"></td>
-                    <td><a href="#">查看详情</a></td>
-                  </tr>
+                <tr>
+                  <td class="v-align-middle">001</td>
+                  <td class="v-align-middle"><span class="muted">001温江倒塌事件</span></td>
+                  <td><span class="muted">温江</span></td>
+                  <td><span class="muted">倒塌面积100m</span></td>
+                  <!--<td class="v-align-middle">-->
+                  <!--<div class="progress ">-->
+                  <!--<div data-percentage="80%"-->
+                  <!--class="progress-bar progress-bar-success animate-progress-bar"></div>-->
+                  <!--</div>-->
+                  <!--</td>-->
+                  <td><a href="#">查看详情</a></td>
+                </tr>
+                <tr>
+                  <td class="v-align-middle">002</td>
+                  <td><span class="muted">002郫县火灾事件</span></td>
+                  <td><span class="muted">郫县</span></td>
+                  <!--<td>-->
+                  <!--<div class="progress">-->
+                  <!--<div data-percentage="70%"-->
+                  <!--class="progress-bar progress-bar-danger animate-progress-bar"></div>-->
+                  <!--</div>-->
+                  <!--</td>-->
+                  <td><span class="muted">着火面积100m</span></td>
+                  <td><a href="#">查看详情</a></td>
+                </tr>
+                <tr>
+                  <td class="v-align-middle">001</td>
+                  <td class="v-align-middle"><span class="muted">001温江倒塌事件</span></td>
+                  <td><span class="muted">温江</span></td>
+                  <td><span class="muted">倒塌严重</span></td>
+                  <!--<td class="v-align-middle">-->
+                  <!--<div class="progress ">-->
+                  <!--<div data-percentage="80%"-->
+                  <!--class="progress-bar progress-bar-success animate-progress-bar"></div>-->
+                  <!--</div>-->
+                  <!--</td>-->
+                  <td><a href="#">查看详情</a></td>
+                </tr>
+                <tr>
+                  <td class="v-align-middle">001</td>
+                  <td class="v-align-middle"><span class="muted">001温江倒塌事件</span></td>
+                  <td><span class="muted">温江</span></td>
+                  <td><span class="muted">倒塌面积增加</span></td>
+                  <!--<td class="v-align-middle">-->
+                  <!--<div class="progress ">-->
+                  <!--<div data-percentage="80%"-->
+                  <!--class="progress-bar progress-bar-success animate-progress-bar"></div>-->
+                  <!--</div>-->
+                  <!--</td>-->
+                  <td><a href="#">查看详情</a></td>
+                </tr>
+                <tr>
+                  <td class="v-align-middle">001</td>
+                  <td class="v-align-middle"><span class="muted">001温江倒塌事件</span></td>
+                  <td><span class="muted">温江</span></td>
+                  <td><span class="muted">严重</span></td>
+                  <!--<td class="v-align-middle">-->
+                  <!--<div class="progress ">-->
+                  <!--<div data-percentage="80%"-->
+                  <!--class="progress-bar progress-bar-success animate-progress-bar"></div>-->
+                  <!--</div>-->
+                  <!--</td>-->
+                  <td><a href="#">查看详情</a></td>
+                </tr>
+                <tr>
+                  <td class="v-align-middle">001</td>
+                  <td class="v-align-middle"><span class="muted">001温江倒塌事件</span></td>
+                  <td><span class="muted">三和</span></td>
+                  <td><span class="muted">严重</span></td>
+                  <!--<td class="v-align-middle">-->
+                  <!--<div class="progress ">-->
+                  <!--<div data-percentage="80%"-->
+                  <!--class="progress-bar progress-bar-success animate-progress-bar"></div>-->
+                  <!--</div>-->
+                  <!--</td>-->
+                  <td><a href="#">查看详情</a></td>
+                </tr>
+                <tr>
+                  <td class="v-align-middle">001</td>
+                  <td class="v-align-middle"><span class="muted">001温江倒塌事件</span></td>
+                  <td><span class="muted">河北</span></td>
+                  <td><span class="muted">严重</span></td>
+                  <!--<td class="v-align-middle">-->
+                  <!--<div class="progress ">-->
+                  <!--<div data-percentage="80%"-->
+                  <!--class="progress-bar progress-bar-success animate-progress-bar"></div>-->
+                  <!--</div>-->
+                  <!--</td>-->
+                  <td><a href="#">查看详情</a></td>
+                </tr>
                 </tbody>
               </table>
-              <input type="hidden" th:value="${pageNum}" id="page"/>
-              <input type="hidden" th:value="${pageAll}" id="pageAll"/>
               <div class="pull-right">
-                <button class="btn btn-info btn-cons" th:onclick="|javascript:changeFirst()|" type="submit"><i class="icon-ok"></i> 首页</button>
-                <button class="btn btn-info btn-cons" th:onclick="|javascript:changePre()|" type="submit"><i class="icon-ok"></i> 上一页</button>
-                <button class="btn btn-info btn-cons" th:onclick="|javascript:changeNext()|" type="submit"><i class="icon-ok"></i> 下一页</button>
-                <button class="btn btn-info btn-cons" th:onclick="|javascript:changeLast()|" type="submit"><i class="icon-ok"></i> 尾页</button>
-                <input type="text" class="form-control" placeholder="您要跳转的页码" style="width: 120px;display: inline-block" id="number"/>
-                <button class="btn btn-info btn-cons" type="submit" th:onclick="|javascript:change()|"><i class="icon-ok"></i> 跳转</button>
+                <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 首页</button>
+                <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 上一页</button>
+                <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 下一页</button>
+                <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 尾页</button>
+                <input type="text" class="form-control" placeholder="您要跳转的页码"
+                       style="width: 120px;display: inline-block"/>
+                <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 跳转</button>
               </div>
             </div>
           </div>
@@ -257,17 +338,7 @@
       </div>
     </div>
   </div>
-  <div style="display: none;">
-    <form th:action="@{changePage}" method="post" id="changePage">
-      <input type="text" name="pageNum" id="pageNum"/>
-      <input type="text" name="eventId" id="eventId"/>
-      <input type="text" name="eventName" id="eventName"/>
-      <input type="text" name="eventType" id="eventType"/>
-      <input type="text" name="endTime" id="endTime"/>
-    </form>
-  </div>
 </div>
-<script th:src="@{staticResources/jquery-2.1.4.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/pace/pace.min.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/jquery/jquery-1.11.3.min.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/bootstrapv3/js/bootstrap.min.js}" type="text/javascript"></script>
@@ -278,6 +349,7 @@
 <script th:src="@{staticResources/assets/plugins/jquery-validation/js/jquery.validate.min.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/bootstrap-select2/select2.min.js}" type="text/javascript"></script>
 
+<script th:src="@{webarch/js/webarch.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/js/chat.js}" type="text/javascript"></script>
 
 <script th:src="@{staticResources/assets/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js}" type="text/javascript"></script>
@@ -295,43 +367,5 @@
 <script th:src="@{staticResources/assets/plugins/jquery-flot/jquery.flot.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/jquery-metrojs/MetroJs.min.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/js/dashboard_v2.js}" type="text/javascript"></script>
-<script type="text/javascript">
-  function changeFirst() {
-    $("#pageNum").val(0);
-    $("#changePage").submit();
-
-  }
-  function changePre() {
-    var page = parseInt($("#page").val());
-    if (page > 0 ){
-      page = page - 1;
-    }
-    $("#pageNum").val(page);
-    $("#changePage").submit();
-  }
-  function changeNext() {
-    var page = parseInt($("#page").val());
-    var pageAll = parseInt($("#pageAll").val());
-    if (page < pageAll - 1){
-      page = page + 1;
-    }
-    $("#pageNum").val(page);
-    $("#changePage").submit();
-  }
-  function changeLast() {
-    var pageAll = parseInt($("#pageAll").val());
-    $("#pageNum").val(pageAll - 1);
-    $("#changePage").submit();
-  }
-  function change() {
-    var number = parseInt($("#number").val());
-    var pageAll = parseInt($("#pageAll").val());
-    if (number > pageAll - 1) {
-      number = pageAll;
-    }
-    $("#pageNum").val(number - 1);
-    $("#changePage").submit();
-  }
-</script>
 </body>
 </html>

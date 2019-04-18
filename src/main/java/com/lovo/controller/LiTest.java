@@ -2,7 +2,6 @@ package com.lovo.controller;
 
 import com.lovo.entity.ResourceEntity;
 import com.lovo.service.IResourceService;
-import com.lovo.util.ResourceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -75,17 +74,8 @@ public class LiTest {
     public ModelAndView gotoResource(){
         List<ResourceEntity> AllList =resourceService.findAllResource();
         ModelAndView mv=new ModelAndView();
-        if(AllList.size()<1){
-            ResourceUtil resourceUtil = new ResourceUtil();
-            List<ResourceEntity> list = resourceUtil.importXLS();
-            resourceService.saveResourceList(list);
-
-            mv.addObject("resourceList",list);
-            mv.setViewName("resource");
-        }else {
-            mv.addObject("resourceList",AllList);
-            mv.setViewName("resource");
-        }
+        mv.addObject("resourceList",AllList);
+        mv.setViewName("resource");
         return mv;
     }
 }

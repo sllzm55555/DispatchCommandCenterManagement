@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <meta charset="utf-8" />
-  <title>详情页面</title>
+  <title>未处理事件详情</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta content="" name="description" />
   <meta content="" name="author" />
@@ -31,8 +31,27 @@
   <!-- END PLUGIN CSS -->
   <!-- BEGIN CORE CSS FRAMEWORK -->
   <link th:href="@{staticResources/webarch/css/webarch.css}" rel="stylesheet" type="text/css" />
-  <!-- END CORE CSS FRAMEWORK -->
+  <style>
+    input[type=text]{
+      width: 180px;
+      margin-left: 20px;
+      margin-right: 40px;
+    }
+    .label{
+      margin-left:40px;
+    }
+    #t1{
+      margin-left: 35px;
+      margin-right: 40px;
+    }
+    #t2{
+      margin-left: 10px;
+      margin-right: 40px;
+    }
 
+
+  </style>
+  <!-- END CORE CSS FRAMEWORK -->
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -162,7 +181,7 @@
           <ul class="sub-menu">
             <li> <a th:href="@{goToNoDealWith}"> 未处理事件 </a> </li>
             <li class=""> <a th:href="@{goToDealWithIng}"> 处理中事件 <span class=" label label-info pull-right m-r-30">NEW</span></a></li>
-            <li class=""> <a th:href="@{getToDealWithEd}"> 处理完成事件 <span class=" label label-info pull-right m-r-30">NEW</span></a></li>
+            <li class=""> <a th:href="@{goToDealWithEd}"> 处理完成事件 <span class=" label label-info pull-right m-r-30">NEW</span></a></li>
           </ul>
         </li>
         <li>
@@ -194,80 +213,100 @@
     <div id="portlet-config" class="modal hide">
       <div class="modal-header">
         <button data-dismiss="modal" class="close" type="button"></button>
-        <h3>Widget Settings</h3>
+        <h3>事件详情</h3>
       </div>
       <div class="modal-body"> Widget settings form goes here</div>
     </div>
     <div class="clearfix"></div>
     <div class="content sm-gutter">
-      <div class="row-fluid">
-        <div class="span12">
-          <div class="grid simple ">
-            <div class="grid-title">
-              <div class="row form-row">
-                <span style="font-size: 28px">处理完成事件</span>
-                <form action="" class="pull-right">
-                  <input id="id" name="eventNum" type="text" class="form-control"
-                         style="width: 150px;display: inline-block;" placeholder="事件编号"/>
-                  <input id="name" name="eventName" type="text" class="form-control"
-                         style="width: 150px;display: inline-block;" placeholder="事件名称"/>
-                  <input id="type" name="eventType" type="text" class="form-control"
-                         style="width: 150px;display: inline-block;" placeholder="事件类型"/>
-                  <input id="time" name="endTime" type="date" class="form-control"
-                         style="width: 150px;display: inline-block;" placeholder="结束时间"/>
-                  <button class="btn btn-success btn-cons" type="submit"><i class="icon-ok"></i>查询
-                  </button>
-                </form>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="grid simple">
+            <div class="grid-title no-border">
+              <h4>未处理事件<span class="semi-bold">详情</span></h4>
+            </div>
+            <div class="grid-body no-border">
+              <br/>
+              <div class="row">
+                <div class="col-md-8 col-sm-8 col-xs-8">
+                  <div class="form-group" >
+                    <label class="form-label">事件编号:</label><input type="text"/>
+                    <label class="form-label">事件名称:</label><input type="text"/>
+                  </div>
+                  <div class="form-group" >
+                    <label class="form-label">上报时间:</label><input type="text"/>
+                    <label class="form-label" id="label1">上报人:</label><input type="text" id="t1"/>
+                  </div>
+                  <div class="form-group" >
+                    <label class="form-label">事件类型:</label><input type="text"/>
+                    <label class="form-label" id="label2">上报人电话:</label><input type="text" id="t2"/>
+                  </div>
+                  <div class="form-group" >
+                    <label class="form-label">事件等级:</label><input type="text"/>
+                    <label class="form-label">特殊字段:</label><input type="text"/>
+                  </div>
+                  <div class="form-group" >
+                    <label class="form-label">特殊字段:</label><input type="text"/>
+                    <label class="form-label">特殊字段:</label><input type="text"/>
+                  </div>
+                </div>
               </div>
             </div>
+
+            <lable><h3>续报：</h3></lable>
             <div class="grid-body ">
               <table class="table table-hover table-condensed" id="example">
                 <thead>
                 <tr>
-                  <th style="width:8%">事件编号</th>
-                  <th style="width:22%" data-hide="phone,tablet">事件名称</th>
-                  <th style="width:10%">事件类型</th>
-                  <th style="width:10%" data-hide="phone,tablet">结束时间</th>
-                  <th style="width:5%" data-hide="phone,tablet">操作</th>
+                  <th style="width:8%">灾害等级</th>
+                  <th style="width:8%">共计伤亡人数</th>
+                  <th style="width:8%">详情</th>
                 </tr>
                 </thead>
                 <tbody>
-                  <tr th:each="event,trState:${list}">
-                    <td class="v-align-middle" th:text="${event.eventId}"></td>
-                    <td class="v-align-middle"><span class="muted" th:text="${event.eventName}"></span></td>
-                    <td><span class="muted" th:text="${event.eventType}"></span></td>
-                    <td class="v-align-middle" th:text="${event.endTime}"></td>
-                    <td><a href="#">查看详情</a></td>
-                  </tr>
+                <tr>
+                  <td><span class="muted">2级</span></td>
+                  <td><span class="muted">6人</span></td>
+                  <td><span class="muted">灾害升级，请立即调配人员</span></td>
+                </tr>
+                <tr>
+                  <td><span class="muted">2级</span></td>
+                  <td><span class="muted">6人</span></td>
+                  <td><span class="muted">灾害升级，请立即调配人员</span></td>
+                </tr>
+                <tr>
+                  <td><span class="muted">2级</span></td>
+                  <td><span class="muted">6人</span></td>
+                  <td><span class="muted">灾害升级，请立即调配人员</span></td>
+                </tr>
+                <tr>
+                  <td><span class="muted">2级</span></td>
+                  <td><span class="muted">6人</span></td>
+                  <td><span class="muted">灾害升级，请立即调配人员</span></td>
+                </tr>
                 </tbody>
               </table>
-              <input type="hidden" th:value="${pageNum}" id="page"/>
-              <input type="hidden" th:value="${pageAll}" id="pageAll"/>
               <div class="pull-right">
-                <button class="btn btn-info btn-cons" th:onclick="|javascript:changeFirst()|" type="submit"><i class="icon-ok"></i> 首页</button>
-                <button class="btn btn-info btn-cons" th:onclick="|javascript:changePre()|" type="submit"><i class="icon-ok"></i> 上一页</button>
-                <button class="btn btn-info btn-cons" th:onclick="|javascript:changeNext()|" type="submit"><i class="icon-ok"></i> 下一页</button>
-                <button class="btn btn-info btn-cons" th:onclick="|javascript:changeLast()|" type="submit"><i class="icon-ok"></i> 尾页</button>
-                <input type="text" class="form-control" placeholder="您要跳转的页码" style="width: 120px;display: inline-block" id="number"/>
-                <button class="btn btn-info btn-cons" type="submit" th:onclick="|javascript:change()|"><i class="icon-ok"></i> 跳转</button>
+                <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 首页</button>
+                <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 上一页</button>
+                <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 下一页</button>
+                <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 尾页</button>
+                <input type="text" class="form-control" placeholder="您要跳转的页码"
+                       style="width: 120px;display: inline-block"/>
+                <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 跳转</button>
               </div>
             </div>
+
+            <button class="btn btn-success btn-cons col-sm-offset-3" type="submit"><i class="icon-ok" id="button1"></i> 返回</button>
+
+            <button class="btn btn-success btn-cons col-sm-offset-2" type="submit"><i class="icon-ok"></i> 处理</button>
+
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div style="display: none;">
-    <form th:action="@{changePage}" method="post" id="changePage">
-      <input type="text" name="pageNum" id="pageNum"/>
-      <input type="text" name="eventId" id="eventId"/>
-      <input type="text" name="eventName" id="eventName"/>
-      <input type="text" name="eventType" id="eventType"/>
-      <input type="text" name="endTime" id="endTime"/>
-    </form>
-  </div>
 </div>
-<script th:src="@{staticResources/jquery-2.1.4.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/pace/pace.min.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/jquery/jquery-1.11.3.min.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/bootstrapv3/js/bootstrap.min.js}" type="text/javascript"></script>
@@ -278,6 +317,7 @@
 <script th:src="@{staticResources/assets/plugins/jquery-validation/js/jquery.validate.min.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/bootstrap-select2/select2.min.js}" type="text/javascript"></script>
 
+<script th:src="@{webarch/js/webarch.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/js/chat.js}" type="text/javascript"></script>
 
 <script th:src="@{staticResources/assets/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js}" type="text/javascript"></script>
@@ -295,43 +335,5 @@
 <script th:src="@{staticResources/assets/plugins/jquery-flot/jquery.flot.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/jquery-metrojs/MetroJs.min.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/js/dashboard_v2.js}" type="text/javascript"></script>
-<script type="text/javascript">
-  function changeFirst() {
-    $("#pageNum").val(0);
-    $("#changePage").submit();
-
-  }
-  function changePre() {
-    var page = parseInt($("#page").val());
-    if (page > 0 ){
-      page = page - 1;
-    }
-    $("#pageNum").val(page);
-    $("#changePage").submit();
-  }
-  function changeNext() {
-    var page = parseInt($("#page").val());
-    var pageAll = parseInt($("#pageAll").val());
-    if (page < pageAll - 1){
-      page = page + 1;
-    }
-    $("#pageNum").val(page);
-    $("#changePage").submit();
-  }
-  function changeLast() {
-    var pageAll = parseInt($("#pageAll").val());
-    $("#pageNum").val(pageAll - 1);
-    $("#changePage").submit();
-  }
-  function change() {
-    var number = parseInt($("#number").val());
-    var pageAll = parseInt($("#pageAll").val());
-    if (number > pageAll - 1) {
-      number = pageAll;
-    }
-    $("#pageNum").val(number - 1);
-    $("#changePage").submit();
-  }
-</script>
 </body>
 </html>
