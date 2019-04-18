@@ -157,11 +157,11 @@
       </div>
       <p class="menu-title sm">BROWSE <span class="pull-right"><a href="javascript:;"><i class="material-icons">refresh</i></a></span></p>
       <ul>
-        <li class="start  open active "> <a th:href="@{index.html}"><i class="material-icons">home</i> <span class="title">事件管理</span> <span class="selected"></span> <span class="arrow  open "></span> </a>
+        <li class="start  open active "> <a th:href="@{goToNoDealWith}"><i class="material-icons">home</i> <span class="title">事件管理</span> <span class="selected"></span> <span class="arrow  open "></span> </a>
           <ul class="sub-menu">
-            <li> <a th:href="@{goNoDealWithIng}"> 未处理事件 </a> </li>
+            <li> <a th:href="@{goToNoDealWith}"> 未处理事件 </a> </li>
             <li class=""> <a th:href="@{goToDealWithIng}"> 处理中事件 <span class=" label label-info pull-right m-r-30">NEW</span></a></li>
-            <li class=""> <a th:href="dealWithEd.html"> 处理完成事件 <span class=" label label-info pull-right m-r-30">NEW</span></a></li>
+            <li class=""> <a th:href="@{goToDealWithEd}"> 处理完成事件 <span class=" label label-info pull-right m-r-30">NEW</span></a></li>
           </ul>
         </li>
         <li>

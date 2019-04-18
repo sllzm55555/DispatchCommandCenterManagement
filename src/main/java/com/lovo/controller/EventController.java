@@ -7,25 +7,34 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class EventController {
 
-    @RequestMapping("getToNoDealWith")
+    @RequestMapping("goToNoDealWith")
     public ModelAndView showNoDealWith(){
         ModelAndView mv=new ModelAndView("noDealWith");
         return mv;
     }
-    @RequestMapping("getToDealWith")
+    @RequestMapping("goToDealWithIng")
     public ModelAndView showDealWith(){
         ModelAndView mv=new ModelAndView("dealWithIng");
         return mv;
     }
+    @RequestMapping("goToDealWithEd")
+    public ModelAndView showDealWithEds(){
+        ModelAndView mv=new ModelAndView("dealWithEd");
+        return mv;
+    }
 
-    @RequestMapping("goToDealWithIng")
-    public String gotoDealWithIng(){
-        return "dealWithIng";
-    }
-    @RequestMapping("goNoDealWithIng")
-    public String gotoNoDealWithIng(){
-        return "noDealWith";
-    }
+//    @RequestMapping("goToDealWithIng")
+//    public String goToDealWithIng(){
+//        return "dealWithIng";
+//    }
+//    @RequestMapping("goNoDealWith")
+//    public String gotoNoDealWithIng(){
+//        return "noDealWith";
+//    }
+//    @RequestMapping("goToDealWithEd")
+//    public String showDealWithEd(){
+//        return "dealWithEd";
+//    }
 
     @RequestMapping("goToNoDealWithDetails")
     public String gotoNoDealWithDetails(){
