@@ -75,6 +75,9 @@ public class EventEntity {
     private String endTime;
     /**
      * eventPeriod 事件阶段
+     * 1、未处理阶段
+     * 2、处理中阶段
+     * 3、处理完成阶段
      */
     private int eventPeriod;
 

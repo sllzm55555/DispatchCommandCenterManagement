@@ -32,6 +32,7 @@
   <!-- BEGIN CORE CSS FRAMEWORK -->
   <link th:href="@{staticResources/webarch/css/webarch.css}" rel="stylesheet" type="text/css" />
   <!-- END CORE CSS FRAMEWORK -->
+
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -206,13 +207,13 @@
               <div class="row form-row">
                 <span style="font-size: 28px">处理完成事件</span>
                 <form action="" class="pull-right">
-                  <input id="eventNum" name="eventNum" type="text" class="form-control"
+                  <input id="id" name="eventNum" type="text" class="form-control"
                          style="width: 150px;display: inline-block;" placeholder="事件编号"/>
-                  <input id="eventName" name="eventName" type="text" class="form-control"
+                  <input id="name" name="eventName" type="text" class="form-control"
                          style="width: 150px;display: inline-block;" placeholder="事件名称"/>
-                  <input id="eventType" name="eventType" type="text" class="form-control"
+                  <input id="type" name="eventType" type="text" class="form-control"
                          style="width: 150px;display: inline-block;" placeholder="事件类型"/>
-                  <input id="endTime" name="endTime" type="date" class="form-control"
+                  <input id="time" name="endTime" type="date" class="form-control"
                          style="width: 150px;display: inline-block;" placeholder="结束时间"/>
                   <button class="btn btn-success btn-cons" type="submit"><i class="icon-ok"></i>查询
                   </button>
@@ -231,105 +232,24 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                  <td class="v-align-middle">Early Bird</td>
-                  <td class="v-align-middle"><span class="muted">Redesign project template</span></td>
-                  <td><span class="muted">$4,500</span></td>
-                  <td class="v-align-middle">
-                    <div class="progress ">
-                      <div data-percentage="80%"
-                           class="progress-bar progress-bar-success animate-progress-bar"></div>
-                    </div>
-                  </td>
-                  <td><a href="#">查看详情</a></td>
-                </tr>
-                <tr>
-                  <td class="v-align-middle">Angry Birds</td>
-                  <td><span class="muted">Something goes here</span></td>
-                  <td><span class="muted">$9,000</span></td>
-                  <td>
-                    <div class="progress">
-                      <div data-percentage="70%"
-                           class="progress-bar progress-bar-danger animate-progress-bar"></div>
-                    </div>
-                  </td>
-                  <td><a href="#">查看详情</a></td>
-                </tr>
-                <tr>
-                  <td>PHP Login page</td>
-                  <td class="v-align-middle"><span class="muted">A project in business and science is typically defined</span>
-                  </td>
-                  <td><span class="muted">$5,400</span></td>
-                  <td>
-                    <div class="progress progress-info">
-                      <div data-percentage="60%"
-                           class="progress-bar progress-bar-primary animate-progress-bar"></div>
-                    </div>
-                  </td>
-                  <td><a href="#">查看详情</a></td>
-                </tr>
-                <tr>
-                  <td>Zombies</td>
-                  <td class="v-align-middle"><span class="muted">frequently involving research or design</span>
-                  </td>
-                  <td><span class="muted">$6,000</span></td>
-                  <td>
-                    <div class="progress">
-                      <div data-percentage="60%"
-                           class="progress-bar progress-bar-warning animate-progress-bar"></div>
-                    </div>
-                  </td>
-                  <td><a href="#">查看详情</a></td>
-                </tr>
-                <tr>
-                  <td>Zombies</td>
-                  <td class="v-align-middle"><span class="muted">frequently involving research or design</span>
-                  </td>
-                  <td><span class="muted">$6,000</span></td>
-                  <td>
-                    <div class="progress ">
-                      <div data-percentage="42%"
-                           class="progress-bar progress-bar-warning animate-progress-bar"></div>
-                    </div>
-                  </td>
-                  <td><a href="#">查看详情</a></td>
-                </tr>
-                <tr>
-                  <td>Zombies</td>
-                  <td class="v-align-middle"><span class="muted">frequently involving research or design</span>
-                  </td>
-                  <td><span class="muted">$6,000</span></td>
-                  <td>
-                    <div class="progress progress-warning">
-                      <div data-percentage="42%"
-                           class="progress-bar progress-bar-warning animate-progress-bar"></div>
-                    </div>
-                  </td>
-                  <td><a href="#">查看详情</a></td>
-                </tr>
-                <tr>
-                  <td>Zombies</td>
-                  <td class="v-align-middle"><span class="muted">frequently involving research or design</span>
-                  </td>
-                  <td><span class="muted">$6,000</span></td>
-                  <td>
-                    <div class="progress progress-warning">
-                      <div data-percentage="42%"
-                           class="progress-bar progress-bar-warning animate-progress-bar"></div>
-                    </div>
-                  </td>
-                  <td><a href="#">查看详情</a></td>
-                </tr>
+                  <tr th:each="event,trState:${list}">
+                    <td class="v-align-middle" th:text="${event.eventId}"></td>
+                    <td class="v-align-middle"><span class="muted" th:text="${event.eventName}"></span></td>
+                    <td><span class="muted" th:text="${event.eventType}"></span></td>
+                    <td class="v-align-middle" th:text="${event.endTime}"></td>
+                    <td><a href="#">查看详情</a></td>
+                  </tr>
                 </tbody>
               </table>
+              <input type="hidden" th:value="${pageNum}" id="page"/>
+              <input type="hidden" th:value="${pageAll}" id="pageAll"/>
               <div class="pull-right">
-                <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 首页</button>
-                <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 上一页</button>
-                <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 下一页</button>
-                <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 尾页</button>
-                <input type="text" class="form-control" placeholder="您要跳转的页码"
-                       style="width: 120px;display: inline-block"/>
-                <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 跳转</button>
+                <button class="btn btn-info btn-cons" th:onclick="|javascript:changeFirst()|" type="submit"><i class="icon-ok"></i> 首页</button>
+                <button class="btn btn-info btn-cons" th:onclick="|javascript:changePre()|" type="submit"><i class="icon-ok"></i> 上一页</button>
+                <button class="btn btn-info btn-cons" th:onclick="|javascript:changeNext()|" type="submit"><i class="icon-ok"></i> 下一页</button>
+                <button class="btn btn-info btn-cons" th:onclick="|javascript:changeLast()|" type="submit"><i class="icon-ok"></i> 尾页</button>
+                <input type="text" class="form-control" placeholder="您要跳转的页码" style="width: 120px;display: inline-block" id="number"/>
+                <button class="btn btn-info btn-cons" type="submit" th:onclick="|javascript:change()|"><i class="icon-ok"></i> 跳转</button>
               </div>
             </div>
           </div>
@@ -337,7 +257,17 @@
       </div>
     </div>
   </div>
+  <div style="display: none;">
+    <form th:action="@{changePage}" method="post" id="changePage">
+      <input type="text" name="pageNum" id="pageNum"/>
+      <input type="text" name="eventId" id="eventId"/>
+      <input type="text" name="eventName" id="eventName"/>
+      <input type="text" name="eventType" id="eventType"/>
+      <input type="text" name="endTime" id="endTime"/>
+    </form>
+  </div>
 </div>
+<script th:src="@{staticResources/jquery-2.1.4.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/pace/pace.min.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/jquery/jquery-1.11.3.min.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/bootstrapv3/js/bootstrap.min.js}" type="text/javascript"></script>
@@ -348,7 +278,6 @@
 <script th:src="@{staticResources/assets/plugins/jquery-validation/js/jquery.validate.min.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/bootstrap-select2/select2.min.js}" type="text/javascript"></script>
 
-<script th:src="@{webarch/js/webarch.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/js/chat.js}" type="text/javascript"></script>
 
 <script th:src="@{staticResources/assets/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js}" type="text/javascript"></script>
@@ -366,5 +295,43 @@
 <script th:src="@{staticResources/assets/plugins/jquery-flot/jquery.flot.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/jquery-metrojs/MetroJs.min.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/js/dashboard_v2.js}" type="text/javascript"></script>
+<script type="text/javascript">
+  function changeFirst() {
+    $("#pageNum").val(0);
+    $("#changePage").submit();
+
+  }
+  function changePre() {
+    var page = parseInt($("#page").val());
+    if (page > 0 ){
+      page = page - 1;
+    }
+    $("#pageNum").val(page);
+    $("#changePage").submit();
+  }
+  function changeNext() {
+    var page = parseInt($("#page").val());
+    var pageAll = parseInt($("#pageAll").val());
+    if (page < pageAll - 1){
+      page = page + 1;
+    }
+    $("#pageNum").val(page);
+    $("#changePage").submit();
+  }
+  function changeLast() {
+    var pageAll = parseInt($("#pageAll").val());
+    $("#pageNum").val(pageAll - 1);
+    $("#changePage").submit();
+  }
+  function change() {
+    var number = parseInt($("#number").val());
+    var pageAll = parseInt($("#pageAll").val());
+    if (number > pageAll - 1) {
+      number = pageAll;
+    }
+    $("#pageNum").val(number - 1);
+    $("#changePage").submit();
+  }
+</script>
 </body>
 </html>
