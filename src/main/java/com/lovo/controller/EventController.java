@@ -4,42 +4,46 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+/***
+ * 事件页面跳转controller
+ * @author lin
+ */
 @Controller
 public class EventController {
 
-    @RequestMapping("goToNoDealWith")
-    public ModelAndView showNoDealWith(){
-        ModelAndView mv=new ModelAndView("noDealWith");
-        return mv;
-    }
+    /**
+     *  处理中事件首页
+     * @return
+     */
     @RequestMapping("goToDealWithIng")
-    public ModelAndView showDealWith(){
-        ModelAndView mv=new ModelAndView("dealWithIng");
-        return mv;
-    }
-    @RequestMapping("goToDealWithEd")
-    public ModelAndView showDealWithEds(){
-        ModelAndView mv=new ModelAndView("dealWithEd");
-        return mv;
+    public String gotoDealWithIng(){
+        return "dealWithIng";
     }
 
-//    @RequestMapping("goToDealWithIng")
-//    public String goToDealWithIng(){
-//        return "dealWithIng";
-//    }
-//    @RequestMapping("goNoDealWith")
-//    public String gotoNoDealWithIng(){
-//        return "noDealWith";
-//    }
-//    @RequestMapping("goToDealWithEd")
-//    public String showDealWithEd(){
-//        return "dealWithEd";
-//    }
+    /***
+     * 未处理事件首页
+     * @return
+     */
+    @RequestMapping("goNoDealWithIng")
+    public String gotoNoDealWithIng(){
+        return "noDealWith";
+    }
 
+    /***
+     * 未处理事件详情
+     * @return
+     */
     @RequestMapping("goToNoDealWithDetails")
     public String gotoNoDealWithDetails(){
         return "noDealWithDetails";
     }
 
-
+    /***
+     * 资源派遣进度（每个人每个车的具体进度）
+     * @return
+     */
+    @RequestMapping("scheduleOfResourceDispatch")
+    public String gotoScheduleOfResourceDispatch() {
+        return "scheduleOfResourceDispatch";
+    }
 }
