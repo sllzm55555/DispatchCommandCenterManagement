@@ -4,8 +4,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
-@Table
-@Entity(name="t_resource")
+@Table(name="t_resource")
+@Entity
 public class ResourceEntity {
 
     @Id

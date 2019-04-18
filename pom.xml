@@ -25,6 +25,28 @@
         <java.version>1.8</java.version>
     </properties>
     <dependencies>
+
+        <!--activeMQ依赖-->
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-activemq -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-activemq</artifactId>
+        </dependency>
+
+        <!--activeMQ依赖结束-->
+
+        <!-- websocket -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-websocket</artifactId>
+            <version>4.3.13.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-messaging</artifactId>
+            <version>4.3.13.RELEASE</version>
+        </dependency>
+        <!-- end websocket -->
     
       <dependency>
             <groupId>junit</groupId>
