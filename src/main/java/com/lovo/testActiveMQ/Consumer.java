@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.jms.Destination;
 
 /**
- * @author sllzm
+ * @author 王涛
  */
 @Component(value = "consumer")
 public class Consumer {
