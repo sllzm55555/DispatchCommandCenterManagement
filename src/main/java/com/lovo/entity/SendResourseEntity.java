@@ -1,5 +1,6 @@
 package com.lovo.entity;
 
+
 import javax.persistence.*;
 
 /**
@@ -138,6 +139,7 @@ public class SendResourseEntity {
         this.eventId = eventId;
     }
 
+    @Id
     @Column(length = 32)
     public String getRequestId() {
         return requestId;
