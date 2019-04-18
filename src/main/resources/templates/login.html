@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <meta charset="utf-8" />
+    <title>登录</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <!-- BEGIN PLUGIN CSS -->
+    <link th:href="@{staticResources/assets/plugins/pace/pace-theme-flash.css}" rel="stylesheet" type="text/css" media="screen" />
+    <link th:href="@{staticResources/assets/plugins/bootstrapv3/css/bootstrap.min.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{staticResources/assets/plugins/bootstrapv3/css/bootstrap-theme.min.css}" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <link th:href="@{staticResources/assets/plugins/animate.min.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{staticResources/assets/plugins/jquery-scrollbar/jquery.scrollbar.css}" rel="stylesheet" type="text/css" />
+    <!-- END PLUGIN CSS -->
+    <!-- BEGIN CORE CSS FRAMEWORK -->
+    <link th:href="@{staticResources/webarch/css/webarch.css}" rel="stylesheet" type="text/css" />
+    <!-- END CORE CSS FRAMEWORK -->
+  </head>
+  <!-- END HEAD -->
+  <!-- BEGIN BODY -->
+  <body class="error-body no-top lazy" data-original="staticResources/assets/img/work.jpg" style="background-image: url('staticResources/assets/img/work.jpg')">
+    <div class="container">
+      <div class="row login-container animated fadeInUp">
+        <div class="col-md-7 col-md-offset-2 tiles white no-padding">
+          <div class="p-t-30 p-l-40 p-b-20 xs-p-t-10 xs-p-l-10 xs-p-b-10">
+            <h1 class="normal">
+          四川省报警系统
+        </h1>
+            <p>
+              指挥调度系统
+              <br/>
+            </p>
+            <p class="p-b-20">
+              坚决打击违法犯罪  共建和谐社会  加快社会主义步伐
+            </p>
+            <div role="tablist">
+              <a href="#tab_login" class="btn btn-primary btn-cons" role="tab" data-toggle="tab">登录</a> or&nbsp;&nbsp;
+              <a href="#tab_register" class="btn btn-info btn-cons" role="tab" data-toggle="tab">注册</a>
+            </div>
+          </div>
+          <div class="tiles grey p-t-20 p-b-20 no-margin text-black tab-content">
+            <div role="tabpanel" class="tab-pane active" id="tab_login">
+              <form class="animated fadeIn validate" id="" name="">
+                <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
+                  <div class="col-md-6 col-sm-6">
+                    <input class="form-control" id="login_username" name="login_username" placeholder="请输入账号" type="email" />
+                  </div>
+                  <div class="col-md-6 col-sm-6">
+                    <input class="form-control" id="login_password" name="login_password" placeholder="请输入密码" type="password" />
+                  </div>
+                </div>
+                <div class="row p-t-10 m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
+                  <div class="control-group col-md-10">
+
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="tab_register">
+              <form class="animated fadeIn validate"  name="">
+                <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
+                  <div class="col-md-6 col-sm-6">
+                    <input class="form-control" id="username" name="username" placeholder="请输入注册账号" type="text" />
+                  </div>
+                  <div class="col-md-6 col-sm-6">
+                    <input class="form-control" id="password" name="password" placeholder="请输入密码" type="password" />
+                  </div>
+                </div>
+                <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
+                  <div class="col-md-12">
+                    <input class="form-control" id="realname" name="realname" placeholder="请输入姓名" type="realname" />
+                  </div>
+                </div>
+                <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
+                  <div class="col-md-6 col-sm-6">
+                    <input class="form-control" id="address" name="address" placeholder="请输入地址" type="text" />
+                  </div>
+                </div>
+                <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
+                  <div class="col-md-6 col-sm-6">
+                    <input class="form-control" id="tel" name="address" placeholder="请输入电话号码" type="text" />
+                  </div>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END CONTAINER -->
+    <script th:src="@{staticResources/assets/plugins/pace/pace.min.js}" type="text/javascript"></script>
+    <!-- BEGIN JS DEPENDECENCIES-->
+    <script th:src="@{staticResources/assets/plugins/jquery/jquery-1.11.3.min.js}" type="text/javascript"></script>
+    <script th:src="@{staticResources/assets/plugins/bootstrapv3/js/bootstrap.min.js}" type="text/javascript"></script>
+    <script th:src="@{staticResources/assets/plugins/jquery-block-ui/jqueryblockui.min.js}" type="text/javascript"></script>
+    <script th:src="@{staticResources/assets/plugins/jquery-unveil/jquery.unveil.min.js}" type="text/javascript"></script>
+    <script th:src="@{staticResources/assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js}" type="text/javascript"></script>
+    <script th:src="@{staticResources/assets/plugins/jquery-numberAnimate/jquery.animateNumbers.js}" type="text/javascript"></script>
+    <script th:src="@{staticResources/assets/plugins/jquery-validation/js/jquery.validate.min.js}" type="text/javascript"></script>
+    <script th:src="@{staticResources/assets/plugins/bootstrap-select2/select2.min.js}" type="text/javascript"></script>
+    <!-- END CORE JS DEPENDECENCIES-->
+    <!-- BEGIN CORE TEMPLATE JS -->
+    <script th:src="@{staticResources/webarch/js/webarch.js}" type="text/javascript"></script>
+    <script th:src="@{staticResources/assets/js/chat.js}" type="text/javascript"></script>
+    <!-- END CORE TEMPLATE JS -->
+  </body>
+</html>
