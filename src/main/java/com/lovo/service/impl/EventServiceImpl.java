@@ -24,7 +24,7 @@ public class EventServiceImpl implements IEventService {
 
     @Override
     public EventEntity findEventByEventId(String eventId) {
-        return eventDao.findEventByEventId(eventId);
+        return eventDao.findEventEntityByEventId(eventId);
     }
 
 
