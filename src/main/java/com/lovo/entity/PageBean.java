@@ -1,10 +1,9 @@
 package com.lovo.entity;
 
-
-
 import java.util.List;
 
-public class PageBean<T> {//泛型类
+public class PageBean<T> {
+
     private List<T> tableBeans;
     //private List<Object> tableBeans;用object也可以
     private Integer currPate;
@@ -33,5 +32,4 @@ public class PageBean<T> {//泛型类
     public void setTotalPate(Integer totalPate) {
         this.totalPate = totalPate;
     }
-
 }
