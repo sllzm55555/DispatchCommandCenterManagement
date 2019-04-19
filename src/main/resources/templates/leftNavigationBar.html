@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="www.thymeleaf.org">
+<div th:fragment="leftNavigationBar">
+    <div class="page-sidebar " id="main-menu">
+        <div class="page-sidebar-wrapper scrollbar-dynamic" id="main-menu-wrapper">
+            <!-- 用户信息显示 -->
+            <div class="user-info-wrapper sm">
+                <div class="profile-wrapper sm">
+                    <!-- 用户头像 -->
+                    <img th:src="@{staticResources/assets/img/profiles/avatar.jpg}" alt=""
+                         data-src="staticResources/assets/img/profiles/avatar.jpg"
+                         data-src-retina="staticResources/assets/img/profiles/avatar2x.jpg" width="69" height="69"/>
+                    <!-- 登陆状态 -->
+                    <div class="availability-bubble online"></div>
+                </div>
+                <!-- 名字 -->
+                <div class="user-info sm">
+                    <!-- 姓名 -->
+                    <div class="username">Fred <span class="semi-bold">Smith</span></div>
+                    <!-- 个性签名 -->
+                    <div class="status">Life goes on...</div>
+                </div>
+            </div>
+            <!-- 输入个性签名点刷新 -->
+            <p class="menu-title sm">BROWSE <span class="pull-right"><a href="javascript:;"><i class="material-icons">refresh</i></a></span>
+            </p>
+            <!-- 导航 -->
+            <ul>
+                <!-- 事件管理 -->
+                <li class="start"><a th:href="@{goNoDealWith}"><i class="material-icons">timeline</i> <span
+                        class="title">事件管理</span> <span class="selected"></span> <span class="arrow"></span> </a>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{goNoDealWith}"> 未处理事件
+                            <span class=" label label-important pull-right m-r-30">NEW</span>
+                        </a></li>
+                        <li class=""><a th:href="@{goToDealWithIng}"> 处理中事件 </a></li>
+                        <li class=""><a th:href="dealWithEd.html"> 处理完成事件 </a></li>
+                    </ul>
+                </li>
+                <!-- 预案管理 -->
+                <li class="start"><a th:href="@{gotoPlan}"><i class="material-icons">apps</i><span
+                        class="title">预案管理</span> <span class="selected"></span> <span class="arrow"></span> </a>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{gotoPlan}"> 预案管理  </a></li>
+                            <!-- 红点提示 -->
+                            <!--<span class="label label-important bubble-only pull-right "></span>-->
+                    </ul>
+                </li>
+                <!-- 资源管理 -->
+                <li class="start"><a th:href="@{gotoResource}"><i class="material-icons">panorama_horizontal</i><span
+                        class="title">资源管理</span> <span class="selected"></span> <span class="arrow"></span> </a>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{gotoResource}"> 资源管理 </a> </li>
+                    </ul>
+
+                </li>
+                <!-- 日志管理 -->
+                <li class="start"><a th:href="@{#}"><i class="material-icons">playlist_add_check</i><span
+                        class="title">日志管理</span> <span class="selected"></span> <span class="arrow"></span> </a>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{#}">事件记录日志</a></li>
+                        <li><a th:href="@{#}">预案管理日志</a></li>
+                    </ul>
+                </li>
+                <!-- 用户管理 -->
+                <li class="start"><a th:href="@{#}"><i class="material-icons">layers</i><span
+                        class="title">用户管理</span> <span class="selected"></span> <span class="arrow"></span> </a>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{#}">用户管理</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="clearfix"></div>
+            <!-- END SIDEBAR MENU -->
+        </div>
+    </div>
+</div>
+</html>
