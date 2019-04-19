@@ -19,23 +19,12 @@ import java.io.IOException;
  */
 @Component(value = "consumer")
 public class Consumer {
-//
-//    @Autowired
-//    private MyHandler myHandler;
-
     /**
      * 使用JmsListener配置消费者监听的队列，其中message是接收到的消息,此方法会一直运行相当于一个死循环
      */
     @JmsListener(destination="testQueue")
     public void receiveQueue(String message) throws IOException {
         System.out.println("成功接受:" + message);
-
-//        WebSocketSession session = myHandler.getSocketSession();
-//
-//        if (null!=session  && session.isOpen()) {
-//            //回复客户端消息
-//            session.sendMessage(new TextMessage("{'name:'serverMessage','message':'"+message+"'}"));
-//        }
 
     }
 

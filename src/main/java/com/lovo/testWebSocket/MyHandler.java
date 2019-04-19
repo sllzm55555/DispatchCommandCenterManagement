@@ -1,7 +1,6 @@
 package com.lovo.testWebSocket;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.socket.*;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
@@ -15,13 +14,11 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 @EnableWebSocket
 public class MyHandler implements WebSocketHandler {
 
-
     private WebSocketSession socketSession;
 
     public WebSocketSession getSocketSession() {
         return socketSession;
     }
-
     /**
      * 连接建立之后干啥
      * @param session
@@ -34,7 +31,7 @@ public class MyHandler implements WebSocketHandler {
         //服务器向客户端发送消息
         for (int i = 0; i < 10; i++) {
             session.sendMessage(new TextMessage("已经与客户端建立连接" + i));
-            Thread.sleep(100);
+            Thread.sleep(1000);
         }
     }
 
