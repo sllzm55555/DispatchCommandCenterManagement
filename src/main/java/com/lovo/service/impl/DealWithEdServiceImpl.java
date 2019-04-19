@@ -5,7 +5,7 @@ import com.lovo.entity.EventEntity;
 import com.lovo.service.IDealWithEdService;
 import com.lovo.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,15 +20,16 @@ public class DealWithEdServiceImpl implements IDealWithEdService {
     public List<EventEntity> showDealWithEdEventList(int pageNum) {
         int eventPeriod = StringUtil.EVENTPERIODDEALWITHED;
         int pageSize = StringUtil.PAGESIZE;
-        PageRequest page =new PageRequest(pageNum,pageSize);
-        List<EventEntity> list = dealWithEdDao.showDealWithEdEventList(eventPeriod,page);
+        pageNum = pageSize * (pageNum - 1);
+        List<EventEntity> list = dealWithEdDao.showDealWithEdEventList(eventPeriod,pageNum,pageSize);
         return list;
     }
 
     @Override
-    public int getPageAll() {
-        List<EventEntity> list = (List<EventEntity>) dealWithEdDao.findAll();
+    public int getPageAll(int pageNum) {
         int pageSize = StringUtil.PAGESIZE;
+        int eventPeriod = StringUtil.EVENTPERIODDEALWITHED;
+        List<EventEntity> list = dealWithEdDao.findAllByEventPeriod(eventPeriod);
         int allUserSize = list.size();
         if (allUserSize % pageSize == 0){
             allUserSize = allUserSize / pageSize;
@@ -36,5 +37,30 @@ public class DealWithEdServiceImpl implements IDealWithEdService {
             allUserSize = allUserSize / pageSize + 1;
         }
         return allUserSize;
+    }
+
+
+    @Override
+    public List<EventEntity> findAll(int pageNum, EventEntity event) {
+        int pageSize = StringUtil.PAGESIZE;
+        pageNum = pageSize * (pageNum - 1);
+        return dealWithEdDao.findAll(event.getEventId()
+                ,event.getEventName(),event.getEventType()
+                ,event.getEndTime(),StringUtil.EVENTPERIODDEALWITHED,pageNum,pageSize);
+    }
+
+    @Override
+    public int pageAll(int pageNum,EventEntity event) {
+        int pageSize = StringUtil.PAGESIZE;
+        int eventPeriod = StringUtil.EVENTPERIODDEALWITHED;
+        List<EventEntity> list = dealWithEdDao.findAll(event.getEventId()
+                ,event.getEventName(),event.getEventType()
+                ,event.getEndTime(),eventPeriod);
+
+        double allUserSize = list.size();
+
+        allUserSize = Math.ceil(allUserSize / pageSize);
+
+        return (int) allUserSize;
     }
 }

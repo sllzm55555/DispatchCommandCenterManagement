@@ -19,5 +19,22 @@ public interface IDealWithEdService {
      * 查询所有的页数
      * @return
      */
-    int getPageAll();
+    int getPageAll(int pageNum);
+
+
+    /**
+     * 分页模糊查询
+     * @param pageNum 当前页数
+     * @param event 查询条件
+     * @return
+     */
+    List<EventEntity> findAll(int pageNum,EventEntity event);
+
+    /**
+     * 总页数
+     * @param pageNum 当前页数
+     * @param event 事件实体
+     * @return
+     */
+    int pageAll(int pageNum,EventEntity event);
 }
