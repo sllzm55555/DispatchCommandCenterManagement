@@ -13,6 +13,11 @@ public interface IResourceService {
      * @return
      */
     public List<ResourceEntity> findAllResource();
+    /**
+     * 根据区域外键查询所有相应资源
+     * @return
+     */
+    public List<ResourceEntity> findAllResourceByID(String id);
 
     /**
      * 保存资源list对象

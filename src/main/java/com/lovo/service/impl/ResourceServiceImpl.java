@@ -31,6 +31,11 @@ public class ResourceServiceImpl implements IResourceService {
     }
 
     @Override
+    public List<ResourceEntity> findAllResourceByID(String id) {
+        return resourceDao.findAllByAreaID("1.0");
+    }
+
+    @Override
     public void saveResourceList(List<ResourceEntity> list) {
         resourceDao.save(list);
     }

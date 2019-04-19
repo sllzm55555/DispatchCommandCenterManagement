@@ -26,4 +26,5 @@ public class GotoPlanController {
         ModelAndView mv=new ModelAndView("addplan");
         return mv;
     }
+
 }

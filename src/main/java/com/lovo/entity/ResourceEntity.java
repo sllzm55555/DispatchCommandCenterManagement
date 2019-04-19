@@ -7,22 +7,42 @@ import javax.persistence.*;
 @Table(name="t_resource")
 @Entity
 public class ResourceEntity {
-
+    /**
+     * 资源id
+     */
     @Id
     @GenericGenerator(name="rid",strategy = "uuid")
     @GeneratedValue(generator = "rid")
-    @Column(name="resource_id",length = 48)
+    @Column(name="resource_id",length = 32)
     private String rid;
-    @Column(name = "dept_area",length=48)
-    private String  area;
-    @Column(name = "dept_type",length=48)
+    /**
+     *资源类型
+     */
+    @Column(name = "dept_type",length=32)
     private String rtype;
-    @Column(name = "dept_name",length=48)
+    /**
+     *资源名字
+     */
+    @Column(name = "dept_name",length=24)
     private String rname;
+    /**
+     *总人数
+     */
     @Column(name = "total_polulation")
     private int pnumber;
+    /**
+     *资源总数
+     */
     @Column(name = "total_resources")
     private int cnumber;
+    /**
+     *外键区域id
+     */
+    @ManyToOne
+    @JoinColumn(name = "areaId")
+    private AreaEntity  areaEntity;
+
+
 
 
     public String getRid() {
@@ -31,14 +51,6 @@ public class ResourceEntity {
 
     public void setRid(String rid) {
         this.rid = rid;
-    }
-
-    public String getArea() {
-        return area;
-    }
-
-    public void setArea(String area) {
-        this.area = area;
     }
 
     public String getRtype() {
@@ -71,5 +83,13 @@ public class ResourceEntity {
 
     public void setCnumber(int cnumber) {
         this.cnumber = cnumber;
+    }
+
+    public AreaEntity getAreaEntity() {
+        return areaEntity;
+    }
+
+    public void setAreaEntity(AreaEntity areaEntity) {
+        this.areaEntity = areaEntity;
     }
 }

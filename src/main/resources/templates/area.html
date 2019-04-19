@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <meta charset="utf-8" />
-  <title>资源页面</title>
+  <title>区域页面</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta content="" name="description" />
   <meta content="" name="author" />
@@ -32,6 +32,77 @@
   <!-- BEGIN CORE CSS FRAMEWORK -->
   <link th:href="@{staticResources/webarch/css/webarch.css}" rel="stylesheet" type="text/css" />
   <!-- END CORE CSS FRAMEWORK -->
+  <script th:src="@{staticResources/jquery-2.1.4.js}"></script>
+  <script>
+    $(function () {
+      var currpage=1;
+      $.getJSON("findAllArea",{currpage:currpage},filldate);
+
+      $(":button").click(function () {
+        var btn=this.value;
+        var currPage=$(":hidden[name=currPage]").val();
+        var totalPage=$(":hidden[name=totalPage]").val();
+        var area=$("#area").val();
+
+        currPage=parseInt(currPage);
+        totalPage=parseInt(totalPage);
+        if(btn=="首页"){
+
+          currPage=1;
+          $.getJSON("findAllArea",{currpage:currPage,area:area},filldate)
+        }else if(btn=="上一页"){
+
+          currPage-=1;
+          if(currPage==0){
+            currPage=1
+          }
+
+          $.getJSON("findAllArea",{currpage:currPage,area:area},filldate)
+        }else if(btn=="下一页"){
+          currPage+=1;
+          if(currPage>totalPage){
+            currPage=totalPage;
+          }
+          $.getJSON("findAllArea",{currpage:currPage,area:area},filldate)
+        }else if(btn=="尾页"){
+          currPage=totalPage;
+          $.getJSON("findAllArea",{currpage:currPage,area:area},filldate)
+        }else if(btn="跳转"){
+          currPage=$("#skip").val()
+          $.getJSON("findAllArea",{currpage:currPage,area:area},filldate)
+        }else if(btn="check"){
+          currPage=1;
+          $.getJSON("findAllArea",{currpage:currPage,area:area},filldate)
+        }
+
+
+      })
+    });
+
+    function filldate(data){
+      var $table=$("tbody");
+      $table.empty();
+
+      $.each(data.tableBeans, function (i,e) {
+        var id=e.areaId;
+        var name=e.areaName;
+
+        var dataTr = "<tr><td>" + id
+                + "</td><td>" + name
+                + "</td><td>"
+                + "<a >查看详情</a>"
+                + "</td></tr>";
+        $table.append(dataTr);
+      });
+      var currPage = data.currPate;
+      var totalPage = data.totalPate;
+      //渲染 “第2页/共11页” 信息
+      $("#ajaxspan").html("第" + currPage + "页/共" + totalPage + "页");
+      //记录数据信息（当前页数和总页数）
+      $(":hidden[name=currPage]").val(currPage);
+      $(":hidden[name=totalPage]").val(totalPage);
+    }
+  </script>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -157,11 +228,11 @@
       </div>
       <p class="menu-title sm">BROWSE <span class="pull-right"><a href="javascript:;"><i class="material-icons">refresh</i></a></span></p>
       <ul>
-        <li class="start  open active "> <a th:href="@{goToNoDealWith}"><i class="material-icons">home</i> <span class="title">事件管理</span> <span class="selected"></span> <span class="arrow  open "></span> </a>
+        <li class="start  open active "> <a th:href="@{index.html}"><i class="material-icons">home</i> <span class="title">事件管理</span> <span class="selected"></span> <span class="arrow  open "></span> </a>
           <ul class="sub-menu">
-            <li> <a th:href="@{goToNoDealWith}"> 未处理事件 </a> </li>
-            <li class=""> <a th:href="@{goToDealWithIng}"> 处理中事件 <span class=" label label-info pull-right m-r-30">NEW</span></a></li>
-            <li class=""> <a th:href="@{getToDealWithEd}"> 处理完成事件 <span class=" label label-info pull-right m-r-30">NEW</span></a></li>
+            <li> <a th:href="noDealWith.html"> 未处理事件 </a> </li>
+            <li class=""> <a th:href="dealWithIng.html"> 处理中事件 <span class=" label label-info pull-right m-r-30">NEW</span></a></li>
+            <li class=""> <a th:href="dealWithEd.html"> 处理完成事件 <span class=" label label-info pull-right m-r-30">NEW</span></a></li>
           </ul>
         </li>
         <li>
@@ -198,67 +269,65 @@
           <div class="grid simple ">
             <div class="grid-title">
               <div class="row form-row">
-                <span style="font-size: 28px">资源展示界面</span>
-                <form action="" class="pull-right">
-                  <input id="eventNum" name="eventNum" type="text" class="form-control"
-                         style="width: 150px;display: inline-block;" placeholder="事件编号"/>
-                  <input id="eventName" name="eventName" type="text" class="form-control"
-                         style="width: 150px;display: inline-block;" placeholder="事件名称"/>
-                  <input id="eventType" name="eventType" type="text" class="form-control"
-                         style="width: 150px;display: inline-block;" placeholder="事件类型"/>
-                  <input id="endTime" name="endTime" type="date" class="form-control"
-                         style="width: 150px;display: inline-block;" placeholder="结束时间"/>
-                  <button class="btn btn-success btn-cons" type="submit"><i class="icon-ok"></i>查询
-                  </button>
-                </form>
+                <span style="font-size: 28px">区域展示界面</span>
+
+                  <input id="area" name="area" type="text" class="form-control"
+                         style="width: 150px;display: inline-block;" placeholder="区域名称模糊查询"/>
+                  <input name="planNum" value="0" hidden="hidden"/>
+                  <button class="btn btn-success btn-cons" type="submit" value="check"><i class="icon-ok"></i>查询</button>
+
               </div>
             </div>
             <div class="grid-body ">
               <table class="table table-hover table-condensed" id="example">
                 <thead>
-                <tr>
-                  <th style="width:8%">资源编号</th>
-                  <th style="width:22%" data-hide="phone,tablet">区域</th>
-                  <th style="width:10%">单位类型</th>
-                  <th style="width:10%" data-hide="phone,tablet">单位名称</th>
-                  <th style="width:10%">总人数</th>
-                  <th style="width:10%" data-hide="phone,tablet">资源总数</th>
-                  <th style="width:5%" data-hide="phone,tablet">操作</th>
-                </tr>
+                    <tr>
+                      <th style="width:8%">区域编号</th>
+                      <th style="width:22%" data-hide="phone,tablet">区域名称</th>
+                      <th style="width:30%" data-hide="phone,tablet">操作</th>
+                    </tr>
                 </thead>
                 <tbody>
-
-                <tr th:each="resource,ustate:${resourceList}">
-                  <td th:text="${resource.rid}"> </td>
-                  <td th:text="${resource.getAreaEntity().getAreaId()}"></td>
-                  <td th:text="${resource.rtype}"> </td>
-                  <td th:text="${resource.rname}"></td>
-                  <td th:text="${resource.pnumber}"> </td>
-                  <td th:text="${resource.cnumber}"></td>
-                  <td><a th:href="@{gotoResource}" th:field="查看详情"></a></td>
-                </tr>
+                    <!--<tr th:each="area,astate:${areaList}">-->
+                      <!--<td th:text="${area.areaId}"> </td>-->
+                      <!--<td th:text="${area.areaName}"></td>-->
+                      <!--<td>-->
+                          <!--&lt;!&ndash;${area.areaId}/&ndash;&gt;-->
+                        <!--<a th:href="@{gotoResource}" th:text="查看资源"></a>-->
+                        <!--<a th:href="@{gotoResource}" th:text="修改区域"></a>-->
+                        <!--<a th:href="@{gotoResource}" th:text="删除区域"></a></td>-->
+                    <!--</tr>-->
                 </tbody>
               </table>
 
 
 
               <div class="pull-right">
-                <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 首页</button>
-                <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 上一页</button>
-                <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 下一页</button>
-                <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 尾页</button>
+                <span id="ajaxspan"></span>
+
+                <button class="btn btn-info btn-cons" type="button" value="首页"><i class="icon-ok"></i> 首页</button>
+                <button class="btn btn-info btn-cons" type="button" value="上一页"><i class="icon-ok" ></i> 上一页</button>
+                <button class="btn btn-info btn-cons" type="button" value="下一页"><i class="icon-ok"></i> 下一页</button>
+                <button class="btn btn-info btn-cons" type="button" value="尾页"><i class="icon-ok"></i> 尾页</button>
                 <input type="text" class="form-control" placeholder="您要跳转的页码"
-                       style="width: 120px;display: inline-block"/>
-                <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 跳转</button>
+                       style="width: 120px;display: inline-block" id="skip"/>
+                <button class="btn btn-info btn-cons" type="button" value="跳转"><i class="icon-ok"></i> 跳转</button>
+                <!--隐藏表单域，将当前页数隐形传回来-->
+                <input type="hidden" name="currPage"/>
+                <input type="hidden" name="totalPage"/>
+
               </div>
                 <div class="pull-right">
-                    <form method="post" enctype="multipart/form-data" id="form" action="/uploadresource">
+                    <form method="post" enctype="multipart/form-data" id="form" action="/uploadarea">
 
                         <input type="file" name="filename"/>
 
-                        <input type="submit" th:field="上传资源文件"/>
+                        <input type="submit" th:field="上传区域文件"/>
 
                     </form>
+
+                    <button class="btn btn-info btn-cons" ><a th:href="@{gotoResource}" th:text="添加区域"></a><i class="icon-ok"></i></button>
+
                 </div>
             </div>
           </div>
