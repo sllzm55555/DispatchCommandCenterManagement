@@ -29,7 +29,11 @@ public class PlanDeptEntity {
     /**
      * 资源数
      */
-    private Integer resource;
+    private String resource;
+    /**
+     * 人数
+     */
+    private String personNum;
 
     @Id
     @GenericGenerator(name = "pid", strategy = "uuid")
@@ -60,12 +64,26 @@ public class PlanDeptEntity {
     public void setDeptEntity(DeptEntity deptEntity) {
         this.deptEntity = deptEntity;
     }
+
+
+
     @Column(name = "plan_resource", length = 32)
-    public Integer getResource() {
+    public String getResource() {
         return resource;
     }
 
-    public void setResource(Integer resource) {
+    public void setResource(String resource) {
         this.resource = resource;
+    }
+
+
+
+    @Column(name = "plan_personNum", length = 32)
+    public String getPersonNum() {
+        return personNum;
+    }
+
+    public void setPersonNum(String personNum) {
+        this.personNum = personNum;
     }
 }

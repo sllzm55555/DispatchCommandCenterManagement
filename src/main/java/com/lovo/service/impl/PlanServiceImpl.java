@@ -3,6 +3,7 @@ package com.lovo.service.impl;
 import com.lovo.dao.IPlanDao;
 import com.lovo.entity.PlanEntity;
 import com.lovo.service.IPlanService;
+import com.lovo.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,22 +18,24 @@ public class PlanServiceImpl implements IPlanService {
 
     @Override
     public List<PlanEntity> findAllPlanEntity(String plangrade, String planType, Integer pageNum) {
-        int state = (pageNum - 1) * 5;
+        int state = (pageNum - 1) * StringUtil.PAGESIZE;
         return planDao.findAllPlanEntity(plangrade, planType, state);
 
     }
 
-    @Override
-    public PlanEntity savaPlanEntity(PlanEntity planEntity) {
-        return planDao.save(planEntity);
-    }
+
 
     @Override
     public Integer findcount(String plangrade, String planType) {
         Integer totalcount = planDao.findcount(plangrade, planType);
-        Integer finishIndex = 5;
+        Integer finishIndex = StringUtil.PAGESIZE;
         int tapage = (totalcount + finishIndex - 1) / finishIndex;
         return tapage;
+    }
+
+    @Override
+    public PlanEntity savaPlan(PlanEntity planEntity) {
+        return planDao.save(planEntity);
     }
 
 }

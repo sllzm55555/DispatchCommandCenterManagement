@@ -79,6 +79,11 @@
                     $.getJSON("findAllplan",{currpage:currPage,plangrader:plangrader,plantype:plantype},filldate)
                 }else if(btn="跳转"){
                     currPage=$("#skip").val()
+                    if(currPage < 1){
+                        currPage=1;
+                    }else if(currPage>totalPage ){
+                        currPage=totalPage;
+                    }
                     $.getJSON("findAllplan",{currpage:currPage,plangrader:plangrader,plantype:plantype},filldate)
                 }else if(btn="查询"){
                     currPage=1;
@@ -387,6 +392,7 @@
         </div>
     </div>
 </div>
+
 <script th:src="@{staticResources/assets/plugins/pace/pace.min.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/jquery/jquery-1.11.3.min.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/bootstrapv3/js/bootstrap.min.js}" type="text/javascript"></script>
