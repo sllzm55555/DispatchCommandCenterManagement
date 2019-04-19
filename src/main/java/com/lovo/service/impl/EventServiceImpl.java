@@ -14,6 +14,7 @@ public class EventServiceImpl implements IEventService {
     private IEventDao eventDao;
     @Override
     public List<EventEntity> findEventEntitiesByCondition(String eventId, String eventType, String eventTime, int pageNo, int pageSize) {
+        pageNo=pageSize*(pageNo-1);
         return  eventDao.findEventEntitiesByCondition(eventId,eventType,eventTime,pageNo,pageSize);
     }
 
@@ -24,7 +25,7 @@ public class EventServiceImpl implements IEventService {
 
     @Override
     public EventEntity findEventByEventId(String eventId) {
-        return eventDao.findEventEntityByEventId(eventId);
+        return eventDao.findEventByEventId(eventId);
     }
 
 

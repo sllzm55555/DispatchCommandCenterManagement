@@ -25,5 +25,10 @@ public interface IEventService {
      */
     public int  findAllEventEntitiesNumberByCondition(String eventId,String eventType,String eventTime);
 
+    /**
+     * 通过事件Id得到事件的实体对象
+     * @param eventId 事件ID
+     * @return 返回实例化的对象
+     */
     public EventEntity findEventByEventId(String eventId);
 }

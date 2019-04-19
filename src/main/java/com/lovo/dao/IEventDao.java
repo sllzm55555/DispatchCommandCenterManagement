@@ -22,8 +22,8 @@ public interface IEventDao extends CrudRepository<EventEntity,String> {
     @Query(value = "select * from t_event as e " +
             "  where if(?1!='',e.event_id = ?1,1=1)" +
             "  and if(?2!='',e.event_type like %?2% ,1=1) " +
-            "  and if(?3!='',e.event_time>=?3) " +
-            "  limit ?4,?5 ",nativeQuery = true)
+            "  and if(?3!='',e.event_time>=?3,1=1) " +
+            " limit ?4,?5 ",nativeQuery = true)
     public List<EventEntity> findEventEntitiesByCondition(String eventId,String eventType,String eventTime, int pageNo,int pageSize);
 
     /**
@@ -34,7 +34,7 @@ public interface IEventDao extends CrudRepository<EventEntity,String> {
      * @return  返回符合条件的总记录条数
      */
     @Query(value = "select count(*) from t_event as e  where if(?1!='',e.event_id=?1,1=1) " +
-            " and if(?2!='',e.event_type like %?2%,1=1)" +
+            " and if(?2!='',e.event_type like ?2,1=1)" +
             " and if(?3!='',e.event_time>=?3)" ,nativeQuery = true)
     public int  findAllEventEntitiesNumberByCondition(String eventId,String eventType,String eventTime);
 
