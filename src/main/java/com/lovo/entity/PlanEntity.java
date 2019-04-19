@@ -80,6 +80,7 @@ public class PlanEntity {
     public void setPlanDecs(String planDecs) {
         this.planDecs = planDecs;
     }
+
     @OneToMany(mappedBy="planEntity")
     public Set<PlanDeptEntity> getSetPlanDeptEntity() {
         return setPlanDeptEntity;

@@ -20,7 +20,7 @@ public interface IPlanDao extends CrudRepository<PlanEntity, String> {
      * @return
      */
     @Query(value = "select p.* from t_plan p where if(?1 !='',event_level=?1,1=1) and if(?2 !='' ,event_type=?2,1=1)" +
-            " limit ?3,5 "
+            " limit ?3,10 "
             , nativeQuery = true)
     public List<PlanEntity> findAllPlanEntity(String plangrade, String planType, Integer pageNum);
 

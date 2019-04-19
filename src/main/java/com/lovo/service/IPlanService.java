@@ -18,12 +18,6 @@ public interface IPlanService {
      */
     public List<PlanEntity> findAllPlanEntity(String plangrade, String planType ,Integer pageNum);
 
-    /**
-     * 添加预案
-     * @param planEntity
-     * @return
-     */
-    public PlanEntity savaPlanEntity(PlanEntity planEntity);
 
     /**
      * 查询最大页数
@@ -32,4 +26,11 @@ public interface IPlanService {
      * @return
      */
     public Integer findcount(String plangrade, String planType);
+
+    /**
+     * 添加预案
+     * @param planEntity
+     * @return
+     */
+    public PlanEntity savaPlan(PlanEntity planEntity);
 }
