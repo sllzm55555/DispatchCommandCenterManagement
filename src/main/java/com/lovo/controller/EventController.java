@@ -24,8 +24,11 @@ public class EventController {
      * 未处理事件首页
      * @return
      */
-    @RequestMapping("goNoDealWithIng")
+    @RequestMapping("goNoDealWith")
     public String gotoNoDealWithIng(){
+        ModelAndView mv=new ModelAndView("noDealWith");
+
+
         return "noDealWith";
     }
 
@@ -47,8 +50,24 @@ public class EventController {
         return "scheduleOfResourceDispatch";
     }
 
+    /**
+     *
+     * @return 资源调用页面
+     */
     @RequestMapping("goTosendResources")
     public String gotoSendResources(){
         return "sendResources";
     }
+
+    /**
+     *
+     * @return  处理中事件查看详情
+     */
+    @RequestMapping("dealWithIngDetails")
+    public String gotoDealWithIngDetails(){
+        return "dealWithIngDetails";
+    }
+
+
 }
+
