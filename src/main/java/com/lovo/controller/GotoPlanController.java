@@ -6,7 +6,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-public class gotoPlanController {
+public class GotoPlanController {
     /**
      * 跳转预案主页
      * @return
