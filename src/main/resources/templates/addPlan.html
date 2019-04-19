@@ -1,0 +1,390 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
+    <meta charset="utf-8"/>
+    <title>添加预案</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta content="" name="description"/>
+    <meta content="" name="author"/>
+    <!-- BEGIN PLUGIN CSS -->
+    <link th:href="@{staticResources/assets/plugins/font-awesome/css/font-awesome.css}" rel="stylesheet"
+          type="text/css"/>
+    <link th:href="@{staticResources/assets/plugins/jquery-metrojs/MetroJs.min.css}" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" th:href="@{staticResources/assets/plugins/shape-hover/css/demo.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{staticResources/assets/plugins/shape-hover/css/component.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{staticResources/assets/plugins/owl-carousel/owl.carousel.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{staticResources/assets/plugins/owl-carousel/owl.theme.css}"/>
+    <link th:href="@{staticResources/assets/plugins/pace/pace-theme-flash.css}" rel="stylesheet" type="text/css"
+          media="screen"/>
+    <link th:href="@{staticResources/assets/plugins/jquery-slider/css/jquery.sidr.light.css}" rel="stylesheet"
+          type="text/css" media="screen"/>
+    <link rel="stylesheet" th:href="@{staticResources/assets/plugins/jquery-ricksaw-chart/css/rickshaw.css}"
+          type="text/css" media="screen"/>
+    <link rel="stylesheet" th:href="@{staticResources/assets/plugins/Mapplic/mapplic/mapplic.css}" type="text/css"
+          media="screen"/>
+    <!-- END PLUGIN CSS -->
+    <!-- BEGIN PLUGIN CSS -->
+    <link th:href="@{staticResources/assets/plugins/pace/pace-theme-flash.css}" rel="stylesheet" type="text/css"
+          media="screen"/>
+    <link th:href="@{staticResources/assets/plugins/bootstrapv3/css/bootstrap.min.css}" rel="stylesheet"
+          type="text/css"/>
+    <link th:href="@{staticResources/assets/plugins/bootstrapv3/css/bootstrap-theme.min.css}" rel="stylesheet"
+          type="text/css"/>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+
+    <link th:href="@{staticResources/assets/plugins/animate.min.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{staticResources/assets/plugins/jquery-scrollbar/jquery.scrollbar.css}" rel="stylesheet"
+          type="text/css"/>
+    <!-- END PLUGIN CSS -->
+    <!-- BEGIN CORE CSS FRAMEWORK -->
+    <link th:href="@{staticResources/webarch/css/webarch.css}" rel="stylesheet" type="text/css"/>
+    <!-- END CORE CSS FRAMEWORK -->
+    <script th:src="@{staticResources/jquery-2.1.4.js}"></script>
+    <style>
+        #plan {
+            border-left: 3px solid #28a4c9;
+        }
+
+    </style>
+    <script>
+        var i=1;
+        /*添加单位*/
+        function addplanhtml() {
+            var s=$("<h1>---------单位"+i+"-----------</h1>")
+            var s1= $("#planhtml").html();
+            $("#plan").append(s)
+            $("#plan").append(s1)
+            i++;
+
+        }
+        /*删除单位*/
+        function deleteplanhtml() {
+            $("#plan").empty();
+            i=1;
+
+        }
+    </script>
+</head>
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<body class="">
+<!-- BEGIN HEADER -->
+<div class="header navbar navbar-inverse ">
+    <!-- BEGIN TOP NAVIGATION BAR -->
+    <div class="navbar-inner">
+        <div class="header-seperation">
+            <ul class="nav pull-left notifcation-center visible-xs visible-sm">
+                <li class="dropdown">
+                    <a th:href="@{#main-menu}" data-webarch="toggle-left-side">
+                        <i class="material-icons">menu</i>
+                    </a>
+                </li>
+            </ul>
+            <!-- BEGIN LOGO -->
+            <a th:href="index.html">
+                <img th:src="@{staticResources/assets/img/logo.png}" class="logo" alt=""
+                     data-src="staticResources/assets/img/logo.png"
+                     data-src-retina="staticResources/assets/img/logo2x.png" width="106" height="21"/>
+            </a>
+            <!-- END LOGO -->
+        </div>
+        <!-- END RESPONSIVE MENU TOGGLER -->
+        <div class="header-quick-nav">
+            <!-- BEGIN TOP NAVIGATION MENU -->
+
+            <div id="notification-list" style="display:none">
+                <div style="width:300px">
+                    <div class="notification-messages info">
+                        <div class="user-profile">
+                            <img th:src="@{staticResources/assets/img/profiles/d.jpg}" alt=""
+                                 data-src="staticResources/assets/img/profiles/d.jpg"
+                                 data-src-retina="staticResources/assets/img/profiles/d2x.jpg" width="35" height="35"/>
+                        </div>
+                        <div class="message-wrapper">
+                            <div class="heading">
+                                David Nester - Commented on your wall
+                            </div>
+                            <div class="description">
+                                Meeting postponed to tomorrow
+                            </div>
+                            <div class="date pull-left">
+                                A min ago
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="notification-messages danger">
+                        <div class="iconholder">
+                            <i class="icon-warning-sign"></i>
+                        </div>
+                        <div class="message-wrapper">
+                            <div class="heading">
+                                ：服务器负载有限
+                            </div>
+                            <div class="description">
+                                数据库服务器已达到日常可用性
+                            </div>
+                            <div class="date pull-left">
+                                2 mins ago
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="notification-messages success">
+                        <div class="user-profile">
+                            <img th:src="@{staticResources/assets/img/profiles/h.jpg}" alt=""
+                                 data-src="staticResources/staticResources/assets/img/profiles/h.jpg"
+                                 data-src-retina="staticResources/assets/img/profiles/h2x.jpg" width="35" height="35"/>
+                        </div>
+                        <div class="message-wrapper">
+                            <div class="heading">
+                                You haveve got 150 messages
+                            </div>
+                            <div class="description">
+                                150 newly unread messages in your inbox
+                            </div>
+                            <div class="date pull-left">
+                                An hour ago
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pull-right">
+                <div class="chat-toggler sm">
+                    <div class="profile-pic">
+                        <img th:src="@{staticResources/assets/img/profiles/avatar_small.jpg}" alt=""
+                             data-src="staticResources/assets/img/profiles/avatar_small.jpg"
+                             data-src-retina="staticResources/assets/img/profiles/avatar_small2x.jpg" width="35"
+                             height="35"/>
+                        <div class="availability-bubble online"></div>
+                    </div>
+                </div>
+                <ul class="nav quick-section ">
+                    <li class="quicklinks">
+                        <a data-toggle="dropdown" class="dropdown-toggle  pull-right " href="#" id="user-options">
+                            <i class="material-icons">tune</i>
+                        </a>
+                        <ul class="dropdown-menu  pull-right" role="menu" aria-labelledby="user-options">
+                            <li>
+                                <a th:href="user-profile.html">我的账号</a>
+                            </li>
+                            <li>
+                                <a th:href="login.html"><i
+                                        class="material-icons">power_settings_new</i>&nbsp;&nbsp;登出</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 左侧导航栏 -->
+<div class="page-container row-fluid">
+    <div class="page-sidebar " id="main-menu">
+        <div class="page-sidebar-wrapper scrollbar-dynamic" id="main-menu-wrapper">
+            <div class="user-info-wrapper sm">
+                <div class="profile-wrapper sm">
+                    <img th:src="@{staticResources/assets/img/profiles/avatar.jpg}" alt=""
+                         data-src="staticResources/assets/img/profiles/avatar.jpg"
+                         data-src-retina="staticResources/assets/img/profiles/avatar2x.jpg" width="69" height="69"/>
+                    <div class="availability-bubble online"></div>
+                </div>
+                <!-- 名字 -->
+                <div class="user-info sm">
+                    <div class="username">Fred <span class="semi-bold">Smith</span></div>
+                    <div class="status">Life goes on...</div>
+                </div>
+            </div>
+            <p class="menu-title sm">BROWSE <span class="pull-right"><a href="javascript:;"><i class="material-icons">refresh</i></a></span>
+            </p>
+            <ul>
+                <li class="start  open active "><a th:href="@{index.html}"><i class="material-icons">home</i> <span
+                        class="title">事件管理</span> <span class="selected"></span> <span class="arrow  open "></span> </a>
+                    <ul class="sub-menu">
+                        <li><a th:href="noDealWith.html"> 未处理事件 </a></li>
+                        <li class=""><a th:href="dealWithIng.html"> 处理中事件 <span
+                                class=" label label-info pull-right m-r-30">NEW</span></a></li>
+                        <li class=""><a th:href="dealWithEd.html"> 处理完成事件 <span
+                                class=" label label-info pull-right m-r-30">NEW</span></a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a th:href="@{gotoPlan}"> <i class="material-icons">panorama_horizontal</i> <span class="title">预案管理</span>
+                        <span class="label label-important bubble-only pull-right "></span></a>
+                </li>
+                <li>
+                    <a th:href="@{resources.html}"> <i class="material-icons">email</i> <span class="title">资源管理</span>
+                        <span class=" badge badge-disable pull-right ">203</span>
+                    </a>
+                </li>
+                <li>
+                    <a> <i class="material-icons">log</i> <span class="title">日志记录</span> </a>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{log.html}">事件记录日志</a></li>
+                        <li><a th:href="@{planManagerLog.html}">预案管理日志</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="clearfix"></div>
+            <!-- END SIDEBAR MENU -->
+        </div>
+    </div>
+    <!-- 左侧导航栏 -->
+    <a th:href="@{#}" class="scrollup">Scroll</a>
+
+
+    <!-- 页面展示部分-->
+
+    <div class="page-content">
+
+        <div class="clearfix"></div>
+        <div class="content sm-gutter">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="grid simple">
+                        <div class="grid-title no-border">
+                            <h4>预案添加</h4>
+                        </div>
+                        <div class="grid-body no-border">
+                            <br/>
+                            <form th:action="@{savaplan}" method="post">
+                            <div class="row">
+                                <div class="col-md-8 col-sm-8 col-xs-8">
+                                    <div class="form-group">
+                                        <label class="form-label">预案名称</label>
+                                        <span class="help"></span>
+                                        <div class="controls">
+                                            <input type="text" placeholder="请输入预案名称" class="form-control" name="planname"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">事件类型</label>
+                                        <span class="help"></span>
+                                        <div class="controls">
+                                            <input type="text" placeholder="请输入事件类型" class="form-control" name="planttpe"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">事件级别</label>
+                                        <span class="help"></span>
+                                        <div class="controls">
+                                            <input type="text" placeholder="请输入事件级别" class="form-control" name="planeven"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" id="plan">
+
+                                        <label class="form-label">涉及单位</label>
+                                        <span class="help"></span>
+                                        <div class="controls">
+                                            <input type="text" placeholder="请输入涉及单位" class="form-control"/>
+                                        </div>
+                                        <label class="form-label">出动人数</label>
+                                        <span class="help"></span>
+                                        <div class="controls">
+                                            <input type="text" placeholder="请输入涉及人数"/>
+                                        </div>
+                                        <label class="form-label">需要资源</label>
+                                        <span class="help"></span>
+                                        <div class="controls">
+                                            <input type="text" placeholder="请输入需要资源"/>
+                                        </div>
+
+                                    </div>
+
+                                        <!--给上面打印页面用 -->
+                                    <div class="form-group" id="planhtml" style="display: none">
+
+                                        <label class="form-label">涉及单位</label>
+                                        <span class="help"></span>
+                                        <div class="controls">
+                                            <input type="text" placeholder="请输入涉及单位" class="form-control"/>
+                                        </div>
+                                        <label class="form-label">出动人数</label>
+                                        <span class="help"></span>
+                                        <div class="controls">
+                                            <input type="text" placeholder="请输入涉及人数"/>
+                                        </div>
+                                        <label class="form-label">需要资源</label>
+                                        <span class="help"></span>
+                                        <div class="controls">
+                                            <input type="text" placeholder="请输入需要资源"/>
+                                        </div>
+                                    </div>
+                                        <!--end-->
+
+                                    <div class="form-group">
+                                        <label class="form-label">预案详情</label>
+                                        <span class="help"></span>
+                                        <div class="controls">
+                                            <input type="text" placeholder="请输入预案详情" class="form-control"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="pull-right">
+
+                                        <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 添加
+                                        </button>
+                                        <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 取消
+                                        </button>
+
+                                        <a class="btn btn-info btn-cons"  onclick="addplanhtml()" ><i
+                                                class="icon-ok" ></i> 添加单位
+                                        </a>
+                                        <a class="btn btn-info btn-cons"  onclick="deleteplanhtml()" ><i
+                                                type="button"     class="icon-ok" ></i> 删除单位
+                                        </a>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{staticResources/assets/plugins/pace/pace.min.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery/jquery-1.11.3.min.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/bootstrapv3/js/bootstrap.min.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-block-ui/jqueryblockui.min.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-unveil/jquery.unveil.min.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js}"
+        type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-numberAnimate/jquery.animateNumbers.js}"
+        type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-validation/js/jquery.validate.min.js}"
+        type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/bootstrap-select2/select2.min.js}" type="text/javascript"></script>
+
+<script th:src="@{webarch/js/webarch.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/js/chat.js}" type="text/javascript"></script>
+
+<script th:src="@{staticResources/assets/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js}"
+        type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-ricksaw-chart/js/raphael-min.js}"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-ricksaw-chart/js/d3.v2.js}"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-ricksaw-chart/js/rickshaw.min.js}"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-sparkline/jquery-sparkline.js}"></script>
+<script th:src="@{staticResources/assets/plugins/skycons/skycons.js}"></script>
+<script th:src="@{staticResources/assets/plugins/owl-carousel/owl.carousel.min.js}" type="text/javascript"></script>
+
+<script th:src="@{staticResources/assets/plugins/Mapplic/js/jquery.easing.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/Mapplic/js/jquery.mousewheel.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/Mapplic/js/hammer.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/Mapplic/mapplic/mapplic.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-flot/jquery.flot.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-metrojs/MetroJs.min.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/js/dashboard_v2.js}" type="text/javascript"></script>
+</body>
+</html>
