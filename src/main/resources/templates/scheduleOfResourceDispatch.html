@@ -59,29 +59,7 @@
 <!-- BEGIN BODY -->
 <body class="">
 <!-- 页眉，用户退出，显示头像，系统log -->
-<div class="header navbar navbar-inverse ">
-    <!-- BEGIN TOP NAVIGATION BAR -->
-    <div class="navbar-inner">
-        <div class="header-seperation">
-            <ul class="nav pull-left notifcation-center visible-xs visible-sm">
-                <li class="dropdown">
-                    <a th:href="@{#main-menu}" data-webarch="toggle-left-side">
-                        <i class="material-icons">menu</i>
-                    </a>
-                </li>
-            </ul>
-            <!-- BEGIN LOGO -->
-
-                <img th:src="@{staticResources/assets/img/logo.png}" class="logo" alt=""
-                     data-src="staticResources/assets/img/logo.png"
-                     data-src-retina="staticResources/assets/img/logo2x.png" width="106" height="21"/>
-
-            <!-- END LOGO -->
-        </div>
-        <!-- END RESPONSIVE MENU TOGGLER -->
-        <div th:include="header :: header"></div>
-    </div>
-</div>
+<div th:include="header :: header"></div>
 <!-- 页面展示部分 -->
 <div class="page-container row-fluid">
     <!-- 左侧导航栏 -->

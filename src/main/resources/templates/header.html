@@ -1,36 +1,58 @@
 <!DOCTYPE html>
 <html lang="zh_CN" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="www.thymeleaf.org">
 <div th:fragment="header">
-    <div class="header-quick-nav">
-        <!-- BEGIN TOP NAVIGATION MENU -->
-        <div class="pull-right">
-            <div class="chat-toggler sm">
-                <div class="profile-pic">
-                    <img th:src="@{staticResources/assets/img/profiles/avatar_small.jpg}" alt=""
-                         data-src="staticResources/assets/img/profiles/avatar_small.jpg"
-                         data-src-retina="staticResources/assets/img/profiles/avatar_small2x.jpg" width="35"
-                         height="35"/>
-                    <div class="availability-bubble online"></div>
-                </div>
+    <div class="header navbar navbar-inverse ">
+        <!-- BEGIN TOP NAVIGATION BAR -->
+        <div class="navbar-inner">
+            <div class="header-seperation">
+                <ul class="nav pull-left notifcation-center visible-xs visible-sm">
+                    <li class="dropdown">
+                        <a th:href="@{#main-menu}" data-webarch="toggle-left-side">
+                            <i class="material-icons">menu</i>
+                        </a>
+                    </li>
+                </ul>
+                <!-- BEGIN LOGO -->
+
+                <img th:src="@{staticResources/img/logo.png}" alt="" style="margin-left: 20px" width="200" height="70"/>
+
+                <!-- END LOGO -->
             </div>
-            <ul class="nav quick-section ">
-                <li class="quicklinks">
-                    <a data-toggle="dropdown" class="dropdown-toggle  pull-right " href="#" id="user-options">
-                        <i class="material-icons">tune</i>
-                    </a>
-                    <ul class="dropdown-menu  pull-right" role="menu" aria-labelledby="user-options">
-                        <li>
-                            <a th:href="user-profile.html">我的账号</a>
-                        </li>
-                        <li>
-                            <a th:href="login.html"><i
-                                    class="material-icons">power_settings_new</i>&nbsp;&nbsp;登出</a>
+            <!-- END RESPONSIVE MENU TOGGLER -->
+            <div class="header-quick-nav">
+                <!-- BEGIN TOP NAVIGATION MENU -->
+                <div class="pull-right">
+                    <div class="chat-toggler sm">
+                        <div class="profile-pic">
+                            <img th:src="@{staticResources/assets/img/profiles/avatar_small.jpg}" alt=""
+                                 width="35"
+                                 height="35"/>
+                            <div class="availability-bubble online"></div>
+                        </div>
+                    </div>
+                    <ul class="nav quick-section ">
+                        <li class="quicklinks">
+                            <a data-toggle="dropdown" class="dropdown-toggle  pull-right " href="#" id="user-options">
+                                <i class="material-icons">tune</i>
+                            </a>
+                            <ul class="dropdown-menu  pull-right" role="menu" aria-labelledby="user-options">
+                                <li>
+                                    <a th:href="user-profile.html">我的账号</a>
+                                </li>
+                                <li>
+                                    <a th:href="login.html"><i
+                                            class="material-icons">power_settings_new</i>&nbsp;&nbsp;登出</a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
-                </li>
-            </ul>
+                </div>
+            </div>
         </div>
     </div>
+
 </div>
+
+
 
 </html>
