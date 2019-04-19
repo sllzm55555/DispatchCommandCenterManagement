@@ -10,6 +10,4 @@ import java.util.List;
 public interface IEventDao extends CrudRepository<EventEntity,String> {
 
 
-    @Query(value = "",nativeQuery = true)
-    public List<EventEntity> getEventEntityList(Pageable pageable);
 }

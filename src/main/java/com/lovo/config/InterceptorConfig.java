@@ -9,12 +9,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Component
 public class InterceptorConfig extends WebMvcConfigurerAdapter {
 
+    //添加多个拦截器
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new MyInterceptor())
                 .addPathPatterns("/**");
     }
 
+    /**
+     * 放过静态资源
+     */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/staticResources/**")
