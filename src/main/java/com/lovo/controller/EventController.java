@@ -1,8 +1,22 @@
 package com.lovo.controller;
 
+import com.lovo.dto.ResubmitDto;
+import com.lovo.entity.EventEntity;
+import com.lovo.entity.EventPageBean;
+import com.lovo.entity.PageBean;
+import com.lovo.entity.ResubmitEntity;
+import com.lovo.service.impl.EventServiceImpl;
+import com.lovo.service.impl.ResubmitServiceImpl;
+import com.lovo.util.StringUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /***
  * 事件页面跳转controller
@@ -11,6 +25,11 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class EventController {
 
+    @Autowired
+    EventServiceImpl eventService;
+
+    @Autowired
+    ResubmitServiceImpl resubmitService;
     /**
      *  处理中事件首页
      * @return
@@ -27,8 +46,6 @@ public class EventController {
     @RequestMapping("goNoDealWith")
     public String gotoNoDealWithIng(){
         ModelAndView mv=new ModelAndView("noDealWith");
-
-
         return "noDealWith";
     }
 
@@ -68,6 +85,38 @@ public class EventController {
         return "dealWithIngDetails";
     }
 
+    /**
+     * 中转 跳转到详情页面之前先把id信息存在session仓库里
+     * @param eventId 事件主键的Id
+     * @param request
+     * @return 返回一个页面
+     */
+    @RequestMapping("transfer")
+    public String showDealWith(String eventId,HttpServletRequest request){
+        request.getSession().setAttribute("id",eventId);
+        return "noDealWithDetails";
+    }
+
+    /**
+     * 详情页面通过访问ajax到这里得到所有的数据
+     * @param request
+     * @param currPage 当前页码
+     * @return 返回所有的数据
+     */
+    @RequestMapping("getAllData")
+    @ResponseBody
+    public PageBean showPageBean(HttpServletRequest request,int currPage){
+        String id = (String)request.getSession().getAttribute("id");
+        List<ResubmitDto> rList = resubmitService.findResourceEntitiesByEventEntityId(id, currPage, 1);
+        int totalPage = resubmitService.getAllResourNumber(id);
+        PageBean page=new PageBean();
+        EventEntity event = eventService.findEventByEventId(id);
+        page.setCurrPate(currPage);
+        page.setTotalPate(totalPage);
+        page.setTableBeans(rList);
+        page.setObj(event);
+        return page;
+    }
 
 }
 
