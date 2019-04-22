@@ -89,7 +89,7 @@ public class EventEntity {
     /**
      * 事件的单次派遣情况
      */
-    private Set<SendResourseEntity> sendResourseEntitySet;
+    private Set<SendResourceEntity> sendResourceEntitySet;
 
     /**
      * 查看一个事件所有的派遣进度，包含所有的（单个）车辆和人员的进度
@@ -130,12 +130,12 @@ public class EventEntity {
     }
 
     @OneToMany(mappedBy = "eventEntity")
-    public Set<SendResourseEntity> getSendResourseEntitySet() {
-        return sendResourseEntitySet;
+    public Set<SendResourceEntity> getSendResourceEntitySet() {
+        return sendResourceEntitySet;
     }
 
-    public void setSendResourseEntitySet(Set<SendResourseEntity> sendResourseEntitySet) {
-        this.sendResourseEntitySet = sendResourseEntitySet;
+    public void setSendResourceEntitySet(Set<SendResourceEntity> sendResourceEntitySet) {
+        this.sendResourceEntitySet = sendResourceEntitySet;
     }
 
     @Id

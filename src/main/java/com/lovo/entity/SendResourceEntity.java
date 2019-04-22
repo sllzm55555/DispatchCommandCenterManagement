@@ -10,7 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "t_send_resource")
-public class SendResourseEntity {
+public class SendResourceEntity {
     /**
      * requestId 派遣编号
      */

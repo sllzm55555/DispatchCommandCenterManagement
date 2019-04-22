@@ -36,14 +36,14 @@ public class SendProgressEntity {
     private String returnTime;
 
     /**
-     * resoutceId 资源编号(人的id或者车的id)
+     * resourceId 资源编号(人的id或者车的id)
      */
-    private String resoutceId;
+    private String resourceId;
 
     /**
      * 表示对应的某次派遣对应的单位实体
      */
-    private SendResourseEntity sendResourseEntity;
+    private SendResourceEntity sendResourceEntity;
 
     /**
      * 表示单个的人属于那次的派遣事件
@@ -60,22 +60,22 @@ public class SendProgressEntity {
         this.eventEntity = eventEntity;
     }
 
-    public String getResoutceId() {
-        return resoutceId;
+    public String getResourceId() {
+        return resourceId;
     }
 
-    public void setResoutceId(String resoutceId) {
-        this.resoutceId = resoutceId;
+    public void setResourceId(String resourceId) {
+        this.resourceId = resourceId;
     }
 
     @ManyToOne
-    @JoinColumn(name = "fk_resourseId")
-    public SendResourseEntity getSendResourseEntity() {
-        return sendResourseEntity;
+    @JoinColumn(name = "fk_resourceId")
+    public SendResourceEntity getSendResourceEntity() {
+        return sendResourceEntity;
     }
 
-    public void setSendResourseEntity(SendResourseEntity sendResourseEntity) {
-        this.sendResourseEntity = sendResourseEntity;
+    public void setSendResourceEntity(SendResourceEntity sendResourceEntity) {
+        this.sendResourceEntity = sendResourceEntity;
     }
 
     @Column(columnDefinition="TIMESTAMP")
