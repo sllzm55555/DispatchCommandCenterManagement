@@ -1,6 +1,7 @@
 package com.lovo.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -112,6 +113,7 @@ public class EventEntity {
     }
 
     @OneToMany(mappedBy = "eventEntity")
+    @JsonIgnore
     public Set<ResubmitEntity> getResubmitEntities() {
         return resubmitEntities;
     }
@@ -121,6 +123,7 @@ public class EventEntity {
     }
 
     @OneToMany(mappedBy = "eventEntity")
+    @JsonIgnore
     public Set<SendProgressEntity> getSendProgressEntities() {
         return sendProgressEntities;
     }
@@ -130,6 +133,7 @@ public class EventEntity {
     }
 
     @OneToMany(mappedBy = "eventEntity")
+    @JsonIgnore
     public Set<SendResourceEntity> getSendResourceEntitySet() {
         return sendResourceEntitySet;
     }

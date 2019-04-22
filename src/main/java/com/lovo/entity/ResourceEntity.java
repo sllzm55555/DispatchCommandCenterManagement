@@ -24,7 +24,6 @@ public class ResourceEntity {
     @Column(name = "total_resources")
     private int cnumber;
 
-
     public String getRid() {
         return rid;
     }

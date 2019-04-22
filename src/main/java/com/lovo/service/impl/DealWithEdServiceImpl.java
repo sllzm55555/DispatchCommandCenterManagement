@@ -63,4 +63,10 @@ public class DealWithEdServiceImpl implements IDealWithEdService {
 
         return (int) allUserSize;
     }
+
+    @Override
+    public EventEntity findDealWithEventById(String eventId) {
+
+        return dealWithEdDao.findDealWithEventById(eventId);
+    }
 }

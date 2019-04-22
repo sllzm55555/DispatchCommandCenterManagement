@@ -69,4 +69,16 @@ public interface DealWithEdDao extends CrudRepository<EventEntity,String> {
     List<EventEntity> findAll(@Param("eventId") String eventId, @Param("eventName") String eventName,
                               @Param("eventType") String eventType,@Param("endTime") String endTime,
                               @Param("eventPeriod") int eventPeriod);
+
+    /**
+     * 根据事件Id查找事件详情
+     * @param eventId 事件id
+     * @return
+     */
+    @Query(value = "select * from t_event e" +
+            " LEFT JOIN t_send_resource sr on sr.fk_event_id=e.event_id" +
+            " LEFT JOIN t_dept d on sr.fk_dept_id=d.dept_id" +
+            " LEFT JOIN t_followup_report fr on fr.fk_event_entity_id=e.event_id" +
+            " where e.event_id=?1",nativeQuery = true)
+    EventEntity findDealWithEventById(String eventId);
 }

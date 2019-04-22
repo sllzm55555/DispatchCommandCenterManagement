@@ -37,4 +37,12 @@ public interface IDealWithEdService {
      * @return
      */
     int pageAll(int pageNum,EventEntity event);
+
+    /**
+     * 根据事件Id查找事件详情
+     * @param eventId 事件id
+     * @return
+     */
+    EventEntity findDealWithEventById(String eventId);
+
 }
