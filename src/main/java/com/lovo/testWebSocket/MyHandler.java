@@ -1,18 +1,15 @@
 package com.lovo.testWebSocket;
 
-import com.alibaba.fastjson.JSONObject;
 import com.lovo.testActiveMQ.Producer;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.Test;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.socket.*;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 
-import java.io.IOException;
-import java.util.List;
+import javax.annotation.Resource;
 
 /**
  * 建立连接的类
@@ -24,10 +21,11 @@ import java.util.List;
 @Component
 public class MyHandler implements WebSocketHandler {
 
+    @Resource(name = "producer")
+    Producer producer;
+
     private WebSocketSession session;
 
-    @Autowired
-    private Producer producer;
     /**
      * 连接建立之后干啥
      * @param session
@@ -37,7 +35,10 @@ public class MyHandler implements WebSocketHandler {
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         this.session = session;
         session.sendMessage(new TextMessage("已经与客户端建立连接"));
-        producer.sendMessage();
+
+        //把数据放入队列 testQueue 和 testQueue2
+//        producer.sendMessage();
+//        producer.sendMessage2();
         //服务器向客户端发送消息
         /*for (int i = 0; i < 10; i++) {
             session.sendMessage(new TextMessage("已经与客户端建立连接" + i));
@@ -48,10 +49,29 @@ public class MyHandler implements WebSocketHandler {
     /**
      * 使用JmsListener配置消费者监听的队列，其中message是接收到的消息,此方法会一直运行相当于一个死循环
      */
-    @JmsListener(destination="testQueue")
+    @JmsListener(destination="testQueue001")
     public void receiveQueue(String message) throws Exception {
-        if(session != null){
-            session.sendMessage(new TextMessage(message));
+
+        String uri = session.getUri().toString();
+
+        if("/ws".equals(uri)){
+            if(session != null && session.isOpen()){
+                session.sendMessage(new TextMessage(message));
+            }
+        }
+    }
+    /**
+     * 使用JmsListener配置消费者监听的队列，其中message是接收到的消息,此方法会一直运行相当于一个死循环
+     */
+    @JmsListener(destination="testQueue002")
+    public void receiveQueue2(String message) throws Exception {
+
+        String uri = session.getUri().toString();
+
+        if("/ws02".equals(uri)){
+            if(session != null && session.isOpen()){
+                session.sendMessage(new TextMessage(message));
+            }
         }
     }
 
