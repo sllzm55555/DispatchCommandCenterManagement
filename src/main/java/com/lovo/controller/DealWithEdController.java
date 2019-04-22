@@ -17,21 +17,9 @@ public class DealWithEdController {
     @Autowired
     private IDealWithEdService dealWithEdService;
 
-    @RequestMapping("showDealWithEdPage")
-    public ModelAndView showDealWithEdPage(){
-        ModelAndView modelAndView = new ModelAndView("dealWithEd");
-        int pageNum = 1;
-        List<EventEntity> list = dealWithEdService.showDealWithEdEventList(pageNum);
-        int pageAll = dealWithEdService.getPageAll(pageNum);
-        modelAndView.addObject("list",list);
-        modelAndView.addObject("pageNum",pageNum);
-        modelAndView.addObject("pageAll",pageAll);
-        return modelAndView;
-    }
-
     @ResponseBody
     @RequestMapping("changePage")
-    public PageBean changePage(int pageNum,EventEntity event){
+    public PageBean changePage(int pageNum, EventEntity event){
         List<EventEntity> list = dealWithEdService.findAll(pageNum,event);
         int pageAll = dealWithEdService.pageAll(pageNum,event);
         PageBean<EventEntity> pageBean = new PageBean<>();
@@ -46,5 +34,15 @@ public class DealWithEdController {
 
         return "dealWithEd";
     }
+
+    @RequestMapping("check")
+    public ModelAndView check(String eventId){
+        ModelAndView modelAndView = new ModelAndView("dealWithEdDetails");
+
+        EventEntity event = dealWithEdService.findDealWithEventById(eventId);
+        modelAndView.addObject("event",event);
+        return modelAndView;
+    }
+
 
 }

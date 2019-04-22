@@ -10,7 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "t_send_resource")
-public class SendResourseEntity {
+public class SendResourceEntity {
     /**
      * requestId 派遣编号
      */
@@ -66,6 +66,21 @@ public class SendResourseEntity {
      */
     private EventEntity eventEntity;
 
+    /**
+     * 单位对象
+     */
+    private DeptEntity deptEntity;
+
+    @ManyToOne
+    @JoinColumn(name = "fk_dept_id")
+    public DeptEntity getDeptEntity() {
+        return deptEntity;
+    }
+
+    public void setDeptEntity(DeptEntity deptEntity) {
+        this.deptEntity = deptEntity;
+    }
+
     @ManyToOne
     @JoinColumn(name = "fk_event_id")
     public EventEntity getEventEntity() {
@@ -75,8 +90,6 @@ public class SendResourseEntity {
     public void setEventEntity(EventEntity eventEntity) {
         this.eventEntity = eventEntity;
     }
-
-
 
 
     @Column(length = 13)

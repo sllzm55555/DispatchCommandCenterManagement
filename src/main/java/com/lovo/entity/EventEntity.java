@@ -1,6 +1,7 @@
 package com.lovo.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -89,7 +90,7 @@ public class EventEntity {
     /**
      * 事件的单次派遣情况
      */
-    private Set<SendResourseEntity> sendResourseEntitySet;
+    private Set<SendResourceEntity> sendResourceEntitySet;
 
     /**
      * 查看一个事件所有的派遣进度，包含所有的（单个）车辆和人员的进度
@@ -112,6 +113,7 @@ public class EventEntity {
     }
 
     @OneToMany(mappedBy = "eventEntity")
+    @JsonIgnore
     public Set<ResubmitEntity> getResubmitEntities() {
         return resubmitEntities;
     }
@@ -121,6 +123,7 @@ public class EventEntity {
     }
 
     @OneToMany(mappedBy = "eventEntity")
+    @JsonIgnore
     public Set<SendProgressEntity> getSendProgressEntities() {
         return sendProgressEntities;
     }
@@ -130,12 +133,13 @@ public class EventEntity {
     }
 
     @OneToMany(mappedBy = "eventEntity")
-    public Set<SendResourseEntity> getSendResourseEntitySet() {
-        return sendResourseEntitySet;
+    @JsonIgnore
+    public Set<SendResourceEntity> getSendResourceEntitySet() {
+        return sendResourceEntitySet;
     }
 
-    public void setSendResourseEntitySet(Set<SendResourseEntity> sendResourseEntitySet) {
-        this.sendResourseEntitySet = sendResourseEntitySet;
+    public void setSendResourceEntitySet(Set<SendResourceEntity> sendResourceEntitySet) {
+        this.sendResourceEntitySet = sendResourceEntitySet;
     }
 
     @Id
