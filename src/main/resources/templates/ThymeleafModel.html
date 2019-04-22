@@ -157,11 +157,11 @@
       </div>
       <p class="menu-title sm">BROWSE <span class="pull-right"><a href="javascript:;"><i class="material-icons">refresh</i></a></span></p>
       <ul>
-        <li class="start  open active "> <a th:href="@{index.html}"><i class="material-icons">home</i> <span class="title">事件管理</span> <span class="selected"></span> <span class="arrow  open "></span> </a>
+        <li class="start  open active "> <a th:href="@{goNoDealWith}"><i class="material-icons">home</i> <span class="title">事件管理</span> <span class="selected"></span> <span class="arrow  open "></span> </a>
           <ul class="sub-menu">
-            <li> <a th:href="noDealWith.html"> 未处理事件 </a> </li>
-            <li class=""> <a th:href="dealWithIng.html"> 处理中事件 <span class=" label label-info pull-right m-r-30">NEW</span></a></li>
-            <li class=""> <a th:href="dealWithEd.html"> 处理完成事件 <span class=" label label-info pull-right m-r-30">NEW</span></a></li>
+            <li> <a th:href="goNoDealWith"> 未处理事件 </a> </li>
+            <li class=""> <a th:href="goToDealWithIng"> 处理中事件 <span class=" label label-info pull-right m-r-30">NEW</span></a></li>
+            <li class=""> <a th:href="goToPageDealWithEd"> 处理完成事件 <span class=" label label-info pull-right m-r-30">NEW</span></a></li>
           </ul>
         </li>
         <li>
@@ -254,6 +254,7 @@
   </div>
 </div>
 <script th:src="@{staticResources/assets/plugins/pace/pace.min.js}" type="text/javascript"></script>
+
 <script th:src="@{staticResources/assets/plugins/jquery/jquery-1.11.3.min.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/bootstrapv3/js/bootstrap.min.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/jquery-block-ui/jqueryblockui.min.js}" type="text/javascript"></script>
@@ -263,7 +264,7 @@
 <script th:src="@{staticResources/assets/plugins/jquery-validation/js/jquery.validate.min.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/bootstrap-select2/select2.min.js}" type="text/javascript"></script>
 
-<script th:src="@{webarch/js/webarch.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/webarch/js/webarch.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/js/chat.js}" type="text/javascript"></script>
 
 <script th:src="@{staticResources/assets/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js}" type="text/javascript"></script>
@@ -272,14 +273,30 @@
 <script th:src="@{staticResources/assets/plugins/jquery-ricksaw-chart/js/rickshaw.min.js}"></script>
 <script th:src="@{staticResources/assets/plugins/jquery-sparkline/jquery-sparkline.js}"></script>
 <script th:src="@{staticResources/assets/plugins/skycons/skycons.js}"></script>
-<script th:src="@{staticResources/assets/plugins/owl-carousel/owl.carousel.min.js}" type="text/javascript"></script>
 
+
+
+<script th:src="@{staticResources/assets/plugins/owl-carousel/owl.carousel.min.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/Mapplic/js/jquery.easing.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/Mapplic/js/jquery.mousewheel.js}" type="text/javascript"></script>
-<script th:src="@{staticResources/assets/plugins/Mapplic/js/hammer.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/Mapplic/js/jquery.flot.min.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/Mapplic/mapplic/mapplic.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/jquery-flot/jquery.flot.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/jquery-metrojs/MetroJs.min.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/js/dashboard_v2.js}" type="text/javascript"></script>
+
+<script th:src="@{staticResources/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-block-ui/jqueryblockui.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-morris-chart/js/morris.min.js}"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-easy-pie-chart/js/jquery.easypiechart.min.js}"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-slider/jquery.sidr.min.js}" type="text/javascript}"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-jvectormap/js/jquery-jvectormap-1.2.2.min.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-jvectormap/js/jquery-jvectormap-us-lcc-en.js}" type="text/javascript"></script>
+
+<script th:src="@{staticResources/assets/plugins/jquery-flot/jquery.flot.min.js}"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-flot/jquery.flot.animator.min.js}"></script>
+<!-- END PAGE LEVEL PLUGINS   -->
+<!-- PAGE JS -->
+<script th:src="@{staticResources/assets/js/dashboard.js}" type="text/javascript"></script>
 </body>
 </html>

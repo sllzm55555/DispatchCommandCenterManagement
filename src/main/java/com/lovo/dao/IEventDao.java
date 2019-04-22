@@ -18,7 +18,6 @@ public interface IEventDao extends CrudRepository<EventEntity,String> {
      * @param pageSize 每页显示多少条
      * @return 返回符合条件的未处理事件集合
      */
-
     @Query(value = "select * from t_event as e " +
             "  where if(?1!='',e.event_id = ?1,1=1)" +
             "  and if(?2!='',e.event_type like %?2% ,1=1) " +
@@ -39,9 +38,11 @@ public interface IEventDao extends CrudRepository<EventEntity,String> {
     public int  findAllEventEntitiesNumberByCondition(String eventId,String eventType,String eventTime);
 
     /**
-     *  通过事件Id得到事件对象
+     * 通过事件Id得到到事件的对象
      * @param eventId 事件Id
-     * @return 返回封装好对象的实体
+     * @return  返回封装好对象的实体
      */
-    public EventEntity findEventByEventId(String eventId);
+    @Query("select e from EventEntity e where e.eventId=?1")
+    public EventEntity findEventEntityByEventId(String eventId);
+
 }
