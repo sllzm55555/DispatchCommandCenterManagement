@@ -46,9 +46,10 @@ public class AreaServiceImpl implements IAreaService {
 
 
     @Override
-    public List<AreaEntity> findAllArea(String area, Integer pageNum ,int pagesize) {
-        int state = (pageNum - 1) * 5;
-        return areaDao.findAllArea(area,state,pagesize);
+    public List<AreaEntity> findAllArea(String area, int pageNum) {
+        int pageSize = 4;
+        pageNum = pageSize * (pageNum - 1);
+        return areaDao.findAllArea(area,pageNum,pageSize);
     }
 
     @Override
@@ -57,10 +58,11 @@ public class AreaServiceImpl implements IAreaService {
     }
 
     @Override
-    public Integer findcount(String area) {
-        Integer totalcount = areaDao.findcount(area);
-        Integer finishIndex = 3;
-        int tapage = (totalcount + finishIndex - 1) / finishIndex;
-        return tapage;
+    public int findcount(String area) {
+        List<AreaEntity> list = areaDao.findcount(area);
+        double allUserSize = list.size();
+        int pageSize = 4;
+        allUserSize = Math.ceil(allUserSize / pageSize);
+        return (int) allUserSize;
     }
 }

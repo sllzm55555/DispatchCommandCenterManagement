@@ -32,6 +32,115 @@
   <!-- BEGIN CORE CSS FRAMEWORK -->
   <link th:href="@{staticResources/webarch/css/webarch.css}" rel="stylesheet" type="text/css" />
   <!-- END CORE CSS FRAMEWORK -->
+
+  <script th:src="@{staticResources/jquery-2.1.4.js}" type="text/javascript"></script>
+  <script>
+    $(function () {
+      var pageNum = 1;
+      $.getJSON("findAllResource", {pageNum: pageNum}, showResourcePage);
+
+      $(":button").click(function () {
+        var btn = this.value;
+        var pageNum = $("#pageNum").val();
+        var pageAll = $("#pageAll").val();
+        var resourceType = $("#resourceType").val();
+
+
+        pageNum = parseInt(pageNum);
+        pageAll = parseInt(pageAll);
+        if (btn === "first") {
+          pageNum = 1;
+          $.getJSON("findAllResource", {
+            pageNum: pageNum,
+            resourceType: resourceType,
+          }, showResourcePage)
+        } else if (btn === "pre") {
+          pageNum -= 1;
+          if (pageNum == 0) {
+            pageNum = 1
+          }
+          $.getJSON("findAllResource", {
+            pageNum: pageNum,
+            resourceType: resourceType,
+
+          }, showResourcePage)
+        } else if (btn === "next") {
+          pageNum += 1;
+          if (pageNum > pageAll) {
+            pageNum = pageAll;
+          }
+          $.getJSON("findAllResource", {
+            pageNum: pageNum,
+            resourceType: resourceType,
+
+          }, showResourcePage)
+        } else if (btn === "last") {
+          pageNum = pageAll;
+          $.getJSON("findAllResource", {
+            pageNum: pageNum,
+            resourceType: resourceType,
+
+          }, showResourcePage)
+        } else if (btn === "change") {
+          pageNum = $("#number").val();
+          if (pageNum >= pageAll){
+            pageNum = pageAll;
+          } else if (pageNum === ""){
+            pageNum = 1;
+          }
+          $.getJSON("findAllResource", {
+            pageNum: pageNum,
+            resourceType: resourceType,
+
+          }, showResourcePage)
+        } else if (btn === "check") {
+          pageNum = 1;
+          $.getJSON("findAllResource", {
+            pageNum: pageNum,
+            resourceType: resourceType,
+
+          }, showResourcePage)
+        }
+
+
+      })
+    });
+
+    function showResourcePage(data) {
+      let $tbody = $("tbody");
+      $tbody.empty();
+
+      $.each(data.tableBeans, function (i, e) {
+        var rid = e.rid;
+        var AreaId = e.areaEntity.areaId;
+        var rtype = e.rtype;
+        var rname = e.rname;
+        var pnumber = e.pnumber;
+        var cnumber = e.cnumber;
+
+        var dataTr = "<tr><td class='v-align-middle'>" + rid + "</td>" +
+                "<td class='v-align-middle'><span class='muted'>" + AreaId + "</span></td>" +
+                "<td class='v-align-middle'><span class='muted'>" + rtype + "</span></td>" +
+                "<td class='v-align-middle'><span class='muted'>" + rname + "</span></td>" +
+                "<td class='v-align-middle'><span class='muted'>" + pnumber + "</span></td>" +
+                "<td class='v-align-middle'><span class='muted'>" + cnumber + "</span></td>" +
+                "<td><a href=''>查看详情</a></td></tr>";
+        $tbody.append(dataTr);
+      });
+      var pageNum = data.currPate;
+      var pageAll = data.totalPate;
+      //渲染 “第2页/共11页” 信息
+      $("#ajaxspan").html("第" + pageNum + "页/共" + pageAll + "页");
+      //记录数据信息（当前页数和总页数）
+      $("#pageNum").val(pageNum);
+      $("#pageAll").val(pageAll);
+    }
+  </script>
+
+
+
+
+
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -199,17 +308,11 @@
             <div class="grid-title">
               <div class="row form-row">
                 <span style="font-size: 28px">资源展示界面</span>
-                <form action="" class="pull-right">
-                  <input id="eventNum" name="eventNum" type="text" class="form-control"
-                         style="width: 150px;display: inline-block;" placeholder="事件编号"/>
-                  <input id="eventName" name="eventName" type="text" class="form-control"
-                         style="width: 150px;display: inline-block;" placeholder="事件名称"/>
-                  <input id="eventType" name="eventType" type="text" class="form-control"
-                         style="width: 150px;display: inline-block;" placeholder="事件类型"/>
-                  <input id="endTime" name="endTime" type="date" class="form-control"
-                         style="width: 150px;display: inline-block;" placeholder="结束时间"/>
-                  <button class="btn btn-success btn-cons" type="submit"><i class="icon-ok"></i>查询
-                  </button>
+                <form th:action="@{findAllResource}" class="pull-right" id="findAllResource" method="get">
+                  <input id="resourceType" name="resourceType" type="text" class="form-control"
+                         style="width: 150px;display: inline-block;" placeholder="资源类型"/>
+
+                  <button class="btn btn-success btn-cons" type="button" value="check"><i class="icon-ok"></i>查询</button>
                 </form>
               </div>
             </div>
@@ -218,38 +321,32 @@
                 <thead>
                 <tr>
                   <th style="width:8%">资源编号</th>
-                  <th style="width:22%" data-hide="phone,tablet">区域</th>
-                  <th style="width:10%">单位类型</th>
-                  <th style="width:10%" data-hide="phone,tablet">单位名称</th>
-                  <th style="width:10%">总人数</th>
-                  <th style="width:10%" data-hide="phone,tablet">资源总数</th>
+                  <th style="width:18%" data-hide="phone,tablet">区域</th>
+                  <th style="width:8%">单位类型</th>
+                  <th style="width:8%" data-hide="phone,tablet">单位名称</th>
+                  <th style="width:8%">总人数</th>
+                  <th style="width:8%" data-hide="phone,tablet">资源总数</th>
                   <th style="width:5%" data-hide="phone,tablet">操作</th>
                 </tr>
                 </thead>
                 <tbody>
 
-                <tr th:each="resource,ustate:${resourceList}">
-                  <td th:text="${resource.rid}"> </td>
-                  <td th:text="${resource.getAreaEntity().getAreaId()}"></td>
-                  <td th:text="${resource.rtype}"> </td>
-                  <td th:text="${resource.rname}"></td>
-                  <td th:text="${resource.pnumber}"> </td>
-                  <td th:text="${resource.cnumber}"></td>
-                  <td><a th:href="@{gotoResource}" th:field="查看详情"></a></td>
-                </tr>
+
                 </tbody>
               </table>
+                <span id="ajaxspan"></span>
 
 
-
+              <input type="hidden" id="pageNum"/>
+              <input type="hidden" id="pageAll"/>
               <div class="pull-right">
-                <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 首页</button>
-                <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 上一页</button>
-                <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 下一页</button>
-                <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 尾页</button>
+                <button class="btn btn-info btn-cons" type="button" value="first"><i class="icon-ok"></i> 首页</button>
+                <button class="btn btn-info btn-cons" type="button" value="pre"><i class="icon-ok"></i> 上一页</button>
+                <button class="btn btn-info btn-cons" type="button" value="next"><i class="icon-ok"></i> 下一页</button>
+                <button class="btn btn-info btn-cons" type="button" value="last"><i class="icon-ok"></i> 尾页</button>
                 <input type="text" class="form-control" placeholder="您要跳转的页码"
-                       style="width: 120px;display: inline-block"/>
-                <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 跳转</button>
+                       style="width: 120px;display: inline-block" id="number"/>
+                <button class="btn btn-info btn-cons" type="button" value="change"><i class="icon-ok"></i>跳转</button>
               </div>
                 <div class="pull-right">
                     <form method="post" enctype="multipart/form-data" id="form" action="/uploadresource">

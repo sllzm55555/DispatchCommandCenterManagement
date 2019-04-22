@@ -3,6 +3,7 @@ package com.lovo.service.impl;
 import com.lovo.dao.IResourceDao;
 import com.lovo.entity.ResourceEntity;
 import com.lovo.service.IResourceService;
+import com.lovo.util.StringUtil;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -125,6 +126,30 @@ public class ResourceServiceImpl implements IResourceService {
         }
 
         return wb;
+
+    }
+
+
+
+
+    @Override
+    public List<ResourceEntity> findAll(int pageNum, String resourceType) {
+        int pageSize = 4;
+        pageNum = pageSize * (pageNum - 1);
+        return resourceDao.findAll(resourceType,pageNum,pageSize);
+    }
+
+    @Override
+    public int pageAll( String resourceType) {
+        int pageSize = 4;
+        List<ResourceEntity> list = resourceDao.findAll(resourceType);
+
+        double allUserSize = list.size();
+
+
+        allUserSize = Math.ceil(allUserSize / pageSize);
+
+        return (int) allUserSize;
 
     }
 

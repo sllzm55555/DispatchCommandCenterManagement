@@ -33,76 +33,137 @@
   <link th:href="@{staticResources/webarch/css/webarch.css}" rel="stylesheet" type="text/css" />
   <!-- END CORE CSS FRAMEWORK -->
   <script th:src="@{staticResources/jquery-2.1.4.js}"></script>
+
+
+
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <meta charset="utf-8" />
+  <title>资源页面</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta content="" name="description" />
+  <meta content="" name="author" />
+  <!-- BEGIN PLUGIN CSS -->
+  <link th:href="@{staticResources/assets/plugins/font-awesome/css/font-awesome.css}" rel="stylesheet" type="text/css" />
+  <link th:href="@{staticResources/assets/plugins/jquery-metrojs/MetroJs.min.css}" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" type="text/css" th:href="@{staticResources/assets/plugins/shape-hover/css/demo.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{staticResources/assets/plugins/shape-hover/css/component.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{staticResources/assets/plugins/owl-carousel/owl.carousel.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{staticResources/assets/plugins/owl-carousel/owl.theme.css}" />
+  <link th:href="@{staticResources/assets/plugins/pace/pace-theme-flash.css}" rel="stylesheet" type="text/css" media="screen" />
+  <link th:href="@{staticResources/assets/plugins/jquery-slider/css/jquery.sidr.light.css}" rel="stylesheet" type="text/css" media="screen" />
+  <link rel="stylesheet" th:href="@{staticResources/assets/plugins/jquery-ricksaw-chart/css/rickshaw.css}" type="text/css" media="screen"/>
+  <link rel="stylesheet" th:href="@{staticResources/assets/plugins/Mapplic/mapplic/mapplic.css}" type="text/css" media="screen"/>
+  <!-- END PLUGIN CSS -->
+  <!-- BEGIN PLUGIN CSS -->
+  <link th:href="@{staticResources/assets/plugins/pace/pace-theme-flash.css}" rel="stylesheet" type="text/css" media="screen" />
+  <link th:href="@{staticResources/assets/plugins/bootstrapv3/css/bootstrap.min.css}" rel="stylesheet" type="text/css" />
+  <link th:href="@{staticResources/assets/plugins/bootstrapv3/css/bootstrap-theme.min.css}" rel="stylesheet" type="text/css" />
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+  <link th:href="@{staticResources/assets/plugins/animate.min.css}" rel="stylesheet" type="text/css" />
+  <link th:href="@{staticResources/assets/plugins/jquery-scrollbar/jquery.scrollbar.css}" rel="stylesheet" type="text/css" />
+  <!-- END PLUGIN CSS -->
+  <!-- BEGIN CORE CSS FRAMEWORK -->
+  <link th:href="@{staticResources/webarch/css/webarch.css}" rel="stylesheet" type="text/css" />
+  <!-- END CORE CSS FRAMEWORK -->
+
+  <script th:src="@{staticResources/jquery-2.1.4.js}" type="text/javascript"></script>
   <script>
     $(function () {
-      var currpage=1;
-      $.getJSON("findAllArea",{currpage:currpage},filldate);
+      var pageNum = 1;
+      $.getJSON("findAllArea", {pageNum: pageNum}, showResourcePage);
 
       $(":button").click(function () {
-        var btn=this.value;
-        var currPage=$(":hidden[name=currPage]").val();
-        var totalPage=$(":hidden[name=totalPage]").val();
-        var area=$("#area").val();
+        var btn = this.value;
+        var pageNum = $("#pageNum").val();
+        var pageAll = $("#pageAll").val();
+        var area = $("#area").val();
 
-        currPage=parseInt(currPage);
-        totalPage=parseInt(totalPage);
-        if(btn=="首页"){
 
-          currPage=1;
-          $.getJSON("findAllArea",{currpage:currPage,area:area},filldate)
-        }else if(btn=="上一页"){
-
-          currPage-=1;
-          if(currPage==0){
-            currPage=1
+        pageNum = parseInt(pageNum);
+        pageAll = parseInt(pageAll);
+        if (btn === "first") {
+          pageNum = 1;
+          $.getJSON("findAllArea", {
+            pageNum: pageNum,
+            area: area,
+          }, showResourcePage)
+        } else if (btn === "pre") {
+          pageNum -= 1;
+          if (pageNum == 0) {
+            pageNum = 1
           }
+          $.getJSON("findAllArea", {
+            pageNum: pageNum,
+            area: area,
 
-          $.getJSON("findAllArea",{currpage:currPage,area:area},filldate)
-        }else if(btn=="下一页"){
-          currPage+=1;
-          if(currPage>totalPage){
-            currPage=totalPage;
+          }, showResourcePage)
+        } else if (btn === "next") {
+          pageNum += 1;
+          if (pageNum > pageAll) {
+            pageNum = pageAll;
           }
-          $.getJSON("findAllArea",{currpage:currPage,area:area},filldate)
-        }else if(btn=="尾页"){
-          currPage=totalPage;
-          $.getJSON("findAllArea",{currpage:currPage,area:area},filldate)
-        }else if(btn="跳转"){
-          currPage=$("#skip").val()
-          $.getJSON("findAllArea",{currpage:currPage,area:area},filldate)
-        }else if(btn="check"){
-          currPage=1;
-          $.getJSON("findAllArea",{currpage:currPage,area:area},filldate)
+          $.getJSON("findAllArea", {
+            pageNum: pageNum,
+            area: area,
+
+          }, showResourcePage)
+        } else if (btn === "last") {
+          pageNum = pageAll;
+          $.getJSON("findAllArea", {
+            pageNum: pageNum,
+            area: area,
+
+          }, showResourcePage)
+        } else if (btn === "change") {
+          pageNum = $("#number").val();
+          if (pageNum >= pageAll){
+            pageNum = pageAll;
+          } else if (pageNum === ""){
+            pageNum = 1;
+          }
+          $.getJSON("findAllArea", {
+            pageNum: pageNum,
+            area: area,
+
+          }, showResourcePage)
+        } else if (btn === "check") {
+          pageNum = 1;
+          $.getJSON("findAllArea", {
+            pageNum: pageNum,
+            area: area,
+
+          }, showResourcePage)
         }
 
 
       })
     });
 
-    function filldate(data){
-      var $table=$("tbody");
-      $table.empty();
+    function showResourcePage(data) {
+      let $tbody = $("tbody");
+      $tbody.empty();
 
-      $.each(data.tableBeans, function (i,e) {
+      $.each(data.tableBeans, function (i, e) {
         var id=e.areaId;
         var name=e.areaName;
 
-        var dataTr = "<tr><td>" + id
-                + "</td><td>" + name
-                + "</td><td>"
-                + "<a >查看详情</a>"
-                + "</td></tr>";
-        $table.append(dataTr);
+        var dataTr = "<tr><td class='v-align-middle'>" + id + "</td>" +
+                "<td class='v-align-middle'><span class='muted'>" + name + "</span></td>" +
+                "<td><a href=''>查看详情</a></td></tr>";
+        $tbody.append(dataTr);
       });
-      var currPage = data.currPate;
-      var totalPage = data.totalPate;
+      var pageNum = data.currPate;
+      var pageAll = data.totalPate;
       //渲染 “第2页/共11页” 信息
-      $("#ajaxspan").html("第" + currPage + "页/共" + totalPage + "页");
+      $("#ajaxspan").html("第" + pageNum + "页/共" + pageAll + "页");
       //记录数据信息（当前页数和总页数）
-      $(":hidden[name=currPage]").val(currPage);
-      $(":hidden[name=totalPage]").val(totalPage);
+      $("#pageNum").val(pageNum);
+      $("#pageAll").val(pageAll);
     }
   </script>
+
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -299,23 +360,20 @@
                     <!--</tr>-->
                 </tbody>
               </table>
+              <span id="ajaxspan"></span>
 
 
 
+              <input type="hidden" id="pageNum"/>
+              <input type="hidden" id="pageAll"/>
               <div class="pull-right">
-                <span id="ajaxspan"></span>
-
-                <button class="btn btn-info btn-cons" type="button" value="首页"><i class="icon-ok"></i> 首页</button>
-                <button class="btn btn-info btn-cons" type="button" value="上一页"><i class="icon-ok" ></i> 上一页</button>
-                <button class="btn btn-info btn-cons" type="button" value="下一页"><i class="icon-ok"></i> 下一页</button>
-                <button class="btn btn-info btn-cons" type="button" value="尾页"><i class="icon-ok"></i> 尾页</button>
+                <button class="btn btn-info btn-cons" type="button" value="first"><i class="icon-ok"></i> 首页</button>
+                <button class="btn btn-info btn-cons" type="button" value="pre"><i class="icon-ok"></i> 上一页</button>
+                <button class="btn btn-info btn-cons" type="button" value="next"><i class="icon-ok"></i> 下一页</button>
+                <button class="btn btn-info btn-cons" type="button" value="last"><i class="icon-ok"></i> 尾页</button>
                 <input type="text" class="form-control" placeholder="您要跳转的页码"
-                       style="width: 120px;display: inline-block" id="skip"/>
-                <button class="btn btn-info btn-cons" type="button" value="跳转"><i class="icon-ok"></i> 跳转</button>
-                <!--隐藏表单域，将当前页数隐形传回来-->
-                <input type="hidden" name="currPage"/>
-                <input type="hidden" name="totalPage"/>
-
+                       style="width: 120px;display: inline-block" id="number"/>
+                <button class="btn btn-info btn-cons" type="button" value="change"><i class="icon-ok"></i>跳转</button>
               </div>
                 <div class="pull-right">
                     <form method="post" enctype="multipart/form-data" id="form" action="/uploadarea">

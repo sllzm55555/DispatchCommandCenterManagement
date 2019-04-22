@@ -44,7 +44,7 @@ public interface IAreaService {
      * @param area 区域名称
      * @return
      */
-    public List<AreaEntity> findAllArea(String area,Integer pageNum,int pagesize);
+    public List<AreaEntity> findAllArea(String area,int pageNum);
 
     /**
      * 添加区域
@@ -58,7 +58,7 @@ public interface IAreaService {
      * @param area
      * @return
      */
-    public Integer findcount(String area);
+    public int findcount(String area);
 
 
 

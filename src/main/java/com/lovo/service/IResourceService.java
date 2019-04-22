@@ -46,4 +46,21 @@ public interface IResourceService {
      * @return
      */
     public Workbook getWorkbook(InputStream inStr, String fileName) throws Exception;
+
+
+    /**
+     * 分页模糊查询
+     * @param pageNum 当前页数
+     * @param resourceType 查询条件
+     * @return
+     */
+    public List<ResourceEntity> findAll(int pageNum,String resourceType);
+
+    /**
+     * 总页数
+     * @param resourceType 事件实体
+     * @return
+     */
+    public int pageAll(String resourceType);
+
 }

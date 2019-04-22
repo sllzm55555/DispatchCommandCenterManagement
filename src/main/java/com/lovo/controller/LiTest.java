@@ -1,8 +1,8 @@
 package com.lovo.controller;
 
 import com.lovo.entity.AreaEntity;
+import com.lovo.entity.PageBean;
 import com.lovo.entity.ResourceEntity;
-import com.lovo.entity.pageBean;
 import com.lovo.service.IAreaService;
 import com.lovo.service.IResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +27,27 @@ public class LiTest {
     private IResourceService resourceService;
     @Autowired
     private IAreaService areaService;
+
+    /**
+     * 跳转区域页面
+     * @return
+     */
+    @RequestMapping("goToArea")
+    public ModelAndView goToArea(){
+        ModelAndView mv=new ModelAndView("area");
+        return mv;
+    }
+    /**
+     * 跳转资源页面
+     * @return
+     */
+    @RequestMapping("goToResource")
+    public ModelAndView goToResource(){
+        ModelAndView mv=new ModelAndView("resource");
+        return mv;
+    }
+
+
 
     /**
      * 导入资源excel文件
@@ -125,61 +146,42 @@ public class LiTest {
 
     }
 
-
     /**
-     * 链接资源
-     * @return
-     */
-    @RequestMapping("gotoResource")
-    public ModelAndView gotoResource(){
-        List<ResourceEntity> AllList =resourceService.findAllResourceByID("1");
-        ModelAndView mv=new ModelAndView();
-        mv.addObject("resourceList",AllList);
-        mv.setViewName("resource");
-        return mv;
-    }
-
-    /**
-     * 链接区域
-     * @return
-     */
-    @RequestMapping("gotoArea")
-    public ModelAndView gotoArea(){
-        List<AreaEntity> AllList =areaService.findAllArea();
-        ModelAndView mv=new ModelAndView();
-        mv.addObject("areaList",AllList);
-        mv.setViewName("area");
-        return mv;
-    }
-
-    /**
-     * 显示主页表格和查询
+     * 显示区域主页表格和查询
      *
      * @return
      */
     @ResponseBody
     @RequestMapping("findAllArea")
-    public pageBean findAllplan(Integer currpage, String area) throws IOException {
-        int pagesize =3;
+    public PageBean findAllArea(int pageNum, String area) throws IOException {
+
         //页面集合
-        List<AreaEntity> areaEntities = areaService.findAllArea(area, currpage,pagesize);
+        List<AreaEntity> areaEntities = areaService.findAllArea(area, pageNum);
         //最大页数
         Integer totalPate= areaService.findcount(area);
 
-        pageBean bean = new pageBean();
+        PageBean bean = new PageBean();
         bean.setTableBeans(areaEntities);
-        bean.setCurrPate(currpage);
+        bean.setCurrPate(pageNum);
         bean.setTotalPate(totalPate);
         return bean;
     }
+
     /**
-     * 跳转区域页面
+     * 显示资源主页表格和查询
+     *
      * @return
      */
-    @RequestMapping("goToArea")
-    public ModelAndView goToArea(){
-        ModelAndView mv=new ModelAndView("area");
-        return mv;
+    @ResponseBody
+    @RequestMapping("findAllResource")
+    public PageBean changePage(int pageNum,String resourceType){
+        List<ResourceEntity> list = resourceService.findAll(pageNum,resourceType);
+        int pageAll = resourceService.pageAll(resourceType);
+        PageBean<ResourceEntity> pageBean = new PageBean<>();
+        pageBean.setCurrPate(pageNum);
+        pageBean.setTableBeans(list);
+        pageBean.setTotalPate(pageAll);
+        return pageBean;
     }
 
 }
