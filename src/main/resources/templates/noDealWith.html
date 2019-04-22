@@ -32,6 +32,95 @@
   <!-- BEGIN CORE CSS FRAMEWORK -->
   <link th:href="@{staticResources/webarch/css/webarch.css}" rel="stylesheet" type="text/css" />
   <!-- END CORE CSS FRAMEWORK -->
+  <script th:src="@{staticResources/jquery-2.1.4.js}" type="text/javascript"></script>
+
+  <script>
+    $(function () {
+    let currPage=1;
+     $.getJSON("showEvent",{currPage:currPage},showList);
+    $(":button").click(changePage);
+    })
+
+    function changePage() {
+
+     let name= $(this).prop("name");
+
+     let eventId=$("#eventNum").val();
+
+     let eventType=$("#eventType").val();
+
+     let eventTime=$("#endTime").val();
+     let currPage=parseInt($("input[type=hidden]").eq(0).val());
+     currPage=parseInt(currPage);
+     let totalPage=parseInt($("input[type=hidden]").eq(1).val());
+     totalPage=parseInt(totalPage);
+       if ("首页"==name){
+         currPage=1;
+         $.getJSON("showEvent",{currPage:currPage,eventId:eventId,eventType,eventType,eventTime:eventTime},showList);
+       }
+      if ("上一页"==name){
+        if (currPage>1){
+          currPage--;
+        } else{
+          currPage=1;
+        }
+        $.getJSON("showEvent",{currPage:currPage,eventId:eventId,eventType,eventType,eventTime:eventTime},showList);
+      }
+      if ("下一页"==name){
+        if (currPage>=totalPage){
+          currPage=totalPage;
+        } else{
+          currPage++;
+        }
+        $.getJSON("showEvent",{currPage:currPage,eventId:eventId,eventType,eventType,eventTime:eventTime},showList);
+      }
+      if ("尾页"==name){
+        currPage=totalPage;
+        $.getJSON("showEvent",{currPage:currPage,eventId:eventId,eventType,eventType,eventTime:eventTime},showList);
+      }
+      if ("跳转"==name){
+       let gotoPage=parseInt($("#gotoPage").val());
+        if (gotoPage==""){
+          return false;
+        } else if(gotoPage>totalPage){
+          currPage=totalPage;
+
+          $.getJSON("showEvent",{currPage:currPage,eventId:eventId,eventType,eventType,eventTime:eventTime},showList);
+        }else {
+          currPage=gotoPage;
+          $.getJSON("showEvent",{currPage:currPage,eventId:eventId,eventType,eventType,eventTime:eventTime},showList);
+        }
+      }
+      if ("查询"==name){
+        currPage=1;
+        $.getJSON("showEvent",{currPage:currPage,eventId:eventId,eventType,eventType,eventTime:eventTime},showList);
+      }
+    }
+
+    function showList(data) {
+       $("#tbody").empty();
+     $.each(data.list,function (i,e) {
+      let th="<tr >" +
+              "<td class='v-align-middle'>"+e.eventId+"</td>" +
+              "<td><span class='muted'>"+e.eventName+"</span></td>" +
+              "<td><span class='muted'>"+e.eventType+"</span></td>" +
+              "<td><span class='muted'>"+e.eventLevel+"</span></td>" +
+              "<td><span class='muted'>"+e.alarmAddress+"</span></td>" +
+              "<td><span class='muted'>"+e.eventTime+"</span></td>" +
+              // "<td><a th:href='@{/"+e.eventId+"/goToNoDealWithDetails}'>查看详情</a></td>" +
+              "<td><a href='transfer?eventId="+e.eventId+"'>查看详情</a></td>" +
+              "</tr>";
+      $("#tbody").append(th);
+     });
+      $("#currPage").val(data.currPage);
+      $("#totalPage").val(data.totalPage);
+      $("#gotoPage").prop("max",data.totalPage);
+      $("#gotoPage").prop("min",1);
+      $("#gotoPage").val(data.currPage);
+      $("#totalSpan").text("/"+data.totalPage);
+    }
+
+  </script>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -207,12 +296,12 @@
                 <span style="font-size: 28px">未处理事件</span>
                 <form action="" class="pull-right">
                   <input id="eventNum" name="eventNum" type="text" class="form-control"
-                         style="width: 150px;display: inline-block;" placeholder="事件编号"/>
+                         style="width: 150px;display: inline-block;"  placeholder="事件编号"/>
                    <input id="eventType" name="eventType" type="text" class="form-control"
-                         style="width: 150px;display: inline-block;" placeholder="事件类型"/>
+                         style="width: 150px;display: inline-block;"  placeholder="事件类型"/>
                   <input id="endTime" name="endTime" type="date" class="form-control"
                          style="width: 150px;display: inline-block;" placeholder="上报时间"/>
-                  <button class="btn btn-success btn-cons" type="submit"><i class="icon-ok"></i>查询
+                  <button class="btn btn-success btn-cons" type="button" name="查询"><i class="icon-ok"></i>查询
                   </button>
                 </form>
               </div>
@@ -222,123 +311,29 @@
                 <thead>
                 <tr>
                   <th style="width:8%">事件编号</th>
-                  <th style="width:22%" data-hide="phone,tablet">事件名称</th>
+                  <th style="width:8%" data-hide="phone,tablet">事件名称</th>
                   <th style="width:10%">事件类型</th>
                   <th style="width:10%" data-hide="phone,tablet">事件等级</th>
                   <th style="width:10%" data-hide="phone,tablet">事件位置</th>
+                  <th style="width:10%" data-hide="phone,tablet">上报时间</th>
                   <th style="width:5%" data-hide="phone,tablet">操作</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr>
-                  <td class="v-align-middle">001</td>
-                  <td class="v-align-middle"><span class="muted">001温江倒塌事件</span></td>
-                  <td><span class="muted">倒塌事件</span></td>
-                  <td><span class="muted">严重</span></td>
-                  <td><span class="muted">温江</span></td>
-                  <!--<td class="v-align-middle">-->
-                    <!--<div class="progress ">-->
-                      <!--<div data-percentage="80%"-->
-                           <!--class="progress-bar progress-bar-success animate-progress-bar"></div>-->
-                    <!--</div>-->
-                  <!--</td>-->
-                  <td><a th:href="@{goToNoDealWithDetails}">查看详情</a></td>
-                </tr>
-                <tr>
-                  <td class="v-align-middle">002</td>
-                  <td><span class="muted">002郫县火灾事件</span></td>
-                  <td><span class="muted">火灾事件</span></td>
-                  <!--<td>-->
-                    <!--<div class="progress">-->
-                      <!--<div data-percentage="70%"-->
-                           <!--class="progress-bar progress-bar-danger animate-progress-bar"></div>-->
-                    <!--</div>-->
-                  <!--</td>-->
-                  <td><span class="muted">严重</span></td>
-                  <td><span class="muted">温江</span></td>
-                  <td><a href="#">查看详情</a></td>
-                </tr>
-                <tr>
-                  <td class="v-align-middle">001</td>
-                  <td class="v-align-middle"><span class="muted">001温江倒塌事件</span></td>
-                  <td><span class="muted">倒塌事件</span></td>
-                  <td><span class="muted">严重</span></td>
-                  <td><span class="muted">温江</span></td>
-                  <!--<td class="v-align-middle">-->
-                  <!--<div class="progress ">-->
-                  <!--<div data-percentage="80%"-->
-                  <!--class="progress-bar progress-bar-success animate-progress-bar"></div>-->
-                  <!--</div>-->
-                  <!--</td>-->
-                  <td><a href="#">查看详情</a></td>
-                </tr>
-                <tr>
-                  <td class="v-align-middle">001</td>
-                  <td class="v-align-middle"><span class="muted">001温江倒塌事件</span></td>
-                  <td><span class="muted">倒塌事件</span></td>
-                  <td><span class="muted">严重</span></td>
-                  <td><span class="muted">温江</span></td>
-                  <!--<td class="v-align-middle">-->
-                  <!--<div class="progress ">-->
-                  <!--<div data-percentage="80%"-->
-                  <!--class="progress-bar progress-bar-success animate-progress-bar"></div>-->
-                  <!--</div>-->
-                  <!--</td>-->
-                  <td><a href="#">查看详情</a></td>
-                </tr>
-                <tr>
-                  <td class="v-align-middle">001</td>
-                  <td class="v-align-middle"><span class="muted">001温江倒塌事件</span></td>
-                  <td><span class="muted">倒塌事件</span></td>
-                  <td><span class="muted">严重</span></td>
-                  <td><span class="muted">温江</span></td>
-                  <!--<td class="v-align-middle">-->
-                  <!--<div class="progress ">-->
-                  <!--<div data-percentage="80%"-->
-                  <!--class="progress-bar progress-bar-success animate-progress-bar"></div>-->
-                  <!--</div>-->
-                  <!--</td>-->
-                  <td><a href="#">查看详情</a></td>
-                </tr>
-                <tr>
-                  <td class="v-align-middle">001</td>
-                  <td class="v-align-middle"><span class="muted">001温江倒塌事件</span></td>
-                  <td><span class="muted">倒塌事件</span></td>
-                  <td><span class="muted">严重</span></td>
-                  <td><span class="muted">温江</span></td>
-                  <!--<td class="v-align-middle">-->
-                  <!--<div class="progress ">-->
-                  <!--<div data-percentage="80%"-->
-                  <!--class="progress-bar progress-bar-success animate-progress-bar"></div>-->
-                  <!--</div>-->
-                  <!--</td>-->
-                  <td><a href="#">查看详情</a></td>
-                </tr>
-                <tr>
-                  <td class="v-align-middle">001</td>
-                  <td class="v-align-middle"><span class="muted">001温江倒塌事件</span></td>
-                  <td><span class="muted">倒塌事件</span></td>
-                  <td><span class="muted">严重</span></td>
-                  <td><span class="muted">温江</span></td>
-                  <!--<td class="v-align-middle">-->
-                  <!--<div class="progress ">-->
-                  <!--<div data-percentage="80%"-->
-                  <!--class="progress-bar progress-bar-success animate-progress-bar"></div>-->
-                  <!--</div>-->
-                  <!--</td>-->
-                  <td><a href="#">查看详情</a></td>
-                </tr>
+                <tbody id="tbody">
+
                 </tbody>
               </table>
               <div class="pull-right">
-                <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 首页</button>
-                <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 上一页</button>
-                <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 下一页</button>
-                <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 尾页</button>
-                <input type="text" class="form-control" placeholder="您要跳转的页码"
-                       style="width: 120px;display: inline-block"/>
-                <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 跳转</button>
+                <button class="btn btn-info btn-cons" type="button" name="首页"><i class="icon-ok"></i> 首页</button>
+                <button class="btn btn-info btn-cons" type="button" name="上一页"><i class="icon-ok"></i> 上一页</button>
+                <button class="btn btn-info btn-cons" type="button" name="下一页"><i class="icon-ok"></i> 下一页</button>
+                <button class="btn btn-info btn-cons" type="button" name="尾页"><i class="icon-ok"></i> 尾页</button>
+                <input type="number" id="gotoPage" class="form-control" placeholder="您要跳转的页码"
+                       style="width: 120px;display: inline-block"/><span id="totalSpan"></span>
+                <button class="btn btn-info btn-cons" type="button" name="跳转"><i class="icon-ok"></i> 跳转</button>
               </div>
+              <input type="hidden" name="currPage" id="currPage">
+              <input type="hidden" name="currPage" id="totalPage">
             </div>
           </div>
         </div>

@@ -4,6 +4,11 @@ import com.lovo.entity.EventEntity;
 
 import java.util.List;
 
+/**
+ * 事件的Service
+ * @author 阿枫
+ * @date  2019-04-19
+ */
 public interface IEventService {
     /**
      * 带条件查询，实现分页
@@ -17,13 +22,13 @@ public interface IEventService {
     public List<EventEntity> findEventEntitiesByCondition(String eventId,String eventType,String eventTime, int pageNo,int pageSize);
 
     /**
-     * 查询符合当前条件的总记录条数
+     * 查询符合当前条件的记录总共有多少页
      * @param eventId 事件id
      * @param eventType  事件类型
      * @param eventTime 上报事件时间
-     * @return  返回符合条件的总记录条数
+     * @return  返回符合条件的总数据页数
      */
-    public int  findAllEventEntitiesNumberByCondition(String eventId,String eventType,String eventTime);
+    public int  getTotalNumber(String eventId,String eventType,String eventTime);
 
     /**
      * 通过事件Id得到事件的实体对象

@@ -3,24 +3,58 @@ package com.lovo.service.impl;
 import com.lovo.dao.IEventDao;
 import com.lovo.entity.EventEntity;
 import com.lovo.service.IEventService;
+import com.lovo.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
+
+/**
+ * 事件的业务实现层
+ * @author 阿枫
+ * @date 2019-04-19
+ */
 @Service(value = "eventService")
 public class EventServiceImpl implements IEventService {
 
     @Autowired
     private IEventDao eventDao;
+    @Transactional
     @Override
     public List<EventEntity> findEventEntitiesByCondition(String eventId, String eventType, String eventTime, int pageNo, int pageSize) {
+
+        if (null==eventId||"".equals(eventId)){
+            eventId=null;
+        }
+        if (null==eventType||"".equals(eventType)){
+            eventType=null;
+        }
+        if (null==eventTime||"".equals(eventTime)){
+            eventTime=null;
+        }
+
         pageNo=pageSize*(pageNo-1);
         return  eventDao.findEventEntitiesByCondition(eventId,eventType,eventTime,pageNo,pageSize);
     }
 
     @Override
-    public int findAllEventEntitiesNumberByCondition(String eventId, String eventType, String eventTime) {
-        return eventDao.findAllEventEntitiesNumberByCondition(eventId,eventType,eventTime);
+    public int getTotalNumber(String eventId, String eventType, String eventTime) {
+        if (null==eventId||"".equals(eventId)){
+            eventId=null;
+        }
+        if (null==eventType||"".equals(eventType)){
+            eventType=null;
+        }
+        if (null==eventTime||"".equals(eventTime)){
+            eventTime=null;
+        }
+        List<EventEntity> all = eventDao.findAllEventEntitiesNumberByCondition(eventId, eventType, eventTime);
+       int totalpage=0;
+       totalpage=all.size();
+       totalpage=totalpage%1==0?(totalpage/1):(totalpage/1+1);
+        return totalpage;
     }
 
     @Override

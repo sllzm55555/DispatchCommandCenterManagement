@@ -1,20 +1,11 @@
-package com.lovo.entity;
-
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
-import java.util.Set;
+package com.lovo.dto;
 
 /**
- *  事件实体
- * @author 老妖怪
- * @date
+ * 未处理事件的Dto
+ * @author 阿枫
+ * @date 2019-04-22
  */
-@Entity
-@Table(name = "t_event")
-public class EventEntity {
+public class NoDealWithDto {
     /**
      * eventId 事件编号
      */
@@ -70,10 +61,7 @@ public class EventEntity {
      */
     private String eventTime;
 
-    /**
-     * endTime 结束时间
-     */
-    private String endTime;
+
     /**
      * eventPeriod 事件阶段
      * 1、未处理阶段
@@ -87,65 +75,6 @@ public class EventEntity {
      */
     private String uniqueAttr;
 
-    /**
-     * 事件的单次派遣情况
-     */
-    private Set<SendResourceEntity> sendResourceEntitySet;
-
-    /**
-     * 查看一个事件所有的派遣进度，包含所有的（单个）车辆和人员的进度
-     */
-    private Set<SendProgressEntity> sendProgressEntities;
-
-
-    /**
-     * 一个事件有多个续报，包括处理中也可能存在多个续报
-     */
-    private Set<ResubmitEntity> resubmitEntities;
-
-    @Column(columnDefinition = "datetime")
-    public String getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
-    }
-
-    @OneToMany(mappedBy = "eventEntity")
-    @JsonIgnore
-    public Set<ResubmitEntity> getResubmitEntities() {
-        return resubmitEntities;
-    }
-
-    public void setResubmitEntities(Set<ResubmitEntity> resubmitEntities) {
-        this.resubmitEntities = resubmitEntities;
-    }
-
-    @OneToMany(mappedBy = "eventEntity")
-    @JsonIgnore
-    public Set<SendProgressEntity> getSendProgressEntities() {
-        return sendProgressEntities;
-    }
-
-    public void setSendProgressEntities(Set<SendProgressEntity> sendProgressEntities) {
-        this.sendProgressEntities = sendProgressEntities;
-    }
-
-    @OneToMany(mappedBy = "eventEntity")
-    @JsonIgnore
-    public Set<SendResourceEntity> getSendResourceEntitySet() {
-        return sendResourceEntitySet;
-    }
-
-    public void setSendResourceEntitySet(Set<SendResourceEntity> sendResourceEntitySet) {
-        this.sendResourceEntitySet = sendResourceEntitySet;
-    }
-
-    @Id
-    @Column(length = 32 )
-    @GenericGenerator(name="eventId",strategy = "uuid")
-    @GeneratedValue(generator = "eventId")
     public String getEventId() {
         return eventId;
     }
@@ -154,7 +83,6 @@ public class EventEntity {
         this.eventId = eventId;
     }
 
-    @Column(length = 24)
     public String getEventName() {
         return eventName;
     }
@@ -163,7 +91,6 @@ public class EventEntity {
         this.eventName = eventName;
     }
 
-    @Column(length = 20)
     public String getEventType() {
         return eventType;
     }
@@ -180,7 +107,6 @@ public class EventEntity {
         this.eventLevel = eventLevel;
     }
 
-    @Column(length = 32)
     public String getEventArea() {
         return eventArea;
     }
@@ -197,7 +123,6 @@ public class EventEntity {
         this.hurtPopulation = hurtPopulation;
     }
 
-    @Column(length = 16)
     public String getAlarmPerson() {
         return alarmPerson;
     }
@@ -205,7 +130,7 @@ public class EventEntity {
     public void setAlarmPerson(String alarmPerson) {
         this.alarmPerson = alarmPerson;
     }
-    @Column(length = 13)
+
     public String getAlarmTel() {
         return alarmTel;
     }
@@ -213,7 +138,7 @@ public class EventEntity {
     public void setAlarmTel(String alarmTel) {
         this.alarmTel = alarmTel;
     }
-    @Column(length = 255)
+
     public String getAlarmAddress() {
         return alarmAddress;
     }
@@ -221,7 +146,7 @@ public class EventEntity {
     public void setAlarmAddress(String alarmAddress) {
         this.alarmAddress = alarmAddress;
     }
-    @Column(length = 16)
+
     public String getEventUploadPeople() {
         return eventUploadPeople;
     }
@@ -230,7 +155,6 @@ public class EventEntity {
         this.eventUploadPeople = eventUploadPeople;
     }
 
-    @Column(columnDefinition = "datetime")
     public String getEventTime() {
         return eventTime;
     }
@@ -246,7 +170,7 @@ public class EventEntity {
     public void setEventPeriod(int eventPeriod) {
         this.eventPeriod = eventPeriod;
     }
-    @Column(length = 255)
+
     public String getUniqueAttr() {
         return uniqueAttr;
     }

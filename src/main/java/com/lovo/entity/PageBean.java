@@ -9,6 +9,25 @@ public class PageBean<T> {
     private Integer currPate;
     private Integer totalPate;
 
+    private Object obj;
+
+    public Object getObj() {
+        return obj;
+    }
+
+    public void setObj(Object obj) {
+        this.obj = obj;
+    }
+
+    public PageBean(List<T> tableBeans, Integer currPate, Integer totalPate) {
+        this.tableBeans = tableBeans;
+        this.currPate = currPate;
+        this.totalPate = totalPate;
+    }
+
+    public PageBean() {
+    }
+
     public List<T> getTableBeans() {
         return tableBeans;
     }
