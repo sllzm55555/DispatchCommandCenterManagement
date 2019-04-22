@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * @author 王涛
  */
-@Controller
+@Component(value = "producer")
 public class Producer{
     /**
      * 注入springboot封装的工具类
@@ -29,8 +29,6 @@ public class Producer{
     /**
      * 发送消息，destination是发送到的队列，message是待发送的消息
      */
-    @RequestMapping("sendMessage")
-    @ResponseBody
     public void sendMessage() throws InterruptedException {
         Destination destination = new ActiveMQQueue("testQueue");
 
@@ -39,7 +37,7 @@ public class Producer{
         for (int i = 0; i < 10; i++) {
             message = "第"+i+"条消息";
             //将消息放入队列
-            System.out.println("客户端发送消息");
+            System.out.println("客户端主动发送消息");
             jmsTemplate.convertAndSend(destination, message);
             Thread.sleep(1000);
         }

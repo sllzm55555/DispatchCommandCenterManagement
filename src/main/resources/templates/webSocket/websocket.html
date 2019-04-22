@@ -5,8 +5,6 @@
 <title>websocket</title>
 <script th:src="@{staticResources/jquery-2.1.4.js}"></script>
 </head>
-
-
 <script type="text/javascript">
 
 		var websocket;
@@ -20,11 +18,9 @@
 		}
 		websocket.onopen = function(event) {
 			alert("WebSocket:已连接");
-
 		};
 		websocket.onerror = function(event) {
 			alert("WebSocket:发生错误 ");
-			alert(event);
 		};
 		//接收服务器发送回来的消息
 		websocket.onmessage = function(event) {
@@ -33,7 +29,6 @@
 		};
 		websocket.onclose = function(event) {
 			alert("WebSocket:已关闭");
-			alert(event);
 		};
 		function sendMsg(){
 			var $msg = $("#msg").val();
