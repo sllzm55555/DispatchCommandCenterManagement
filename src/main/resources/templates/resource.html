@@ -37,7 +37,9 @@
   <script>
     $(function () {
       var pageNum = 1;
-      $.getJSON("findAllResource", {pageNum: pageNum}, showResourcePage);
+      var areaid = $("#areaid").val();
+      alert(areaid);
+      $.getJSON("findAllResource", {pageNum: pageNum,areaid:areaid}, showResourcePage);
 
       $(":button").click(function () {
         var btn = this.value;
@@ -137,10 +139,6 @@
     }
   </script>
 
-
-
-
-
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -192,7 +190,7 @@
               </table>
                 <span id="ajaxspan"></span>
 
-
+              <input type="hidden" th:value="${areaid}" id="areaid">
               <input type="hidden" id="pageNum"/>
               <input type="hidden" id="pageAll"/>
               <div class="pull-right">

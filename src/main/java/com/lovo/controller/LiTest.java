@@ -7,12 +7,14 @@ import com.lovo.service.IAreaService;
 import com.lovo.service.IResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -44,6 +46,15 @@ public class LiTest {
     @RequestMapping("goToResource")
     public ModelAndView goToResource(){
         ModelAndView mv=new ModelAndView("resource");
+        return mv;
+    }
+    /**
+     * 跳转添加区域页面
+     * @return
+     */
+    @RequestMapping("goToAddArea")
+    public ModelAndView goToAddArea(){
+        ModelAndView mv=new ModelAndView("addArea");
         return mv;
     }
 
@@ -174,14 +185,74 @@ public class LiTest {
      */
     @ResponseBody
     @RequestMapping("findAllResource")
-    public PageBean changePage(int pageNum,String resourceType){
-        List<ResourceEntity> list = resourceService.findAll(pageNum,resourceType);
-        int pageAll = resourceService.pageAll(resourceType);
+    public PageBean changePage(int pageNum,String areaid,String resourceType,HttpServletRequest request){
+
+        int pageAll = resourceService.pageAll(resourceType,areaid);
+
+        List<ResourceEntity> list = resourceService.findAll(pageNum,resourceType,areaid);
         PageBean<ResourceEntity> pageBean = new PageBean<>();
         pageBean.setCurrPate(pageNum);
         pageBean.setTableBeans(list);
         pageBean.setTotalPate(pageAll);
         return pageBean;
+    }
+    /**
+     * 查看详情
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping("findAllResourceByID")
+    public ModelAndView findPlanByPlanId(String id) {
+        ModelAndView modelAndView = new ModelAndView("resource");
+        modelAndView.addObject("areaid",id);
+        return modelAndView;
+    }
+
+
+    /**
+     * 删除区域
+     *
+     * @param areaid
+     * @return
+     */
+    @RequestMapping("{areaid}/deletAreaByID")
+    public ModelAndView deletAreaByID(@PathVariable("areaid") String areaid) {
+        ModelAndView mv = new ModelAndView("plan");
+        areaService.deletAreaByID(areaid);
+        RedirectView tv = new RedirectView("/goToArea");
+        mv.setView(tv);
+        return mv;
+    }
+    /**
+     * 添加区域
+     *
+     * @param areaName
+     * @return
+     */
+    @RequestMapping("addArea")
+    public ModelAndView addArea(String areaName) {
+        ModelAndView mv = new ModelAndView("plan");
+        if(null!=areaName&&!"".equals(areaName)){
+            List<AreaEntity> list = new ArrayList<AreaEntity>();
+            list = areaService.findAllArea();
+            for (AreaEntity a: list
+                 ) {
+                if(areaName.equals(a.getAreaName())){
+
+                    RedirectView tv = new RedirectView("/goToAddArea");
+                    mv.setView(tv);
+                    return mv;
+                }
+            }
+
+            AreaEntity areaEntity = new AreaEntity();
+            areaEntity.setAreaName(areaName);
+            areaService.saveArea(areaEntity);
+        }
+        RedirectView tv = new RedirectView("/goToArea");
+        mv.setView(tv);
+        return mv;
     }
 
 }

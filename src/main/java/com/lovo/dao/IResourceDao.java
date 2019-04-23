@@ -20,16 +20,19 @@ public interface IResourceDao extends CrudRepository<ResourceEntity,String> {
      * @param index 起始页
      * @return
      */
-    @Query(value = "select * from t_resource r where if(:rType is not null ,r.dept_type like CONCAT('%',:rType,'%'),1=1)" +
-            " limit :index,:pageSize",nativeQuery = true)
-    List<ResourceEntity> findAll(@Param("rType") String rType,@Param("index")int index,@Param("pageSize")int pageSize);
+    @Query(value = "select * from t_resource r LEFT JOIN t_area a on a.area_id=r.area_id where "
+            +"if(:rType is not null ,r.dept_type like CONCAT('%',:rType,'%'),1=1) and if(:areaid is not null ,r.area_id = :areaid"+",1=1)"
+            +" limit :index,:pageSize",nativeQuery = true)
+    List<ResourceEntity> findAll(@Param("rType") String rType,@Param("index")int index,@Param("pageSize")int pageSize,@Param("areaid")String areaid);
 
     /**
      * 根据条件查询资源的总条数
      * @param rType 资源类型
      * @return
      */
-    @Query(value = "select * from t_resource r where if(:rType is not null ,r.dept_type like CONCAT('%',:rType,'%'),1=1)",nativeQuery = true)
-    List<ResourceEntity> findAll(@Param("rType") String rType);
+    @Query(value = "select * from t_resource r  LEFT JOIN t_area a on a.area_id=r.area_id where "
+            +"if(:rType is not null ,r.dept_type like CONCAT('%',:rType,'%'),1=1) and if(:areaid is not null ,r.area_id = :areaid,1=1)",
+            nativeQuery = true)
+    List<ResourceEntity> findAll(@Param("rType") String rType,@Param("areaid")String areaid);
 
 }

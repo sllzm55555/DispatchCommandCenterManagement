@@ -54,13 +54,13 @@ public interface IResourceService {
      * @param resourceType 查询条件
      * @return
      */
-    public List<ResourceEntity> findAll(int pageNum,String resourceType);
+    public List<ResourceEntity> findAll(int pageNum,String resourceType,String areaid);
 
     /**
      * 总页数
      * @param resourceType 事件实体
      * @return
      */
-    public int pageAll(String resourceType);
+    public int pageAll(String resourceType,String areaid);
 
 }
