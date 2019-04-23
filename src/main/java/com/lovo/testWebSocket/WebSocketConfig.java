@@ -26,7 +26,12 @@ public class WebSocketConfig /*extends WebMvcConfigurerAdapter*/ implements WebS
      */
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+
         registry.addHandler(handler, "/ws").addInterceptors(new MyHandShake()).setAllowedOrigins("*");
         registry.addHandler(handler, "/ws/sockjs").addInterceptors(new MyHandShake()).withSockJS();
+
+        registry.addHandler(handler, "/ws02").addInterceptors(new MyHandShake()).setAllowedOrigins("*");
+        registry.addHandler(handler, "/ws02/sockjs").addInterceptors(new MyHandShake()).withSockJS();
+
     }
 }
