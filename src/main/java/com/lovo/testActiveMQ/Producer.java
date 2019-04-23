@@ -26,7 +26,7 @@ public class Producer{
         String message = null;
 
         for (int i = 0; i < 10; i++) {
-            message = "第"+i+"条消息";
+            message = "第"+(i+1)+"条消息";
             //将消息放入队列
             jmsTemplate.convertAndSend(destination, message+"===队列1===传输");
             Thread.sleep(1000);
@@ -37,7 +37,7 @@ public class Producer{
         Destination destination = new ActiveMQQueue("testQueue002");
         String message = null;
         for (int i = 0; i < 10; i++) {
-            message = "第"+i+"条消息";
+            message = "第"+(i+1)+"条消息";
             //将消息放入队列
             jmsTemplate.convertAndSend(destination, message+"---队列2---传输");
             Thread.sleep(1000);

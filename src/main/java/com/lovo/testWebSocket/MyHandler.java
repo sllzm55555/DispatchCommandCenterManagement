@@ -10,6 +10,9 @@ import org.springframework.web.socket.*;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 建立连接的类
@@ -24,7 +27,7 @@ public class MyHandler implements WebSocketHandler {
     @Resource(name = "producer")
     Producer producer;
 
-    private WebSocketSession session;
+    private Map<String,WebSocketSession> sessionMap = new HashMap<>();
 
     /**
      * 连接建立之后干啥
@@ -33,7 +36,14 @@ public class MyHandler implements WebSocketHandler {
      */
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        this.session = session;
+
+        String uri = session.getUri().toString();
+
+        if(uri.equals("/ws")){
+            this.sessionMap.put("ws", session);
+        }else if(uri.equals("/ws02")){
+            this.sessionMap.put("ws02", session);
+        }
         session.sendMessage(new TextMessage("已经与客户端建立连接"));
 
         //把数据放入队列 testQueue 和 testQueue2
@@ -52,27 +62,18 @@ public class MyHandler implements WebSocketHandler {
     @JmsListener(destination="testQueue001")
     public void receiveQueue(String message) throws Exception {
 
-        String uri = session.getUri().toString();
-
-        if("/ws".equals(uri)){
-            if(session != null && session.isOpen()){
-                session.sendMessage(new TextMessage(message));
-            }
-        }
+        WebSocketSession session = sessionMap.get("ws");
+        session.sendMessage(new TextMessage(message));
     }
+
     /**
      * 使用JmsListener配置消费者监听的队列，其中message是接收到的消息,此方法会一直运行相当于一个死循环
      */
     @JmsListener(destination="testQueue002")
     public void receiveQueue2(String message) throws Exception {
 
-        String uri = session.getUri().toString();
-
-        if("/ws02".equals(uri)){
-            if(session != null && session.isOpen()){
-                session.sendMessage(new TextMessage(message));
-            }
-        }
+        WebSocketSession session = sessionMap.get("ws02");
+        session.sendMessage(new TextMessage(message));
     }
 
     /**
@@ -87,9 +88,12 @@ public class MyHandler implements WebSocketHandler {
         //打印从客户端发送的消息
         String clientMessage = message.getPayload().toString();
 
-        if (null!=this.session  && this.session.isOpen()) {
-            //回复客户端消息
-            this.session.sendMessage(new TextMessage("我是服务器，我已经接收到了你的消息"+ clientMessage));
+        for (String key : sessionMap.keySet()) {
+            WebSocketSession socketSession = sessionMap.get(key);
+            String uri = session.getUri().toString();
+            if(uri.equals(key)){
+                socketSession.sendMessage(new TextMessage("服务器收到信息"+clientMessage+",服务器返回信息：OK"));
+            }
         }
     }
 

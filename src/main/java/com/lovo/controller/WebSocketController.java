@@ -23,12 +23,20 @@ public class WebSocketController {
         return "webSocket/websocket02";
     }
 
+    /**
+     * 往队列一存入数据
+     * @throws InterruptedException
+     */
     @RequestMapping("sendMsg")
     @ResponseBody
     public void sendMsg() throws InterruptedException {
         producer.sendMessage();
     }
 
+    /**
+     * 往队列二存入数据
+     * @throws InterruptedException
+     */
     @RequestMapping("sendMsg2")
     @ResponseBody
     public void sendMsg2() throws InterruptedException {
