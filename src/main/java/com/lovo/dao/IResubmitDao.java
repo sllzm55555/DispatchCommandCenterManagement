@@ -24,10 +24,10 @@ public interface IResubmitDao extends CrudRepository<ResourceEntity,String> {
      */
     @Query(value = "select  r.event_level,r.hurt_population,t.event_type,r.report_desc from t_followup_report as r " +
             " inner join t_event as t on t.event_id = r.fk_event_entity_id" +
-            " where r.fk_event_entity_id=?1" +
+            " where t.event_period=?4 r.fk_event_entity_id=?1" +
             " order by r.fk_event_entity_id desc" +
             " limit ?2,?3",nativeQuery = true)
-    public List<Object []> findResourceEntitiesByEventEntityId(String eventEntityId, int pageNo, int pageSize);
+    public List<Object []> findResourceEntitiesByEventEntityId(String eventEntityId, int pageNo, int pageSize,int eventPeriod);
 
 
     /**
@@ -35,6 +35,8 @@ public interface IResubmitDao extends CrudRepository<ResourceEntity,String> {
      * @param eventEntityId 续报对应的事件Id
      * @return 返回对应的集合
      */
-    @Query(value = "select * from t_followup_report as r  where r.fk_event_entity_id =?1",nativeQuery = true)
-    public List<Object []> getAllResourNumber(String eventEntityId);
+    @Query(value = "select * from t_followup_report as r " +
+            " inner join t_event as t on t.event_id=r.fk_event_entity_id" +
+            " where t.event_period=?2 and r.fk_event_entity_id =?1",nativeQuery = true)
+    public List<Object []> getAllResourNumber(String eventEntityId,int eventPeriod);
 }

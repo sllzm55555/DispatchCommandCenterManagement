@@ -23,7 +23,6 @@ import java.util.List;
  * @author lin
  */
 @Controller
-@RequestMapping("event/")
 public class EventController {
 
     @Autowired
@@ -59,6 +58,22 @@ public class EventController {
         return "noDealWithDetails";
     }
 
+    /**
+     * 处理完成事件
+     */
+    @RequestMapping("gotoDealWithEd")
+    public String gotoDealWithEd(){
+        return "dealWithEd";
+    }
+
+    /**
+     * 处理完成事件详情
+     */
+    @RequestMapping("gotoDealWithEdDetails")
+    public String gotoDealWithEdDetails(){
+        return "dealWithEdDetails";
+    }
+
     /***
      * 资源派遣进度（每个人每个车的具体进度）
      * @return
@@ -69,7 +84,6 @@ public class EventController {
     }
 
     /**
-     *
      * @return 资源调用页面
      */
     @RequestMapping("goTosendResources")
@@ -106,10 +120,10 @@ public class EventController {
      */
     @RequestMapping("getAllData")
     @ResponseBody
-    public PageBean showPageBean(HttpServletRequest request,int currPage){
+    public PageBean showPageBean(HttpServletRequest request,int currPage,int eventPeriod){
         String id = (String)request.getSession().getAttribute("id");
-        List<ResubmitDto> rList = resubmitService.findResourceEntitiesByEventEntityId(id, currPage, 1);
-        int totalPage = resubmitService.getAllResourNumber(id);
+        List<ResubmitDto> rList = resubmitService.findResourceEntitiesByEventEntityId(id, currPage, 1,eventPeriod);
+        int totalPage = resubmitService.getAllResourNumber(id,eventPeriod);
         PageBean page=new PageBean();
         EventEntity event = eventService.findEventByEventId(id);
         page.setCurrPate(currPage);
@@ -120,7 +134,7 @@ public class EventController {
     }
     @RequestMapping("showEvent")
     @ResponseBody
-    public EventPageBean showList(String eventId, String eventType, String eventTime, int currPage){
+    public EventPageBean showList(String eventId, String eventType, String eventTime, int currPage,int eventPeriod){
         if (null==eventId){
             eventId="";
         }
@@ -130,8 +144,8 @@ public class EventController {
         if (null==eventTime){
             eventTime="";
         }
-        List<EventEntity> eventList = eventService.findEventEntitiesByCondition(eventId, eventType, eventTime, currPage, 1);
-        int totalNumber = eventService.getTotalNumber(eventId, eventType, eventTime);
+        List<EventEntity> eventList = eventService.findEventEntitiesByCondition(eventId, eventType, eventTime, currPage, 1,eventPeriod);
+        int totalNumber = eventService.getTotalNumber(eventId, eventType, eventTime,eventPeriod);
         EventPageBean page=new EventPageBean();
         page.setList(eventList);
         page.setCurrPage(currPage);
@@ -140,6 +154,37 @@ public class EventController {
         return page;
     }
 
+    /**
+     * 从未处理事件的详情页面跳转到这里，
+     * 得到未处理事件的所有信息，并封装好，跳转到资源调用的页面
+     * @return 返回一个ModelAndView
+     */
+
+    @RequestMapping("getEventData")
+    public ModelAndView getEventData(HttpServletRequest request){
+        String id = (String) request.getSession().getAttribute("id");
+        EventEntity event = eventService.findEventByEventId(id);
+        return null;
+    }
+
+    /**
+     * 跳转到处理中事件的详情页面之前的中转，先把要查询的事件的Id,存储到session仓库里面
+     * @param eventId 事件的id
+     * @return 返回到处理中事件详情的页面
+     */
+    @RequestMapping("jump")
+    public ModelAndView getDealWithIngEventId(String eventId){
+      ModelAndView mv=new ModelAndView("dealWithIngDetails");
+      mv.addObject("eventId",eventId);
+       return  mv;
+    }
+
+
+    @RequestMapping("getDealWithIngEventDeatils")
+    public PageBean getEventAboutDealWithIng(String eventId,int eventPeriod){
+
+        return null;
+    }
 
 }
 
