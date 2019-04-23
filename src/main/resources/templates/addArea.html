@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <meta charset="utf-8" />
-  <title>区域页面</title>
+  <title>添加区域页面</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta content="" name="description" />
   <meta content="" name="author" />
@@ -38,7 +38,7 @@
 
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <meta charset="utf-8" />
-  <title>资源页面</title>
+  <title>添加区域页面</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta content="" name="description" />
   <meta content="" name="author" />
@@ -69,104 +69,7 @@
   <!-- END CORE CSS FRAMEWORK -->
 
   <script th:src="@{staticResources/jquery-2.1.4.js}" type="text/javascript"></script>
-  <script>
-    $(function () {
-      var pageNum = 1;
-      $.getJSON("findAllArea", {pageNum: pageNum}, showResourcePage);
 
-      $(":button").click(function () {
-        var btn = this.value;
-        var pageNum = $("#pageNum").val();
-        var pageAll = $("#pageAll").val();
-        var area = $("#area").val();
-
-
-        pageNum = parseInt(pageNum);
-        pageAll = parseInt(pageAll);
-        if (btn === "first") {
-          pageNum = 1;
-          $.getJSON("findAllArea", {
-            pageNum: pageNum,
-            area: area,
-          }, showResourcePage)
-        } else if (btn === "pre") {
-          pageNum -= 1;
-          if (pageNum == 0) {
-            pageNum = 1
-          }
-          $.getJSON("findAllArea", {
-            pageNum: pageNum,
-            area: area,
-
-          }, showResourcePage)
-        } else if (btn === "next") {
-          pageNum += 1;
-          if (pageNum > pageAll) {
-            pageNum = pageAll;
-          }
-          $.getJSON("findAllArea", {
-            pageNum: pageNum,
-            area: area,
-
-          }, showResourcePage)
-        } else if (btn === "last") {
-          pageNum = pageAll;
-          $.getJSON("findAllArea", {
-            pageNum: pageNum,
-            area: area,
-
-          }, showResourcePage)
-        } else if (btn === "change") {
-          pageNum = $("#number").val();
-          if (pageNum >= pageAll){
-            pageNum = pageAll;
-          } else if (pageNum === ""){
-            pageNum = 1;
-          }
-          $.getJSON("findAllArea", {
-            pageNum: pageNum,
-            area: area,
-
-          }, showResourcePage)
-        } else if (btn === "check") {
-          pageNum = 1;
-          $.getJSON("findAllArea", {
-            pageNum: pageNum,
-            area: area,
-
-          }, showResourcePage)
-        }
-
-
-      })
-    });
-
-    function showResourcePage(data) {
-      let $tbody = $("tbody");
-      $tbody.empty();
-
-      $.each(data.tableBeans, function (i, e) {
-        var id=e.areaId;
-        var name=e.areaName;
-        var $option = ("<a href="+e.areaId+"/updateArea>修改</a>&nbsp&nbsp&nbsp"+
-                "<a href="+e.areaId+"/deletAreaByID>删除</a>");
-
-        var dataTr = "<tr>"
-                + "<td class='v-align-middle'>" + id+"</td>"
-                + "<td class='v-align-middle'><a href='findAllResourceByID?id=" + e.areaId+ "'>"+name+"</a></td>"
-                + "<td>"+$option +"</td>"
-                +"</tr>";
-        $tbody.append(dataTr);
-      });
-      var pageNum = data.currPate;
-      var pageAll = data.totalPate;
-      //渲染 “第2页/共11页” 信息
-      $("#ajaxspan").html("第" + pageNum + "页/共" + pageAll + "页");
-      //记录数据信息（当前页数和总页数）
-      $("#pageNum").val(pageNum);
-      $("#pageAll").val(pageAll);
-    }
-  </script>
 
 </head>
 <!-- END HEAD -->
@@ -334,66 +237,21 @@
           <div class="grid simple ">
             <div class="grid-title">
               <div class="row form-row">
-                <span style="font-size: 28px">区域展示界面</span>
+                <span style="font-size: 28px">添加区域界面</span>
 
-                  <input id="area" name="area" type="text" class="form-control"
-                         style="width: 150px;display: inline-block;" placeholder="区域名称模糊查询"/>
-                  <input name="planNum" value="0" hidden="hidden"/>
-                  <button class="btn btn-success btn-cons" type="submit" value="check"><i class="icon-ok"></i>查询</button>
+                <form action="addArea" class="pull-right">"
+                  <input id="areaName" name="areaName" type="text" class="form-control"
+                         style="width: 150px;display: inline-block;" placeholder="区域名称"/>
 
+                  <button class="btn btn-success btn-cons" type="submit"><i class="icon-ok"></i>添加
+                  </button>
+                </form>
               </div>
             </div>
-            <div class="grid-body ">
-              <table class="table table-hover table-condensed" id="example">
-                <thead>
-                    <tr>
-                      <th style="width:8%">区域编号</th>
-                      <th style="width:22%" data-hide="phone,tablet">区域名称</th>
-                      <th style="width:30%" data-hide="phone,tablet">操作</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!--<tr th:each="area,astate:${areaList}">-->
-                      <!--<td th:text="${area.areaId}"> </td>-->
-                      <!--<td th:text="${area.areaName}"></td>-->
-                      <!--<td>-->
-                          <!--&lt;!&ndash;${area.areaId}/&ndash;&gt;-->
-                        <!--<a th:href="@{gotoResource}" th:text="查看资源"></a>-->
-                        <!--<a th:href="@{gotoResource}" th:text="修改区域"></a>-->
-                        <!--<a th:href="@{gotoResource}" th:text="删除区域"></a></td>-->
-                    <!--</tr>-->
-                </tbody>
-              </table>
-              <span id="ajaxspan"></span>
 
-
-
-              <input type="hidden" id="pageNum"/>
-              <input type="hidden" id="pageAll"/>
-              <div class="pull-right">
-                <button class="btn btn-info btn-cons" type="button" value="first"><i class="icon-ok"></i> 首页</button>
-                <button class="btn btn-info btn-cons" type="button" value="pre"><i class="icon-ok"></i> 上一页</button>
-                <button class="btn btn-info btn-cons" type="button" value="next"><i class="icon-ok"></i> 下一页</button>
-                <button class="btn btn-info btn-cons" type="button" value="last"><i class="icon-ok"></i> 尾页</button>
-                <input type="text" class="form-control" placeholder="您要跳转的页码"
-                       style="width: 120px;display: inline-block" id="number"/>
-                <button class="btn btn-info btn-cons" type="button" value="change"><i class="icon-ok"></i>跳转</button>
-              </div>
-                <div class="pull-right">
-                    <form method="post" enctype="multipart/form-data" id="form" action="/uploadarea">
-
-                        <input type="file" name="filename"/>
-
-                        <input type="submit" th:field="上传区域文件"/>
-
-                    </form>
-
-                    <button class="btn btn-info btn-cons" ><a th:href="@{goToAddArea}" th:text="添加区域"></a><i class="icon-ok"></i></button>
-
-                </div>
             </div>
           </div>
-          </div>
+        </div>
       </div>
     </div>
   </div>

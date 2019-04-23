@@ -33,7 +33,7 @@ public class ResourceServiceImpl implements IResourceService {
 
     @Override
     public List<ResourceEntity> findAllResourceByID(String id) {
-        return resourceDao.findAllByAreaID("1.0");
+        return resourceDao.findAllByAreaID(id);
     }
 
     @Override
@@ -133,16 +133,16 @@ public class ResourceServiceImpl implements IResourceService {
 
 
     @Override
-    public List<ResourceEntity> findAll(int pageNum, String resourceType) {
+    public List<ResourceEntity> findAll(int pageNum, String resourceType,String areaid) {
         int pageSize = 4;
         pageNum = pageSize * (pageNum - 1);
-        return resourceDao.findAll(resourceType,pageNum,pageSize);
+        return resourceDao.findAll(resourceType,pageNum,pageSize,areaid);
     }
 
     @Override
-    public int pageAll( String resourceType) {
+    public int pageAll( String resourceType,String areaid) {
         int pageSize = 4;
-        List<ResourceEntity> list = resourceDao.findAll(resourceType);
+        List<ResourceEntity> list = resourceDao.findAll(resourceType,areaid);
 
         double allUserSize = list.size();
 
