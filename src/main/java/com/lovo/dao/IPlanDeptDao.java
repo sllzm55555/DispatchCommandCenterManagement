@@ -1,6 +1,5 @@
 package com.lovo.dao;
 
-import com.lovo.dto.PlanDto;
 import com.lovo.entity.PlanDeptEntity;
 import com.lovo.entity.PlanEntity;
 import org.springframework.data.jpa.repository.Modifying;
