@@ -1,7 +1,6 @@
 package com.lovo.testWebSocket;
 
-import com.lovo.testActiveMQ.Producer;
-import org.junit.Test;
+import com.lovo.activeMQ.Producer;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
@@ -11,7 +10,6 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,9 +21,6 @@ import java.util.Map;
 @EnableWebSocket
 @Component
 public class MyHandler implements WebSocketHandler {
-
-    @Resource(name = "producer")
-    Producer producer;
 
     private Map<String,WebSocketSession> sessionMap = new HashMap<>();
 
@@ -40,20 +35,11 @@ public class MyHandler implements WebSocketHandler {
         String uri = session.getUri().toString();
 
         if(uri.equals("/ws")){
-            this.sessionMap.put("ws", session);
+            this.sessionMap.put("/ws", session);
         }else if(uri.equals("/ws02")){
-            this.sessionMap.put("ws02", session);
+            this.sessionMap.put("/ws02", session);
         }
-        session.sendMessage(new TextMessage("已经与客户端建立连接"));
-
-        //把数据放入队列 testQueue 和 testQueue2
-//        producer.sendMessage();
-//        producer.sendMessage2();
-        //服务器向客户端发送消息
-        /*for (int i = 0; i < 10; i++) {
-            session.sendMessage(new TextMessage("已经与客户端建立连接" + i));
-            Thread.sleep(1000);
-        }*/
+        session.sendMessage(new TextMessage("已建立连接"));
     }
 
     /**
@@ -62,7 +48,7 @@ public class MyHandler implements WebSocketHandler {
     @JmsListener(destination="testQueue001")
     public void receiveQueue(String message) throws Exception {
 
-        WebSocketSession session = sessionMap.get("ws");
+        WebSocketSession session = sessionMap.get("/ws");
         session.sendMessage(new TextMessage(message));
     }
 
@@ -72,7 +58,7 @@ public class MyHandler implements WebSocketHandler {
     @JmsListener(destination="testQueue002")
     public void receiveQueue2(String message) throws Exception {
 
-        WebSocketSession session = sessionMap.get("ws02");
+        WebSocketSession session = sessionMap.get("/ws02");
         session.sendMessage(new TextMessage(message));
     }
 
@@ -88,11 +74,12 @@ public class MyHandler implements WebSocketHandler {
         //打印从客户端发送的消息
         String clientMessage = message.getPayload().toString();
 
+        String uri = session.getUri().toString();
+
         for (String key : sessionMap.keySet()) {
             WebSocketSession socketSession = sessionMap.get(key);
-            String uri = session.getUri().toString();
             if(uri.equals(key)){
-                socketSession.sendMessage(new TextMessage("服务器收到信息"+clientMessage+",服务器返回信息：OK"));
+                socketSession.sendMessage(new TextMessage("你说："+clientMessage+",       电脑说：滚！"));
             }
         }
     }

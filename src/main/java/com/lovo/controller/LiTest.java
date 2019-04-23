@@ -62,13 +62,14 @@ public class LiTest {
 
     /**
      * 导入资源excel文件
-     * @param request
+     *  @param areaid 传进来的区域id
+     * @param request 请求
      * @return
      * @throws Exception
      */
     @RequestMapping(value="uploadresource",method= RequestMethod.POST)
     @ResponseBody
-    public   String  uploadResourceExcel(HttpServletRequest request) throws Exception {
+    public   String  uploadResourceExcel(HttpServletRequest request,String areaid) throws Exception {
 
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         InputStream inputStream =null;
@@ -98,8 +99,11 @@ public class LiTest {
             resourceEntity.setRname(lo.get(2).toString());
             resourceEntity.setPnumber((int)Double.parseDouble(lo.get(3).toString()));
             resourceEntity.setCnumber((int)Double.parseDouble(lo.get(4).toString()));
+            resourceEntity.setUrl(lo.get(5).toString());
             AreaEntity areaEntity = new AreaEntity();
-            areaEntity.setAreaId(lo.get(5).toString());
+
+            //把传进来的区域id设置给  资源对象
+            areaEntity.setAreaId(areaid);
             resourceEntity.setAreaEntity(areaEntity);
 
             resourcelist.add(resourceEntity);
