@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -37,5 +38,17 @@ public class PlanServiceImpl implements IPlanService {
     public PlanEntity savaPlan(PlanEntity planEntity) {
         return planDao.save(planEntity);
     }
+
+    @Override
+    public PlanEntity findPlanEntityByPlanName(String PlanName) {
+        return planDao.findPlanEntityByPlanName(PlanName);
+    }
+
+    @Override
+    @Transactional
+    public Integer updataPlanByPlanId(String planid, String level, String desc) {
+        return planDao.updataPlanByPlanId(planid,level,desc);
+    }
+
 
 }

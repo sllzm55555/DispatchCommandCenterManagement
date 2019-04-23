@@ -34,7 +34,7 @@ public class PlanEntity {
      */
     private String planDecs;
 
-    @JsonIgnore
+
     private Set<PlanDeptEntity> setPlanDeptEntity;
 
     @Id
@@ -82,6 +82,7 @@ public class PlanEntity {
     }
 
     @OneToMany(mappedBy="planEntity")
+    @JsonIgnore
     public Set<PlanDeptEntity> getSetPlanDeptEntity() {
         return setPlanDeptEntity;
     }

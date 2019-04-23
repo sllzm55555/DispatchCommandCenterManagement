@@ -15,4 +15,9 @@ public class DeptServiceImpl implements IDeptService {
     public DeptEntity savaDeptEntity(DeptEntity deptEntity) {
         return deptDao.save(deptEntity);
     }
+
+    @Override
+    public DeptEntity finDeptEntity(String id) {
+        return deptDao.findOne(id);
+    }
 }
