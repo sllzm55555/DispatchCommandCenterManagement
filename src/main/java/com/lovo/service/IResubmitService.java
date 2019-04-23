@@ -21,7 +21,7 @@ public interface IResubmitService {
      * @param pageSize 每页显示的条数，使用StringUtil里面的静态属性
      * @return 返回集合
      */
-    public List<ResubmitDto> findResourceEntitiesByEventEntityId(String eventEntityId, int pageNo, int pageSize);
+    public List<ResubmitDto> findResourceEntitiesByEventEntityId(String eventEntityId, int pageNo, int pageSize,int eventPeriod);
 
 
     /**
@@ -29,5 +29,5 @@ public interface IResubmitService {
      * @param eventEntityId 续报对应的事件Id
      * @return 返回事件对应的所有续报的总页数
      */
-    public int getAllResourNumber(String eventEntityId);
+    public int getAllResourNumber(String eventEntityId,int eventPeriod);
 }
