@@ -10,4 +10,11 @@ public interface IDeptService {
      * @return
      */
     public DeptEntity savaDeptEntity(DeptEntity deptEntity);
+
+    /**
+     * 查询单位
+     * @param id
+     * @return
+     */
+    public DeptEntity finDeptEntity(String id);
 }

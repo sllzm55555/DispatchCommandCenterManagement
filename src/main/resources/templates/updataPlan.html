@@ -1,0 +1,223 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
+    <meta charset="utf-8"/>
+    <title>修改预案</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta content="" name="description"/>
+    <meta content="" name="author"/>
+    <!-- BEGIN PLUGIN CSS -->
+    <link th:href="@{../staticResources/assets/plugins/font-awesome/css/font-awesome.css}" rel="stylesheet"
+          type="text/css"/>
+    <link th:href="@{../staticResources/assets/plugins/jquery-metrojs/MetroJs.min.css}" rel="stylesheet"
+          type="text/css"/>
+    <link rel="stylesheet" type="text/css" th:href="@{../staticResources/assets/plugins/shape-hover/css/demo.css}"/>
+    <link rel="stylesheet" type="text/css"
+          th:href="@{../staticResources/assets/plugins/shape-hover/css/component.css}"/>
+    <link rel="stylesheet" type="text/css"
+          th:href="@{../staticResources/assets/plugins/owl-carousel/owl.carousel.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{../staticResources/assets/plugins/owl-carousel/owl.theme.css}"/>
+    <link th:href="@{../staticResources/assets/plugins/pace/pace-theme-flash.css}" rel="stylesheet" type="text/css"
+          media="screen"/>
+    <link th:href="@{../staticResources/assets/plugins/jquery-slider/css/jquery.sidr.light.css}" rel="stylesheet"
+          type="text/css" media="screen"/>
+    <link rel="stylesheet" th:href="@{../staticResources/assets/plugins/jquery-ricksaw-chart/css/rickshaw.css}"
+          type="text/css" media="screen"/>
+    <link rel="stylesheet" th:href="@{../staticResources/assets/plugins/Mapplic/mapplic/mapplic.css}" type="text/css"
+          media="screen"/>
+    <!-- END PLUGIN CSS -->
+    <!-- BEGIN PLUGIN CSS -->
+    <link th:href="@{../staticResources/assets/plugins/pace/pace-theme-flash.css}" rel="stylesheet" type="text/css"
+          media="screen"/>
+    <link th:href="@{../staticResources/assets/plugins/bootstrapv3/css/bootstrap.min.css}" rel="stylesheet"
+          type="text/css"/>
+    <link th:href="@{../staticResources/assets/plugins/bootstrapv3/css/bootstrap-theme.min.css}" rel="stylesheet"
+          type="text/css"/>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+
+    <link th:href="@{../staticResources/assets/plugins/animate.min.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{../staticResources/assets/plugins/jquery-scrollbar/jquery.scrollbar.css}" rel="stylesheet"
+          type="text/css"/>
+    <!-- END PLUGIN CSS -->
+    <!-- BEGIN CORE CSS FRAMEWORK -->
+    <link th:href="@{../staticResources/webarch/css/webarch.css}" rel="stylesheet" type="text/css"/>
+    <!-- END CORE CSS FRAMEWORK -->
+    <script th:src="@{../staticResources/jquery-2.1.4.js}"></script>
+    <script>
+    $(function () {
+        /*事件类型*/
+       /* $("#plantypes").val( $("#hiddertype").val());*/
+        /*事件级别*/
+        $("#planeven").val( $("#hiddenplaneven").val());
+
+          var c=  $("input[name=personNum]").val()
+
+    })
+    </script>
+</head>
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<body class="">
+<!-- 页眉，用户退出，显示头像，系统log -->
+<div th:include="header :: header"></div>
+<!-- 页面展示部分 -->
+<div class="page-container row-fluid">
+    <!-- 左侧导航栏 -->
+    <div th:include="leftNavigationBar :: leftNavigationBar"></div>
+
+    <!-- 主要内容展示部分，自己的页面内容全写在这里面-->
+    <!-- 页面展示部分-->
+
+    <div class="page-content">
+
+        <div class="clearfix"></div>
+        <div class="content sm-gutter">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="grid simple">
+                        <div class="grid-title no-border">
+                            <h4>修改预案</h4>
+                        </div>
+                        <div class="grid-body no-border">
+                            <br/>
+                            <!--表单开始-->
+                            <form th:action="@{/updataplan}" method="get">
+                            <div class="row">
+                                <div class="col-md-8 col-sm-8 col-xs-8">
+                                    <div class="form-group">
+                                        <label class="form-label">预案名称</label>
+                                        <span class="help"></span>
+                                        <div class="controls">
+                                            <span class="form-control"
+                                                  th:text="${planDepts.get(0).planEntity.planName}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">事件类型</label>
+                                        <span class="help"></span>
+                                        <div class="controls">
+                                            <!-- <input type="text" placeholder="请输入事件类型" class="form-control" name="planttpe"/>-->
+                                            <span  class="form-control"
+                                                   th:text=" ${planDepts.get(0).planEntity.enevType}"></span>
+                                            <!--<select id="plantypes" name="plantypes">
+                                                <option value="火灾"> 火灾</option>
+                                                <option value="地震"> 地震</option>
+                                                <option value="暴动"> 暴动</option>
+                                                <option value="海啸"> 海啸</option>
+                                            </select>-->
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">事件级别</label>
+                                        <span class="help"></span>
+                                        <div class="controls">
+                                            <!--  <input type="text" placeholder="请输入事件级别" class="form-control" name="planeven"/>-->
+                                            <input class="form-control" th:type="hidden" id="hiddenplaneven"
+                                                   th:value="${planDepts.get(0).planEntity.enevLeve}"></input>
+                                            <select id="planeven" name="planeven">
+                                                <option> 1</option>
+                                                <option> 2</option>
+                                                <option> 3</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" id="plan">
+                                        <h3>单位</h3>
+                                        <input th:type="hidden" th:value="${planDepts.get(0).planEntity.planId}" name="planId"/>
+                                        <div th:each="plan,planstate:${planDepts}">
+                                            <!--将id通过隐藏表单传过去-->
+                                            <input th:type="hidden" th:value="${plan.pdId}" name="planDeptId"/>
+                                            <h5><label class="form-label">涉及单位</label></h5>
+                                            <span class="help"></span>
+                                            <div class="controls">
+                                                <span class="form-control"
+                                                       th:text=" ${plan.deptEntity.deptName}"></span>
+                                            </div>
+                                            <label class="form-label">出动人数</label>
+                                            <span class="help"></span>
+                                            <div class="controls">
+                                                <input th:type="number"  th:value=" ${plan.personNum}" name="personNum"/>
+                                            </div>
+                                            <label class="form-label">需要资源</label>
+                                            <span class="help"></span>
+                                            <div class="controls">
+                                                <input th:type="number"  th:value=" ${plan.resource}" name="resource"/>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="form-label">预案详情</label>
+                                        <span class="help"></span>
+                                        <div class="controls">
+                                            <input class="form-control"
+                                                   th:value="${planDepts.get(0).planEntity.planDecs}" name="planDecs"></input>
+                                        </div>
+                                    </div>
+                                    <input th:type="hidden" th:value="33" name="personNum"/>
+                                    <input th:type="hidden" th:value="33" name="resource"/>
+                                    <input th:type="hidden" th:value="33" name="planDeptId"/>
+                                    <input class="pull-right">
+                                    <button class="btn btn-info btn-cons" type="submit"><i
+                                            class="icon-ok"></i>
+                                        修改
+                                    </button>
+                                    <a class="btn btn-info btn-cons" th:href="@{/gotoPlan}"><i
+                                            class="icon-ok"></i> 返回
+                                    </a>
+                                    </a>
+
+                                </div>
+
+                            </div>
+                            </form>
+                            <!--表单结束-->
+                        </div>
+
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script th:src="@{staticResources/assets/plugins/pace/pace.min.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery/jquery-1.11.3.min.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/bootstrapv3/js/bootstrap.min.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-block-ui/jqueryblockui.min.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-unveil/jquery.unveil.min.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js}"
+        type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-numberAnimate/jquery.animateNumbers.js}"
+        type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-validation/js/jquery.validate.min.js}"
+        type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/bootstrap-select2/select2.min.js}" type="text/javascript"></script>
+
+<script th:src="@{webarch/js/webarch.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/js/chat.js}" type="text/javascript"></script>
+
+<script th:src="@{staticResources/assets/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js}"
+        type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-ricksaw-chart/js/raphael-min.js}"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-ricksaw-chart/js/d3.v2.js}"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-ricksaw-chart/js/rickshaw.min.js}"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-sparkline/jquery-sparkline.js}"></script>
+<script th:src="@{staticResources/assets/plugins/skycons/skycons.js}"></script>
+<script th:src="@{staticResources/assets/plugins/owl-carousel/owl.carousel.min.js}" type="text/javascript"></script>
+
+<script th:src="@{staticResources/assets/plugins/Mapplic/js/jquery.easing.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/Mapplic/js/jquery.mousewheel.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/Mapplic/js/hammer.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/Mapplic/mapplic/mapplic.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-flot/jquery.flot.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-metrojs/MetroJs.min.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/js/dashboard_v2.js}" type="text/javascript"></script>
+</body>
+</html>

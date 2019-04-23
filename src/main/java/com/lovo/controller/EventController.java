@@ -23,10 +23,11 @@ import java.util.List;
  * @author lin
  */
 @Controller
+@RequestMapping("event/")
 public class EventController {
 
     @Autowired
-    EventServiceImpl eventService;
+    EventServiceImpl  eventService;
 
     @Autowired
     ResubmitServiceImpl resubmitService;
@@ -117,6 +118,28 @@ public class EventController {
         page.setObj(event);
         return page;
     }
+    @RequestMapping("showEvent")
+    @ResponseBody
+    public EventPageBean showList(String eventId, String eventType, String eventTime, int currPage){
+        if (null==eventId){
+            eventId="";
+        }
+        if (null==eventType){
+            eventType="";
+        }
+        if (null==eventTime){
+            eventTime="";
+        }
+        List<EventEntity> eventList = eventService.findEventEntitiesByCondition(eventId, eventType, eventTime, currPage, 1);
+        int totalNumber = eventService.getTotalNumber(eventId, eventType, eventTime);
+        EventPageBean page=new EventPageBean();
+        page.setList(eventList);
+        page.setCurrPage(currPage);
+        page.setTotalPage(totalNumber);
+
+        return page;
+    }
+
 
 }
 

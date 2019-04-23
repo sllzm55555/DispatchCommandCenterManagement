@@ -18,7 +18,7 @@ public class EventJsonController {
 
     @Autowired
     EventServiceImpl eventService;
-    @RequestMapping(value = "showEvent")
+    @RequestMapping("getEvent/showEvent")
     public EventPageBean showList(String eventId, String eventType, String eventTime, int currPage){
         if (null==eventId){
             eventId="";

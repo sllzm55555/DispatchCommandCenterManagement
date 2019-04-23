@@ -7,7 +7,7 @@
             <div class="user-info-wrapper sm">
                 <div class="profile-wrapper sm">
                     <!-- 用户头像 -->
-                    <img th:src="@{staticResources/img/log.png}" alt=""
+                    <img th:src="@{../staticResources/img/log.png}" alt=""
                           width="69" height="69"/>
                     <!-- 登陆状态 -->
                     <div class="availability-bubble online"></div>
@@ -37,19 +37,19 @@
                     </ul>
                 </li>
                 <!-- 预案管理 -->
-                <li class="start"><a th:href="@{gotoPlan}"><i class="material-icons">apps</i><span
+                <li class="start"><a th:href="@{../gotoPlan}"><i class="material-icons">apps</i><span
                         class="title">预案管理</span> <span class="selected"></span> <span class="arrow"></span> </a>
                     <ul class="sub-menu">
-                        <li><a th:href="@{gotoPlan}"> 预案管理  </a></li>
+                        <li><a th:href="@{../gotoPlan}"> 预案管理  </a></li>
                             <!-- 红点提示 -->
                             <!--<span class="label label-important bubble-only pull-right "></span>-->
                     </ul>
                 </li>
                 <!-- 资源管理 -->
-                <li class="start"><a th:href="@{gotoResource}"><i class="material-icons">panorama_horizontal</i><span
+                <li class="start"><a th:href="@{goToArea}"><i class="material-icons">panorama_horizontal</i><span
                         class="title">资源管理</span> <span class="selected"></span> <span class="arrow"></span> </a>
                     <ul class="sub-menu">
-                        <li><a th:href="@{gotoResource}"> 资源管理 </a> </li>
+                        <li><a th:href="@{goToArea}"> 资源管理 </a> </li>
                     </ul>
 
                 </li>

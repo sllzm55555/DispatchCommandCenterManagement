@@ -33,4 +33,20 @@ public interface IPlanService {
      * @return
      */
     public PlanEntity savaPlan(PlanEntity planEntity);
+
+    /**
+     * 根据名字进行非空判断查询
+     * @param PlanName
+     * @return
+     */
+    public PlanEntity findPlanEntityByPlanName(String PlanName);
+
+    /**
+     * 修改预案表
+     * @param planid
+     * @param level
+     * @param desc
+     * @return
+     */
+    public Integer updataPlanByPlanId(String planid,String level,String desc);
 }
