@@ -102,8 +102,8 @@
             $("#eventLevel").val(event.eventLevel);
             $("#uniqueAttr").val(event.uniqueAttr);
            
-            if(data.tableBeans==null||data.tableBeans==undefined){
-                $("#example").prop("display","none");
+            if(data.totalPate==0||data.tableBeans==null||data.tableBeans==undefined){
+                $("#example").css('display','none');
                 return;
             }
            $("#tbody").empty();

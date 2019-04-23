@@ -84,9 +84,12 @@
           return false;
         } else if(gotoPage>totalPage){
           currPage=totalPage;
-
           $.getJSON("showEvent",{currPage:currPage,eventId:eventId,eventType,eventType,eventTime:eventTime},showList);
-        }else {
+        }else if(gotoPage<1){
+          currPage=1;
+          $.getJSON("showEvent",{currPage:currPage,eventId:eventId,eventType,eventType,eventTime:eventTime},showList);
+        }
+        else {
           currPage=gotoPage;
           $.getJSON("showEvent",{currPage:currPage,eventId:eventId,eventType,eventType,eventTime:eventTime},showList);
         }

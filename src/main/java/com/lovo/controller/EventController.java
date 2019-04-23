@@ -27,7 +27,7 @@ import java.util.List;
 public class EventController {
 
     @Autowired
-    EventServiceImpl eventService;
+    EventServiceImpl  eventService;
 
     @Autowired
     ResubmitServiceImpl resubmitService;
@@ -136,6 +136,7 @@ public class EventController {
         page.setList(eventList);
         page.setCurrPage(currPage);
         page.setTotalPage(totalNumber);
+
         return page;
     }
 
