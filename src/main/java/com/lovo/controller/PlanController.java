@@ -78,29 +78,35 @@ public class PlanController {
         String[] presonNums = presonNum.split(",");//人数
         String[] vehicles = vehicle.split(",");//资源数
         String[] planselects = planselect.split(",");//单位名
-        //添加预案
-        PlanEntity planEntity = new PlanEntity();
-        planEntity.setPlanName(planname);
-        planEntity.setEnevType(planttpe);
-        planEntity.setEnevLeve(planeven);
-        planEntity.setPlanDecs(planDecs);
-        planService.savaPlan(planEntity);
-        //添加单位和中间表
-        for (int i = 0; i < planselects.length; i++) {
-            //添加单位
+        //判断数据长度相等
+        if(planselects.length==vehicles.length&&vehicles.length==presonNums.length){
+
+            //添加预案
+            PlanEntity planEntity = new PlanEntity();
+            planEntity.setPlanName(planname);
+            planEntity.setEnevType(planttpe);
+            planEntity.setEnevLeve(planeven);
+            planEntity.setPlanDecs(planDecs);
+            planService.savaPlan(planEntity);
+            //添加单位和中间表
+            for (int i = 0; i < planselects.length; i++) {
+                //添加单位
            /* DeptEntity deptEntity = new DeptEntity();
             deptEntity.setDeptName(planselects[i]);
             deptService.savaDeptEntity(deptEntity);*/
-            DeptEntity deptEntity = deptService.finDeptEntity(planselects[i]);
-            //添加中间表
-            PlanDeptEntity planDeptEntity = new PlanDeptEntity();
-            planDeptEntity.setPlanEntity(planEntity);
-            planDeptEntity.setDeptEntity(deptEntity);
-            planDeptEntity.setResource(vehicles[i]);
-            planDeptEntity.setPersonNum(presonNums[i]);
-            planDeptService.savaPlanDept(planDeptEntity);
+                DeptEntity deptEntity = deptService.finDeptEntity(planselects[i]);
+                //添加中间表
+                PlanDeptEntity planDeptEntity = new PlanDeptEntity();
+                planDeptEntity.setPlanEntity(planEntity);
+                planDeptEntity.setDeptEntity(deptEntity);
+                planDeptEntity.setResource(vehicles[i]);
+                planDeptEntity.setPersonNum(presonNums[i]);
+                planDeptService.savaPlanDept(planDeptEntity);
+
+            }
 
         }
+
 
         ModelAndView mv = new ModelAndView("plan");
         return mv;
@@ -192,14 +198,16 @@ public class PlanController {
         String[] presonNums = personNum.split(",");//人数
         String[] resources = resource.split(",");//资源数
         String[] planDeptIds = planDeptId.split(",");//中间表id
-        //修改预案表
-        planService.updataPlanByPlanId(planId, planeven, planDecs);
-        //修改中间表
-        for(int i=0;i<planDeptIds.length-1;i++){
-            System.out.println(planDeptIds[i]);
-            System.out.println(presonNums[i]);
-            System.out.println(resources[i]);
-            planDeptService.updatePlanDeptEntitiesByPlanId(planDeptIds[i],presonNums[i],resources[i]);
+        if(planDeptIds.length==resources.length&&resources.length==presonNums.length) {
+            //修改预案表
+            planService.updataPlanByPlanId(planId, planeven, planDecs);
+            //修改中间表
+            for (int i = 0; i < planDeptIds.length - 1; i++) {
+                System.out.println(planDeptIds[i]);
+                System.out.println(presonNums[i]);
+                System.out.println(resources[i]);
+                planDeptService.updatePlanDeptEntitiesByPlanId(planDeptIds[i], presonNums[i], resources[i]);
+            }
         }
         return mv;
     }

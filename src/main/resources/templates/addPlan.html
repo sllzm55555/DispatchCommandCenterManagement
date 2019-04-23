@@ -54,14 +54,60 @@
 
         /*添加单位*/
         function addplanhtml() {
-            var s = $("<h1>---------单位" + i + "-----------</h1>")
-            var s1 = $("#planhtml").html();
-            $("#plan").append(s)
-            $("#plan").append(s1)
-            i++;
+            if(i==4){
+                alert("最多三个单位")
+            }else {
+                var s = $("<h1>---------单位" + i + "-----------</h1>")
+                var s1 = $("#planhtml").html();
+                $("#plan").append(s)
+                $("#plan").append("<label class=\"form-label\">涉及单位</label>\n" +
+                    "                                            <span class=\"help\"></span>\n" +
+                    "                                            <div class=\"controls\">\n" +
+                    "                                                <!--   <input type=\"text\" placeholder=\"请输入涉及单位\" class=\"form-control\"/>-->\n" +
+                    "                                                <select name=\"planselect\" onchange=\"isselect(this)\" id=\"select"+i+"\">\n" +
+                    "                                                    <option selected=\"selected\" value=\"\" >请选择单位</option>\n" +
+                    "                                                    <option value=\"1\">公安</option>\n" +
+                    "                                                    <option value=\"3\">医院</option>\n" +
+                    "                                                    <option value=\"2\">消防</option>\n" +
+                    "                                                </select>\n" +
+                    "                                            </div>\n" +
+                    "                                            <label class=\"form-label\">出动人数</label>\n" +
+                    "                                            <span class=\"help\"></span>\n" +
+                    "                                            <div class=\"controls\">\n" +
+                    "                                                <input type=\"number\" placeholder=\"请输入涉及人数\" name=\"presonNum\"\n" +
+                    "                                                       onBlur=\"ispresonNum()\" value=\"0\"/>\n" +
+                    "                                            </div>\n" +
+                    "                                            <label class=\"form-label\">需要资源</label>\n" +
+                    "                                            <span class=\"help\"></span>\n" +
+                    "                                            <div class=\"controls\">\n" +
+                    "                                                <input type=\"number\" placeholder=\"请输入需要资源\" name=\"vehicle\"\n" +
+                    "                                                       onBlur=\"ispresonNum()\" value=\"0\"/>\n" +
+                    "                                            </div>")
+                i++;
+            }
+            /*删除select*/
+            var s= $("#select1").val()
+            var s1= $("#select2").val()
+            var s2= $("#select3").val()
+            if(s=="1"){
+                $("#select2  option[value='1']").remove();
+                $("#select3  option[value='1']").remove();
+            }else if(s=="2"){
+                $("#select2  option[value='2']").remove();
+                $("#select3  option[value='2']").remove();
+            }else if(s=="3"){
+                $("#select2  option[value='3']").remove();
+                $("#select3  option[value='3']").remove();
+            }
+            if(s1=="1"){
+                $("#select3  option[value='1']").remove();
+            }else if(s1=="2"){
+                $("#select3  option[value='2']").remove();
+            }else if(s1=="3"){
+                $("#select3  option[value='3']").remove();
+            }
 
-        }
-
+    }
         /*删除单位*/
         function deleteplanhtml() {
             $("#plan").empty();
@@ -77,6 +123,7 @@
             $("input[name=vehicle]").blur(ispresonNum);
             $("input[name=planDecs]").blur(ispresonNum);
             $("#addplan").click(ispresonNum);
+            /*$("select[name=planselect]").change(isselect);*/
         })
 
         function isplannames() {
@@ -241,8 +288,8 @@
                                             <span class="help"></span>
                                             <div class="controls">
                                                 <!--   <input type="text" placeholder="请输入涉及单位" class="form-control"/>-->
-                                                <select name="planselect">
-                                                    <option selected="selected" value="">请选择单位</option>
+                                                <select name="planselect" onchange="isselect()">
+                                                    <option selected="selected" value="" >请选择单位</option>
                                                     <option value="1">公安</option>
                                                     <option value="3">医院</option>
                                                     <option value="2">消防</option>
