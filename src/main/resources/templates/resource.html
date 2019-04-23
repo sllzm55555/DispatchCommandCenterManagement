@@ -103,6 +103,10 @@
             resourceType: resourceType,
             areaid:areaid
           }, showResourcePage)
+        }else if(btn==="qqq"){
+          $('#qqq').click();
+        }else if(btn==="www"){
+          $('#www').click();
         }
 
 
@@ -203,14 +207,16 @@
                 <button class="btn btn-info btn-cons" type="button" value="change"><i class="icon-ok"></i>跳转</button>
               </div>
                 <div class="pull-right">
-                    <form method="post" enctype="multipart/form-data" id="form" action="/uploadresource">
+                  <form method="post" enctype="multipart/form-data" id="form" style="display: inline;" action="/uploadresource">
 
-                  <input type="hidden" th:value="${areaid}" name="areaid">
-                        <input type="file" name="filename"/>
+                    <input type="hidden" th:value="${areaid}" name="areaid">
 
-                        <input type="submit" th:field="上传资源文件"/>
 
-                    </form>
+                    <button class="btn btn-info btn-cons" type="button" value="qqq"><i class="icon-ok"></i> 选择文件</button>
+                    <button class="btn btn-info btn-cons" type="button" value="www"><i class="icon-ok"></i> 提交文件</button>
+                    <input type="file" name="filename" id="qqq" style="display: none"/>
+                    <input type="submit" th:field="导入文件" id="www" style="display: none"/>
+                  </form>
                 </div>
             </div>
           </div>

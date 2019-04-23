@@ -135,6 +135,10 @@
             area: area,
 
           }, showResourcePage)
+        }else if(btn==="qqq"){
+          $('#qqq').click();
+        }else if(btn==="www"){
+          $('#www').click();
         }
 
 
@@ -191,10 +195,18 @@
             <div class="grid-title">
               <div class="row form-row">
                 <span style="font-size: 28px">区域展示界面</span>
+                <div class="pull-right">
+                  <form th:action="@{addArea}" style="display: inline">
+                    <input id="areaName" name="areaName" type="text" class="form-control"
+                           style="width: 150px;display: inline-block;" placeholder="区域名称"/>
+                    <button class="btn btn-success btn-cons " type="submit"><i class="icon-ok"></i>添加区域</button>
+                  </form>
 
                   <input id="area" name="area" type="text" class="form-control"
                          style="width: 150px;display: inline-block;" placeholder="区域名称模糊查询"/>
-                  <button class="btn btn-success btn-cons" type="submit" value="check"><i class="icon-ok"></i>查询</button>
+                  <button class="btn btn-success btn-cons" type="submit" value="check"><i class="icon-ok"></i>查询
+                  </button>
+                </div>
 
               </div>
             </div>
@@ -202,8 +214,8 @@
               <table class="table table-hover table-condensed" id="example">
                 <thead>
                     <tr>
-                      <th style="width:8%">区域编号</th>
-                      <th style="width:22%" data-hide="phone,tablet">区域名称</th>
+                      <th style="width:30%">区域编号</th>
+                      <th style="width:15%" data-hide="phone,tablet">区域名称</th>
                       <!--<th style="width:30%" data-hide="phone,tablet">操作</th>-->
                     </tr>
                 </thead>
@@ -220,13 +232,9 @@
                 </tbody>
               </table>
               <span id="ajaxspan"></span>
-
-
-
               <input type="hidden" id="pageNum"/>
               <input type="hidden" id="pageAll"/>
               <div class="pull-right">
-                <button class="btn btn-info btn-cons" ><a th:href="@{goToAddArea}" th:text="添加区域"></a><i class="icon-ok"></i></button>
 
                 <button class="btn btn-info btn-cons" type="button" value="first"><i class="icon-ok"></i> 首页</button>
                 <button class="btn btn-info btn-cons" type="button" value="pre"><i class="icon-ok"></i> 上一页</button>
@@ -237,13 +245,15 @@
                 <button class="btn btn-info btn-cons" type="button" value="change"><i class="icon-ok"></i>跳转</button>
               </div>
                 <div class="pull-right">
-                  <input id="xx" name="xxx" type="hidden" class="form-control"
-                         style="width: 60%;display: inline-block;" />
-                  <form method="post" enctype="multipart/form-data" id="form" action="/uploadarea">
-                    <input type="file" name="filename"/>
-                    <input type="submit" th:field="上传区域文件"/>
-                  </form>
 
+
+
+                  <form method="post" enctype="multipart/form-data" id="form" style="display: inline;" action="/uploadarea">
+                    <button class="btn btn-info btn-cons" type="button" value="qqq"><i class="icon-ok"></i> 选择文件</button>
+                    <button class="btn btn-info btn-cons" type="button" value="www"><i class="icon-ok"></i> 提交文件</button>
+                    <input type="file" name="filename" id="qqq" style="display: none"/>
+                    <input type="submit" th:field="导入文件" id="www" style="display: none"/>
+                  </form>
                 </div>
             </div>
           </div>
