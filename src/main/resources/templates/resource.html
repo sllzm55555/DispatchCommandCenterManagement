@@ -55,6 +55,7 @@
           $.getJSON("findAllResource", {
             pageNum: pageNum,
             resourceType: resourceType,
+            areaid:areaid
           }, showResourcePage)
         } else if (btn === "pre") {
           pageNum -= 1;
@@ -64,7 +65,7 @@
           $.getJSON("findAllResource", {
             pageNum: pageNum,
             resourceType: resourceType,
-
+            areaid:areaid
           }, showResourcePage)
         } else if (btn === "next") {
           pageNum += 1;
@@ -74,14 +75,14 @@
           $.getJSON("findAllResource", {
             pageNum: pageNum,
             resourceType: resourceType,
-
+            areaid:areaid
           }, showResourcePage)
         } else if (btn === "last") {
           pageNum = pageAll;
           $.getJSON("findAllResource", {
             pageNum: pageNum,
             resourceType: resourceType,
-
+            areaid:areaid
           }, showResourcePage)
         } else if (btn === "change") {
           pageNum = $("#number").val();
@@ -93,14 +94,14 @@
           $.getJSON("findAllResource", {
             pageNum: pageNum,
             resourceType: resourceType,
-
+            areaid:areaid
           }, showResourcePage)
         } else if (btn === "check") {
           pageNum = 1;
           $.getJSON("findAllResource", {
             pageNum: pageNum,
             resourceType: resourceType,
-
+            areaid:areaid
           }, showResourcePage)
         }
 

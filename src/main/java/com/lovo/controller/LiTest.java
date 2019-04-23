@@ -99,6 +99,7 @@ public class LiTest {
             resourceEntity.setRname(lo.get(2).toString());
             resourceEntity.setPnumber((int)Double.parseDouble(lo.get(3).toString()));
             resourceEntity.setCnumber((int)Double.parseDouble(lo.get(4).toString()));
+            resourceEntity.setUrl(lo.get(5).toString());
             AreaEntity areaEntity = new AreaEntity();
 
             //把传进来的区域id设置给  资源对象

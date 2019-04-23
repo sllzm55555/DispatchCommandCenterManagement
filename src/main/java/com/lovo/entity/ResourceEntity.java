@@ -35,6 +35,14 @@ public class ResourceEntity {
      */
     @Column(name = "total_resources")
     private int cnumber;
+
+
+
+    /**
+     *URL名字
+     */
+    @Column(name = "dept_url",length=48)
+    private String url;
     /**
      *外键区域id
      */
@@ -43,7 +51,13 @@ public class ResourceEntity {
     private AreaEntity  areaEntity;
 
 
+    public String getUrl() {
+        return url;
+    }
 
+    public void setUrl(String url) {
+        this.url = url;
+    }
     public String getRid() {
         return rid;
     }
