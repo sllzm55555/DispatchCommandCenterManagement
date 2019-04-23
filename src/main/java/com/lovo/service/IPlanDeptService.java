@@ -1,6 +1,6 @@
 package com.lovo.service;
 
-import com.lovo.dto.PlanDto;
+
 import com.lovo.entity.PlanDeptEntity;
 import com.lovo.entity.PlanEntity;
 

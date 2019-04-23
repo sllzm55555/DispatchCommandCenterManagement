@@ -2,7 +2,6 @@ package com.lovo.service.impl;
 
 import com.lovo.dao.IPlanDao;
 import com.lovo.dao.IPlanDeptDao;
-import com.lovo.dto.PlanDto;
 import com.lovo.entity.PlanDeptEntity;
 import com.lovo.entity.PlanEntity;
 import com.lovo.service.IPlanDeptService;
