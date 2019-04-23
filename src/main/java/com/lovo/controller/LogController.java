@@ -18,31 +18,40 @@ public class LogController {
     @Autowired
     private IEventLogService eventLogService;
 
-    @Autowired
-    private IEventLogDao eventLogDao;
+
 
     @RequestMapping("goToLogPage")
     public ModelAndView goToLogPage(){
-        ModelAndView mv = new ModelAndView("log/log");
+        ModelAndView mv = new ModelAndView("log");
         Pageable pageable = new PageRequest(0, 2);
-        List<EventLogEntity> eventLogList = eventLogService.showEventLogListPage(pageable, "", 0, "zhangsan", "");
-        mv.addObject("eventLogList", eventLogList);
+        //List<EventLogEntity> eventLogList = eventLogService.showEventLogListPage( "", 0, "zhangsan", "",pageable);
+        //mv.addObject("eventLogList", eventLogList);
         return mv;
     }
 
     @RequestMapping("saveEventLog")
     public ModelAndView saveEventLog(){
-        ModelAndView mv = new ModelAndView("log/log");
-        EventLogEntity eventLogEntity = new EventLogEntity();
-        eventLogEntity.seteLogId("cao1020923");
-        eventLogEntity.setOperateType(1);
-        eventLogEntity.setOperator("qinghao以通过");
-        eventLogEntity.setOperateTime("2019-08-05 15:30");
-        eventLogEntity.setEventId("huozai0001");
-        eventLogDao.save(eventLogEntity);
+        ModelAndView mv = new ModelAndView("log");
+        String eLogId = "wart1020999";
+        String operator = "堂中原";
+        String operateTime = "2019-04-16 12:30";
+        int operateType = 1;
+        String eventId = "123235334dftrhf";
+        eventLogService.saveEventLog(eLogId,operator,operateTime, operateType, eventId);
 
         return mv;
     }
 
+    @RequestMapping("getEventLog")
+    public ModelAndView getEventLog(){
+        ModelAndView mv = new ModelAndView("log");
+        Pageable pageable = new PageRequest(1, 3);
+        pageable.getPageNumber();
+        String operator = null;
+        List<EventLogEntity> eventLogList = eventLogService.getAllEventLogByPage(operator, pageable);
+
+        mv.addObject("eventLogList", eventLogList);
+        return mv;
+    }
 
 }

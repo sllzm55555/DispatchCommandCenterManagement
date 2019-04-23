@@ -19,12 +19,26 @@ public interface IEventLogService {
      * @param operateTime 操作时间
      * @return
      */
-    public List<EventLogEntity> showEventLogListPage(Pageable pageable, String eventId, int operateType, String operator, String operateTime);
+    public List<EventLogEntity> showEventLogListPage(String eventId, int operateType, String operator, String operateTime,Pageable pageable);
 
     /**
+     * 首先需要的得到事件操作相关信息，
      * 保存事件日志信息
-     * @param eventLogEntity
+     * @param eLogId 事件日志id
+     * @param operator 操作人
+     * @param operateTime 操作时间
+     * @param operateType 操作类型
+     * @param eventId 时间id
+     * @return
      */
-    public EventLogEntity saveEventLog(EventLogEntity eventLogEntity);
+    public EventLogEntity saveEventLog(String eLogId,String operator,String operateTime,int operateType,String eventId);
+
+    /**
+     * 测试分页查询
+     * @param operator
+     * @param pageable
+     * @return
+     */
+    public List<EventLogEntity> getAllEventLogByPage(String operator,Pageable pageable);
 
 }
