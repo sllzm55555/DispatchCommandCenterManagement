@@ -13,6 +13,7 @@ public class AreaServiceImpl implements IAreaService {
     @Autowired
     private IAreaDao areaDao;
 
+
     @Override
     public List<AreaEntity> findAllArea() {
         return (List<AreaEntity>) areaDao.findAll();

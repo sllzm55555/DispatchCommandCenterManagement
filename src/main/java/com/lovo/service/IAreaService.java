@@ -7,7 +7,8 @@ import java.util.List;
 
 public interface IAreaService {
 
-    /**查询所有区域
+
+    /**不带条件查询所有区域
      *
      * @return
      */
@@ -18,7 +19,7 @@ public interface IAreaService {
      */
     public AreaEntity saveArea(AreaEntity areaEntity);
     /**
-     * 保存区域list对象
+     * 添加区域list对象
      * @param list
      */
     public void saveAreaList(List<AreaEntity> list);
