@@ -3,129 +3,48 @@
 <head>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
     <meta charset="utf-8"/>
-    <title>预案页面</title>
+    <title>预案详情</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <meta content="" name="description"/>
     <meta content="" name="author"/>
     <!-- BEGIN PLUGIN CSS -->
-    <link th:href="@{staticResources/assets/plugins/font-awesome/css/font-awesome.css}" rel="stylesheet"
+    <link th:href="@{../staticResources/assets/plugins/font-awesome/css/font-awesome.css}" rel="stylesheet"
           type="text/css"/>
-    <link th:href="@{staticResources/assets/plugins/jquery-metrojs/MetroJs.min.css}" rel="stylesheet" type="text/css"/>
-    <link rel="stylesheet" type="text/css" th:href="@{staticResources/assets/plugins/shape-hover/css/demo.css}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{staticResources/assets/plugins/shape-hover/css/component.css}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{staticResources/assets/plugins/owl-carousel/owl.carousel.css}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{staticResources/assets/plugins/owl-carousel/owl.theme.css}"/>
-    <link th:href="@{staticResources/assets/plugins/pace/pace-theme-flash.css}" rel="stylesheet" type="text/css"
+    <link th:href="@{../staticResources/assets/plugins/jquery-metrojs/MetroJs.min.css}" rel="stylesheet"
+          type="text/css"/>
+    <link rel="stylesheet" type="text/css" th:href="@{../staticResources/assets/plugins/shape-hover/css/demo.css}"/>
+    <link rel="stylesheet" type="text/css"
+          th:href="@{../staticResources/assets/plugins/shape-hover/css/component.css}"/>
+    <link rel="stylesheet" type="text/css"
+          th:href="@{../staticResources/assets/plugins/owl-carousel/owl.carousel.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{../staticResources/assets/plugins/owl-carousel/owl.theme.css}"/>
+    <link th:href="@{../staticResources/assets/plugins/pace/pace-theme-flash.css}" rel="stylesheet" type="text/css"
           media="screen"/>
-    <link th:href="@{staticResources/assets/plugins/jquery-slider/css/jquery.sidr.light.css}" rel="stylesheet"
+    <link th:href="@{../staticResources/assets/plugins/jquery-slider/css/jquery.sidr.light.css}" rel="stylesheet"
           type="text/css" media="screen"/>
-    <link rel="stylesheet" th:href="@{staticResources/assets/plugins/jquery-ricksaw-chart/css/rickshaw.css}"
+    <link rel="stylesheet" th:href="@{../staticResources/assets/plugins/jquery-ricksaw-chart/css/rickshaw.css}"
           type="text/css" media="screen"/>
-    <link rel="stylesheet" th:href="@{staticResources/assets/plugins/Mapplic/mapplic/mapplic.css}" type="text/css"
+    <link rel="stylesheet" th:href="@{../staticResources/assets/plugins/Mapplic/mapplic/mapplic.css}" type="text/css"
           media="screen"/>
     <!-- END PLUGIN CSS -->
     <!-- BEGIN PLUGIN CSS -->
-    <link th:href="@{staticResources/assets/plugins/pace/pace-theme-flash.css}" rel="stylesheet" type="text/css"
+    <link th:href="@{../staticResources/assets/plugins/pace/pace-theme-flash.css}" rel="stylesheet" type="text/css"
           media="screen"/>
-    <link th:href="@{staticResources/assets/plugins/bootstrapv3/css/bootstrap.min.css}" rel="stylesheet"
+    <link th:href="@{../staticResources/assets/plugins/bootstrapv3/css/bootstrap.min.css}" rel="stylesheet"
           type="text/css"/>
-    <link th:href="@{staticResources/assets/plugins/bootstrapv3/css/bootstrap-theme.min.css}" rel="stylesheet"
+    <link th:href="@{../staticResources/assets/plugins/bootstrapv3/css/bootstrap-theme.min.css}" rel="stylesheet"
           type="text/css"/>
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
 
-    <link th:href="@{staticResources/assets/plugins/animate.min.css}" rel="stylesheet" type="text/css"/>
-    <link th:href="@{staticResources/assets/plugins/jquery-scrollbar/jquery.scrollbar.css}" rel="stylesheet"
+    <link th:href="@{../staticResources/assets/plugins/animate.min.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{../staticResources/assets/plugins/jquery-scrollbar/jquery.scrollbar.css}" rel="stylesheet"
           type="text/css"/>
     <!-- END PLUGIN CSS -->
     <!-- BEGIN CORE CSS FRAMEWORK -->
-    <link th:href="@{staticResources/webarch/css/webarch.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{../staticResources/webarch/css/webarch.css}" rel="stylesheet" type="text/css"/>
     <!-- END CORE CSS FRAMEWORK -->
     <script th:src="@{staticResources/jquery-2.1.4.js}"></script>
-    <script>
-        $(function () {
-            var currpage=1;
-            $.getJSON("findAllplan",{currpage:currpage},filldate);
-
-            $(":button").click(function () {
-                var btn=this.value;
-                var currPage=$(":hidden[name=currPage]").val();
-                var totalPage=$(":hidden[name=totalPage]").val();
-                var plangrader=$("#plangrader").val();
-                var plantype=$("#plantype").val();
-
-                currPage=parseInt(currPage);
-                totalPage=parseInt(totalPage);
-                if(btn=="首页"){
-
-                    currPage=1;
-                    $.getJSON("findAllplan",{currpage:currPage,plangrader:plangrader,plantype:plantype},filldate)
-                }else if(btn=="上一页"){
-
-                    currPage-=1;
-                    if(currPage==0){
-                        currPage=1
-                    }
-
-                    $.getJSON("findAllplan",{currpage:currPage,plangrader:plangrader,plantype:plantype},filldate)
-                }else if(btn=="下一页"){
-                    currPage+=1;
-                    if(currPage>totalPage){
-                        currPage=totalPage;
-                    }
-                    $.getJSON("findAllplan",{currpage:currPage,plangrader:plangrader,plantype:plantype},filldate)
-                }else if(btn=="尾页"){
-                    currPage=totalPage;
-                    $.getJSON("findAllplan",{currpage:currPage,plangrader:plangrader,plantype:plantype},filldate)
-                }else if(btn="跳转"){
-                    currPage=$("#skip").val()
-                    if(currPage < 1){
-                        currPage=1;
-                    }else if(currPage>totalPage ){
-                        currPage=totalPage;
-                    }
-                    $.getJSON("findAllplan",{currpage:currPage,plangrader:plangrader,plantype:plantype},filldate)
-                }else if(btn="查询"){
-                    currPage=1;
-                    $.getJSON("findAllplan",{currpage:currPage,plangrader:plangrader,plantype:plantype},filldate)
-                }
-
-
-            })
-        });
-
-        function filldate(data){
-            var $table=$("tbody");
-            $table.empty();
-
-            $.each(data.tableBeans, function (i,e) {
-                var ids=e.planId;
-                var name=e.planName;
-                var type=e.enevType;
-                var leve=e.enevLeve;
-                var decs=e.planDecs;
-                var $operation = ("<a href="+e.planId+"/updatafindPlanByPlanId>修改</a>&nbsp&nbsp&nbsp" +
-                    "<a href="+e.planId+"/DeleteServlet>删除</a>");
-
-                var dataTr = "<tr><td>" + ids
-                    + "</td><td>" + "<a href="+e.planId+"/findPlanByPlanId>"+name+"</a>"
-                    + "</td><td>" + leve
-                    + "</td><td>" + type
-                    + "</td><td>" + decs
-                    + "</td><td>"
-                    + $operation + "</td></tr>";
-                $table.append(dataTr);
-            });
-            var currPage = data.currPate;
-            var totalPage = data.totalPate;
-            //渲染 “第2页/共11页” 信息
-            $("#ajaxspan").html("第" + currPage + "页/共" + totalPage + "页");
-            //记录数据信息（当前页数和总页数）
-            $(":hidden[name=currPage]").val(currPage);
-            $(":hidden[name=totalPage]").val(totalPage);
-        }
-    </script>
-
 
 </head>
 <!-- END HEAD -->
@@ -276,7 +195,8 @@
                     </ul>
                 </li>
                 <li>
-                    <a th:href="@{gotoPlan}"> <i class="material-icons">panorama_horizontal</i> <span class="title">预案管理</span>
+                    <a th:href="@{gotoPlan}"> <i class="material-icons">panorama_horizontal</i> <span
+                            class="title">预案管理</span>
                         <span class="label label-important bubble-only pull-right "></span></a>
                 </li>
                 <li>
@@ -306,95 +226,99 @@
 
         <div class="clearfix"></div>
         <div class="content sm-gutter">
-            <div class="row-fluid">
-                <div class="span12">
-                    <div class="grid simple ">
-                        <div class="grid-title">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="grid simple">
+                        <div class="grid-title no-border">
+                            <h4>预案详情</h4>
+                        </div>
+                        <div class="grid-body no-border">
+                            <br/>
+                            <!--表单开始-->
 
-                            <div class="row form-row">
-                                <span style="font-size: 28px">预案展示</span>
-                                    <span ></span>
-                                <div class="pull-right">
-                                    <select id="plangrader">
-                                        <option value="" selected="selected">请选择事件等级</option>
-                                        <option value="1">1级</option>
-                                        <option value="2">2级</option>
-                                        <option value="3">3级</option>
-                                    </select>
-                                    <span ></span>
-                                    <select id="plantype">
-                                        <option value="" selected="selected">请选择事件类型</option>
-                                        <option>火灾</option>
-                                        <option>地震</option>
-                                        <option>暴动</option>
-                                        <option>洪水</option>
-                                        <option>外星人入侵地球</option>
-                                    </select>
-                                    <input name="planNum" value="0" hidden="hidden"/>
-                                  <!--  <input id="eventNum" name="eventNum" type="text" class="form-control"
-                                           style="width: 150px;display: inline-block;" placeholder="事件等级"/>
-                                    <input id="eventType" name="eventType" type="text" class="form-control"
-                                           style="width: 150px;display: inline-block;" placeholder="事件类型"/>-->
-                                    <button class="btn btn-success btn-cons" type="button"><i class="icon-ok"></i>查询
-                                    </button>
+                            <div class="row">
+                                <div class="col-md-8 col-sm-8 col-xs-8">
+                                    <div class="form-group">
+                                        <label class="form-label">预案名称</label>
+                                        <span class="help"></span>
+                                        <div class="controls">
+                                            <span class="form-control"
+                                                  th:text="${planDepts.get(0).planEntity.planName}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">事件类型</label>
+                                        <span class="help"></span>
+                                        <div class="controls">
+                                            <!-- <input type="text" placeholder="请输入事件类型" class="form-control" name="planttpe"/>-->
+                                            <span class="form-control"
+                                                  th:text="${planDepts.get(0).planEntity.enevType}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">事件级别</label>
+                                        <span class="help"></span>
+                                        <div class="controls">
+                                            <!--  <input type="text" placeholder="请输入事件级别" class="form-control" name="planeven"/>-->
+                                            <span class="form-control"
+                                                  th:text="${planDepts.get(0).planEntity.enevLeve}"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" id="plan">
+                                        <h3>单位</h3>
+
+                                        <div th:each="plan,planstate:${planDepts}">
+
+                                            <h5> <label class="form-label">涉及单位</label></h5>
+                                            <span class="help"></span>
+                                            <div class="controls">
+                                                <span class="form-control"
+                                                      th:text=" ${plan.deptEntity.deptName}"></span>
+                                            </div>
+                                            <label class="form-label">出动人数</label>
+                                            <span class="help"></span>
+                                            <div class="controls">
+                                                <span class="form-control" th:text=" ${plan.personNum}"></span>
+                                            </div>
+                                            <label class="form-label">需要资源</label>
+                                            <span class="help"></span>
+                                            <div class="controls">
+                                                <span class="form-control" th:text=" ${plan.resource}"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="form-label">预案详情</label>
+                                        <span class="help"></span>
+                                        <div class="controls">
+                                            <span class="form-control"
+                                                  th:text="${planDepts.get(0).planEntity.planDecs}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a class="btn btn-info btn-cons" th:href="@{/gotoPlan}"><i
+                                                class="icon-ok"></i> 返回
+                                        </a>
+                                        </a>
+
+                                    </div>
+
+                                </div>
 
                             </div>
 
+                            <!--表单结束-->
                         </div>
 
-                        <div class="grid-body ">
-                            <table class="table table-hover table-condensed" id="example">
-                                <thead>
-                                <tr>
-                                    <th style="width:8%">预案编号</th>
-                                    <th style="width:12%" data-hide="phone,tablet">预案名称</th>
-                                    <th style="width:10%" data-hide="phone,tablet">事件等级</th>
-                                    <th style="width:10%">事件类型</th>
-                                    <th style="width:10%" data-hide="phone,tablet">预案描述</th>
-                                    <th style="width:5%" data-hide="phone,tablet">操作</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <!--<tr th:each="plans,trState:${planEntities}">
-
-                                    <td class="v-align-middle" th:text="${plans.planId}"></td>
-                                    <td class="v-align-middle" th:text="${plans.planName}"></td>
-                                    <td class="v-align-middle" th:text="${plans.enevLeve}"></td>
-                                    <td class="v-align-middle" th:text="${plans.enevType}"></td>
-                                    <td class="v-align-middle" th:text="${plans.planDecs}"></td>
-
-                                    <td><a th:href="@{#}">修改</a>
-                                        <a th:href="@{#}">删除</a>
-                                    </td>
-                                </tr>-->
-                                </tbody>
-                            </table>
-                            <div class="pull-right">
-                                <span id="ajaxspan"></span>
-                                <a th:href="@{gotoaddPlan}">
-                                    <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 添加预案
-                                    </button>
-                                </a>
-                                <button class="btn btn-info btn-cons" type="button" value="首页"><i class="icon-ok"></i> 首页</button>
-                                <button class="btn btn-info btn-cons" type="button" value="上一页"><i class="icon-ok" ></i> 上一页</button>
-                                <button class="btn btn-info btn-cons" type="button" value="下一页"><i class="icon-ok"></i> 下一页</button>
-                                <button class="btn btn-info btn-cons" type="button" value="尾页"><i class="icon-ok"></i> 尾页</button>
-                                <input type="text" class="form-control" placeholder="您要跳转的页码"
-                                       style="width: 120px;display: inline-block" id="skip"/>
-                                <button class="btn btn-info btn-cons" type="button" value="跳转"><i class="icon-ok"></i> 跳转</button>
-                                <!--隐藏表单域，将当前页数隐形传回来-->
-                                <input type="hidden" name="currPage"/>
-                                <input type="hidden" name="totalPage"/>
-
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 <script th:src="@{staticResources/assets/plugins/pace/pace.min.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/jquery/jquery-1.11.3.min.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/bootstrapv3/js/bootstrap.min.js}" type="text/javascript"></script>

@@ -49,20 +49,92 @@
 
     </style>
     <script>
-        var i=1;
+        /*动态打印添加单位*/
+        var i = 1;
+
         /*添加单位*/
         function addplanhtml() {
-            var s=$("<h1>---------单位"+i+"-----------</h1>")
-            var s1= $("#planhtml").html();
+            var s = $("<h1>---------单位" + i + "-----------</h1>")
+            var s1 = $("#planhtml").html();
             $("#plan").append(s)
             $("#plan").append(s1)
             i++;
 
         }
+
         /*删除单位*/
         function deleteplanhtml() {
             $("#plan").empty();
-            i=1;
+            i = 1;
+
+        }
+
+        /*---end---*/
+        /*判断是否有值*/
+        $(function () {
+            $("input[name=planname]").blur(isplannames)
+            $("input[name=presonNum]").blur(ispresonNum);
+            $("input[name=vehicle]").blur(ispresonNum);
+            $("#addplan").click(ispresonNum);
+        })
+
+        function isplannames() {
+            var text = $("input[name=planname]").val();
+            if (text != "") {
+                $.post("isPlanName", {PlanName: text}, function (data) {
+                    $("#planNamespan").html(data);
+                    if ("预案名重复" == data) {
+                        $("#planNamespan").css("color", "red");
+                        $("#addplan").attr('disabled', true);
+                    } else {
+                        $("#planNamespan").css("color", "green");
+                        $("#addplan").attr('disabled', false);
+                    }
+                });
+            } else {
+                $("#planNamespan").css("color", "red");
+                $("#planNamespan").html("请输入预案名");
+            }
+
+        }
+
+        function ispresonNum() {
+            var input = $("input[type=text]").each(
+                function () {
+                    if ($(this).val() == "") {
+                        $("span[name=span1]").css("color", "red");
+                        $("span[name=span1]").html("请输入值");
+                        $("#addplan").attr('disabled', true);
+                    } else {
+                        $("span[name=span1]").empty()
+                        $("#addplan").attr('disabled', false);
+                    }
+                }
+            )
+
+
+
+            /*    if(input==''){
+                    alert(1)
+                    $("span[name=span1]").css("color","red");
+                    $("span[name=span1]").html("请输入值");
+                    $("#addplan").attr('disabled',true);
+                }else {
+                    $("span[name=span1]").empty()
+                    $("#addplan").attr('disabled',false);
+                }*/
+            /*  var planname = $("input[name=planname]").val();
+              var presonNum = $("input[name=presonNum]").val();
+              var vehicle = $("input[name=vehicle]").val();
+  */
+            /*  if(planname==''||presonNum==''||vehicle==''){
+                  $("span[name=span1]").css("color","red");
+                  $("span[name=span1]").html("请输入值");
+                  $("#addplan").attr('disabled',true);
+              }else {
+                  $("span[name=span1]").empty()
+                  $("#addplan").attr('disabled',false);
+              }*/
 
         }
     </script>
@@ -215,7 +287,8 @@
                     </ul>
                 </li>
                 <li>
-                    <a th:href="@{gotoPlan}"> <i class="material-icons">panorama_horizontal</i> <span class="title">预案管理</span>
+                    <a th:href="@{gotoPlan}"> <i class="material-icons">panorama_horizontal</i> <span
+                            class="title">预案管理</span>
                         <span class="label label-important bubble-only pull-right "></span></a>
                 </li>
                 <li>
@@ -255,122 +328,130 @@
                             <br/>
                             <!--表单开始-->
                             <form th:action="@{savaplan}" method="post">
-                            <div class="row">
-                                <div class="col-md-8 col-sm-8 col-xs-8">
-                                    <div class="form-group">
-                                        <label class="form-label">预案名称</label>
-                                        <span class="help"></span>
-                                        <div class="controls">
-                                            <input type="text" placeholder="请输入预案名称" class="form-control" name="planname"/>
+                                <div class="row">
+                                    <div class="col-md-8 col-sm-8 col-xs-8">
+                                        <div class="form-group">
+                                            <label class="form-label">预案名称</label>
+                                            <span class="help"></span>
+                                            <div class="controls">
+                                                <input type="text" placeholder="请输入预案名称" class="form-control"
+                                                       name="planname"/>
+                                                <span id="planNamespan"></span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">事件类型</label>
-                                        <span class="help"></span>
-                                        <div class="controls">
-                                           <!-- <input type="text" placeholder="请输入事件类型" class="form-control" name="planttpe"/>-->
-                                       <select name="planttpe">
-                                           <option value=""> 请选择事件类型</option>
-                                           <option > 火灾</option>
-                                           <option > 地震</option>
-                                           <option > 暴动</option>
-                                           <option > 海啸</option>
-                                       </select>
+                                        <div class="form-group">
+                                            <label class="form-label">事件类型</label>
+                                            <span class="help"></span>
+                                            <div class="controls">
+                                                <!-- <input type="text" placeholder="请输入事件类型" class="form-control" name="planttpe"/>-->
+                                                <select name="planttpe">
+                                                    <option value=""> 请选择事件类型</option>
+                                                    <option> 火灾</option>
+                                                    <option> 地震</option>
+                                                    <option> 暴动</option>
+                                                    <option> 海啸</option>
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">事件级别</label>
-                                        <span class="help"></span>
-                                        <div class="controls">
-                                          <!--  <input type="text" placeholder="请输入事件级别" class="form-control" name="planeven"/>-->
-                                            <select name="planeven">
-                                                <option value=""> 请选择事件等级</option>
-                                                <option > 1</option>
-                                                <option > 2</option>
-                                                <option > 3</option>
+                                        <div class="form-group">
+                                            <label class="form-label">事件级别</label>
+                                            <span class="help"></span>
+                                            <div class="controls">
+                                                <!--  <input type="text" placeholder="请输入事件级别" class="form-control" name="planeven"/>-->
+                                                <select name="planeven">
+                                                    <option value=""> 请选择事件等级</option>
+                                                    <option> 1</option>
+                                                    <option> 2</option>
+                                                    <option> 3</option>
 
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group" id="plan">
-
-                                        <label class="form-label">涉及单位</label>
-                                        <span class="help"></span>
-                                        <div class="controls">
-                                            <select name="planselect">
-                                                <option  selected="selected" value="">请选择单位</option>
-                                                <option>公安</option>
-                                                <option>医院</option>
-                                                <option>消防</option>
-                                            </select>
-                                        </div>
-                                        <label class="form-label">出动人数</label>
-                                        <span class="help"></span>
-                                        <div class="controls">
-                                            <input type="text" placeholder="请输入涉及人数" name="presonNum"/>
-                                        </div>
-                                        <label class="form-label">需要资源</label>
-                                        <span class="help"></span>
-                                        <div class="controls">
-                                            <input type="text" placeholder="请输入需要资源" name="vehicle"/>
+                                                </select>
+                                            </div>
                                         </div>
 
-                                    </div>
+                                        <div class="form-group" id="plan">
+                                            <h3>单位</h3>
+                                            <!-- <label class="form-label">涉及单位</label>
+                                             <span class="help"></span>
+                                             <div class="controls">
+                                                 <select name="planselect">
+                                                     <option selected="selected" value="">请选择单位</option>
+                                                     <option>公安</option>
+                                                     <option>医院</option>
+                                                     <option>消防</option>
+                                                 </select>
+                                             </div>
+                                             <label class="form-label">出动人数</label>
+                                             <span class="help"></span>
+                                             <div class="controls">
+                                                 <input type="text" placeholder="请输入涉及人数" name="presonNum"/>
+                                             </div>
+                                             <label class="form-label">需要资源</label>
+                                             <span class="help"></span>
+                                             <div class="controls">
+                                                 <input type="text" placeholder="请输入需要资源" name="vehicle"/>
+                                             </div>-->
+
+                                        </div>
 
                                         <!--给上面打印页面用 -->
-                                    <div class="form-group" id="planhtml" style="display: none">
+                                        <div class="form-group" id="planhtml" style="display: none">
 
-                                        <label class="form-label">涉及单位</label>
-                                        <span class="help"></span>
-                                        <div class="controls">
-                                         <!--   <input type="text" placeholder="请输入涉及单位" class="form-control"/>-->
-                                       <select name="planselect">
-                                           <option selected="selected" value="">请选择单位</option>
-                                           <option>公安</option>
-                                           <option>医院</option>
-                                           <option>消防</option>
-                                       </select>
+                                            <label class="form-label">涉及单位</label>
+                                            <span class="help"></span>
+                                            <div class="controls">
+                                                <!--   <input type="text" placeholder="请输入涉及单位" class="form-control"/>-->
+                                                <select name="planselect">
+                                                    <option selected="selected" value="">请选择单位</option>
+                                                    <option value="1">公安</option>
+                                                    <option value="3">医院</option>
+                                                    <option value="2">消防</option>
+                                                </select>
+                                            </div>
+                                            <label class="form-label">出动人数</label>
+                                            <span class="help"></span>
+                                            <div class="controls">
+                                                <input type="text" placeholder="请输入涉及人数" name="presonNum"
+                                                       onBlur="ispresonNum()"/>
+                                            </div>
+                                            <label class="form-label">需要资源</label>
+                                            <span class="help"></span>
+                                            <div class="controls">
+                                                <input type="text" placeholder="请输入需要资源" name="vehicle"
+                                                       onBlur="ispresonNum()"/>
+                                            </div>
                                         </div>
-                                        <label class="form-label">出动人数</label>
-                                        <span class="help"></span>
-                                        <div class="controls">
-                                            <input type="text" placeholder="请输入涉及人数" name="presonNum"/>
-                                        </div>
-                                        <label class="form-label">需要资源</label>
-                                        <span class="help"></span>
-                                        <div class="controls">
-                                            <input type="text" placeholder="请输入需要资源" name="vehicle"/>
-                                        </div>
-                                    </div>
                                         <!--end-->
 
-                                    <div class="form-group">
-                                        <label class="form-label">预案详情</label>
-                                        <span class="help"></span>
-                                        <div class="controls">
-                                            <input type="text" placeholder="请输入预案详情" class="form-control" name="planDecs"
-                                            />
+                                        <div class="form-group">
+                                            <label class="form-label">预案详情</label>
+                                            <span class="help"></span>
+                                            <div class="controls">
+                                                <input type="text" placeholder="请输入预案详情" class="form-control"
+                                                       name="planDecs"
+                                                />
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="pull-right">
+                                        <div class="pull-right">
+                                            <span name="span1"></span>
+                                            <button class="btn btn-info btn-cons" type="submit" id="addplan"><i
+                                                    class="icon-ok"></i>
+                                                添加
+                                            </button>
+                                            <a class="btn btn-info btn-cons" th:href="@{gotoPlan}"><i
+                                                    class="icon-ok"></i> 取消
+                                            </a>
 
-                                        <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 添加
-                                        </button>
-                                        <a  class="btn btn-info btn-cons" th:href="@{gotoPlan}"><i class="icon-ok"></i> 取消
-                                        </a>
+                                            <a class="btn btn-info btn-cons" onclick="addplanhtml()"><i
+                                                    class="icon-ok"></i> 添加单位
+                                            </a>
+                                            <a class="btn btn-info btn-cons" onclick="deleteplanhtml()"><i
+                                                    type="button" class="icon-ok"></i> 删除单位
+                                            </a>
+                                        </div>
 
-                                        <a class="btn btn-info btn-cons"  onclick="addplanhtml()" ><i
-                                                class="icon-ok" ></i> 添加单位
-                                        </a>
-                                        <a class="btn btn-info btn-cons"  onclick="deleteplanhtml()" ><i
-                                                type="button"     class="icon-ok" ></i> 删除单位
-                                        </a>
                                     </div>
 
                                 </div>
-
-                            </div>
                             </form>
                             <!--表单结束-->
                         </div>
