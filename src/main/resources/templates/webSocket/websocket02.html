@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<title>websocket</title>
+<script th:src="@{staticResources/jquery-2.1.4.js}"></script>
+</head>
+<script type="text/javascript">
+
+		var websocket;
+		
+		if ('WebSocket' in window) {
+			websocket = new WebSocket("ws://127.0.0.1:8388/ws02");
+		} else if ('MozWebSocket' in window) {
+			websocket = new MozWebSocket("ws://127.0.0.1:8388/ws02");
+		} else {
+			websocket = new SockJS("http://127.0.0.1:8388/ws02/sockjs");
+		}
+		websocket.onopen = function(event) {
+			alert("WebSocket:已连接");
+		};
+		websocket.onerror = function(event) {
+			alert("WebSocket:发生错误 ");
+		};
+		//接收服务器发送回来的消息
+		websocket.onmessage = function(event) {
+			var span = "<span>"+event.data+"</span><p/>";
+			$("#xxid").append(span);
+		};
+		websocket.onclose = function(event) {
+			alert("WebSocket:已关闭");
+		};
+		function sendMsg(){
+			var $msg = $("#msg").val();
+			websocket.send($msg);
+		}
+</script>
+
+<body>
+<div id="xxid"></div>
+	<input type="text" id="msg"/>
+	<input type="button" value="发送" class="send" onclick="sendMsg()" />
+</body>
+</html>
