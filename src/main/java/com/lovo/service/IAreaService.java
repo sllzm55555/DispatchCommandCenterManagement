@@ -43,6 +43,7 @@ public interface IAreaService {
     /**
      * 查询所有信息
      * @param area 区域名称
+     *  @param pageNum 从页面传回来的当前页数
      * @return
      */
     public List<AreaEntity> findAllArea(String area,int pageNum);
@@ -56,7 +57,7 @@ public interface IAreaService {
 
     /**
      * 查询最大页数
-     * @param area
+     * @param area 查询条件
      * @return
      */
     public int findcount(String area);

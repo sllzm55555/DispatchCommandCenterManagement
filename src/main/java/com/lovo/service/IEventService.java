@@ -2,6 +2,7 @@ package com.lovo.service;
 
 import com.lovo.entity.EventEntity;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,4 +39,23 @@ public interface IEventService {
      * @return 返回实例化的对象
      */
     public EventEntity findEventByEventId(String eventId);
+
+    /**
+     * 通过事件id,改变事件的状态，把未处理事件改成处理中事件
+     * @param eventId 事件id
+     */
+    public void changeEventPeriod(String eventId);
+
+    /**
+     * 事件处理完成的时候，把事件完成的时间设置回去
+     * @param date 当前时间
+     * @param eventId 事件的id
+     */
+    public void changeEventEndTime(Date date,String eventId);
+
+    /**
+     * 新建事务
+     * @param e 事务对象
+     */
+    public void saveEvent(EventEntity e);
 }

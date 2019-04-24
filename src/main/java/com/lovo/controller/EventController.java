@@ -44,7 +44,7 @@ public class EventController {
      * @return
      */
     @RequestMapping("goNoDealWith")
-    public String gotoNoDealWithIng(){
+    public String gotoNoDealWith(){
         ModelAndView mv=new ModelAndView("noDealWith");
         return "noDealWith";
     }
@@ -101,37 +101,43 @@ public class EventController {
     }
 
     /**
-     * 中转 跳转到详情页面之前先把id信息存在session仓库里
+     * 中转,把Id存储在ModelAndView中，在页面动态取值，进行业务处理
      * @param eventId 事件主键的Id
-     * @param request
-     * @return 返回一个页面
+     * @return 返回ModelAndView
      */
     @RequestMapping("transfer")
-    public String showDealWith(String eventId,HttpServletRequest request){
-        request.getSession().setAttribute("id",eventId);
-        return "noDealWithDetails";
+    public ModelAndView  showDealWith(String eventId){
+        ModelAndView mv=new ModelAndView("noDealWithDetails");
+        mv.addObject("eventId",eventId);
+        return mv;
     }
+
+
 
     /**
      * 详情页面通过访问ajax到这里得到所有的数据
-     * @param request
-     * @param currPage 当前页码
      * @return 返回所有的数据
      */
     @RequestMapping("getAllData")
     @ResponseBody
-    public PageBean showPageBean(HttpServletRequest request,int currPage,int eventPeriod){
-        String id = (String)request.getSession().getAttribute("id");
-        List<ResubmitDto> rList = resubmitService.findResourceEntitiesByEventEntityId(id, currPage, 1,eventPeriod);
-        int totalPage = resubmitService.getAllResourNumber(id,eventPeriod);
+    public PageBean showPageBean(String eventId,int eventPeriod){
+        List<ResubmitDto> rList = resubmitService.findAllResubmitListByIdAndPeriod(eventId,eventPeriod);
         PageBean page=new PageBean();
-        EventEntity event = eventService.findEventByEventId(id);
-        page.setCurrPate(currPage);
-        page.setTotalPate(totalPage);
+        EventEntity event = eventService.findEventByEventId(eventId);
         page.setTableBeans(rList);
         page.setObj(event);
         return page;
     }
+
+    /**
+     * 带条件查询事件集合
+     * @param eventId 事件id
+     * @param eventType 事件类型
+     * @param eventTime 事件时间
+     * @param currPage 当前页码
+     * @param eventPeriod 事件阶段
+     * @return
+     */
     @RequestMapping("showEvent")
     @ResponseBody
     public EventPageBean showList(String eventId, String eventType, String eventTime, int currPage,int eventPeriod){
@@ -150,22 +156,9 @@ public class EventController {
         page.setList(eventList);
         page.setCurrPage(currPage);
         page.setTotalPage(totalNumber);
-
         return page;
     }
 
-    /**
-     * 从未处理事件的详情页面跳转到这里，
-     * 得到未处理事件的所有信息，并封装好，跳转到资源调用的页面
-     * @return 返回一个ModelAndView
-     */
-
-    @RequestMapping("getEventData")
-    public ModelAndView getEventData(HttpServletRequest request){
-        String id = (String) request.getSession().getAttribute("id");
-        EventEntity event = eventService.findEventByEventId(id);
-        return null;
-    }
 
     /**
      * 跳转到处理中事件的详情页面之前的中转，先把要查询的事件的Id,存储到session仓库里面
@@ -180,11 +173,7 @@ public class EventController {
     }
 
 
-    @RequestMapping("getDealWithIngEventDeatils")
-    public PageBean getEventAboutDealWithIng(String eventId,int eventPeriod){
 
-        return null;
-    }
 
 }
 

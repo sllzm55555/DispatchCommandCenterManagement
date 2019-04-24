@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -21,6 +24,8 @@ public class EventServiceImpl implements IEventService {
 
     @Autowired
     private IEventDao eventDao;
+
+
     @Transactional
     @Override
     public List<EventEntity> findEventEntitiesByCondition(String eventId, String eventType, String eventTime, int pageNo, int pageSize,int eventPeriod ) {
@@ -63,4 +68,22 @@ public class EventServiceImpl implements IEventService {
     }
 
 
+    @Override
+    @Transactional
+    public void changeEventPeriod(String eventId) {
+        eventDao.changeEventPeriod(eventId);
+    }
+
+    @Override
+    @Transactional
+    public void changeEventEndTime(Date date, String eventId) {
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String format = sdf.format(date);
+        eventDao.changeDate(format, eventId);
+    }
+
+    @Override
+    public void saveEvent(EventEntity e) {
+        eventDao.save(e);
+    }
 }

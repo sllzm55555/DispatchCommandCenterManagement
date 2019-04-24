@@ -2,6 +2,7 @@ package com.lovo.dao;
 
 import com.lovo.entity.ResourceEntity;
 import com.lovo.entity.ResubmitEntity;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -39,6 +40,24 @@ public interface IResubmitDao extends CrudRepository<ResourceEntity,String> {
     @Query(value = "select r.event_level,r.hurt_population,t.event_type,r.report_desc" +
             " from t_followup_report as r " +
             " inner join t_event as t on t.event_id=r.fk_event_entity_id" +
-            " where if(?2 is not null,t.event_period=?2,1=1) and if(?1 is not null,r.fk_event_entity_id =?1,1=1)",nativeQuery = true)
+            " where if(?2 is not null,t.event_period=?2,1=1)" +
+            " and if(?1 is not null,r.fk_event_entity_id =?1,1=1)" +
+            " order by r.report_time",nativeQuery = true)
     public List<Object []> getAllResourNumber(String eventEntityId,int eventPeriod);
+
+    /**
+     * 点击未处理事件，进行处理完成之后，把之前的续报状态全部改成已处理
+     * 1，表示未处理，2，表示已经处理
+     * @param eventId 事件的Id
+     */
+    @Modifying
+    @Query(value = "update t_followup_report as t set t.report_period=2 " +
+            " where  t.fk_event_entity_id = ?1  ",nativeQuery = true)
+    public void changeResubmitPeriod(String eventId);
+
+    @Query(value = "select * from t_followup_report as t " +
+            " where t.fk_event_entity_id=?1 and t.report_period=?2" +
+            " order by t.report_time desc",nativeQuery = true)
+    public List<ResubmitEntity> getResourceEntity(String eventId,int reportPeriod);
+
 }

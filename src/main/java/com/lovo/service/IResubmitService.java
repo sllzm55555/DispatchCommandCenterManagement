@@ -30,4 +30,25 @@ public interface IResubmitService {
      * @return 返回事件对应的所有续报的总页数
      */
     public int getAllResourNumber(String eventEntityId,int eventPeriod);
+
+
+    /**
+     * 点击未处理事件，进行处理完成之后，把之前的续报状态全部改成已处理
+     * 1，表示未处理，2，表示已经处理
+     * @param eventId 事件的Id
+     */
+    public void changeResubmitPeriod(String eventId);
+
+
+    public List<ResubmitDto> findAllResubmitListByIdAndPeriod(String eventId,int period);
+
+    /**
+     * 通过事件Id,和续报的进度 得到最新的续报
+     * @param eventId 事件的Id
+     * @param reperiod 续报的进度
+     * @return 单个续报
+     */
+    public ResubmitDto getHotNewsResubmit(String eventId,int reperiod);
+
+
 }
