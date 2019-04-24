@@ -42,6 +42,9 @@ public class WebSocketController {
     @RequestMapping("sendMsg2")
     @ResponseBody
     public void sendMsg2() throws InterruptedException {
-        producer.sendMessage("testQueue002", "消息2");
+        for (int i = 0; i < 10; i++) {
+            producer.sendMessage("testQueue002", "消息2");
+            Thread.sleep(100);
+        }
     }
 }
