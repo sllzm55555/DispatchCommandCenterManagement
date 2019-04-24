@@ -103,7 +103,11 @@
             $("#alarmTel").val(event.alarmTel);
             $("#eventLevel").val(event.eventLevel);
             $("#uniqueAttr").val(event.uniqueAttr);
-           
+
+            $("#returnA").after("<a href=\"sendResources?eventId" + event.eventId + "\"><button class=\"btn btn-success btn-cons col-sm-offset-2\"  type=\"button\"><i class=\"icon-ok\"></i>\n" +
+                "                            处理\n" +
+                "                        </button></a>");
+
             if(data.totalPate==0||data.tableBeans==null||data.tableBeans==undefined){
                 $("#example").css('display','none');
                 return;
@@ -238,13 +242,13 @@
                         <input type="hidden" name="totalPage">
                         <input type="hidden" name="eventPeriod" value="1">
 
-                        <a href="goNoDealWith"> <button class="btn btn-success btn-cons col-sm-offset-3" type="button"><i class="icon-ok" id="button1"></i>
+                        <a href="goNoDealWith" id="returnA"> <button class="btn btn-success btn-cons col-sm-offset-3" type="button"><i class="icon-ok" id="button1"></i>
                           返回
                         </button></a>
 
-                        <a href="goTosendResources"><button class="btn btn-success btn-cons col-sm-offset-2"  type="button"><i class="icon-ok"></i>
-                            处理
-                        </button></a>
+                        <!--<a href="goTosendResources"><button class="btn btn-success btn-cons col-sm-offset-2"  type="button"><i class="icon-ok"></i>-->
+                            <!--处理-->
+                        <!--</button></a>-->
 
                     </div>
                 </div>
