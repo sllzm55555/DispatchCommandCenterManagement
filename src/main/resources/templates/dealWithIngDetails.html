@@ -46,8 +46,32 @@
             let eventId=parseInt($("input[type=hidden]").eq(0).val());
             let eventPeriod=parseInt($("input[type=hidden]").eq(1).val());
             let currPage=1;
-            $.getJSON("getDealWithIngEventDeatils",{eventId:eventId,currPage:currPage,eventPeriod:eventPeriod},showDetials);
+            $.getJSON("getDealWithIngEventDeatils",{eventId:eventId,eventPeriod:eventPeriod},showDetials);
+            $("input[type=text]").prop("readOnly",true);
+            $("input[type=text]").css("border","none");
         })
+        function showDetials(data) {
+           let th=data.tableBeans;
+           if (th!=null){
+               $.each(th,function (i,e) {
+               let td="<tr>" +
+                   "<td>"+e.eventType+"</td>" +
+                   "<td>"+e.eventLevel+"</td>" +
+                   "<td>"+e.hurtPopulation+"</td>" +
+                   "<td>"+e.reportDesc+"</td>" +
+                   "<tr>";
+               $("#tbody").append(th);
+               })
+           }
+          let event= data.obj;
+           $("input[type=text]").eq(0).val(event.eventId);
+           $("input[type=text]").eq(1).val(event.eventName);
+           $("input[type=text]").eq(2).val(event.eventTime);
+           $("input[type=text]").eq(3).val(event.eventUploadPeople);
+           $("input[type=text]").eq(4).val(event.eventType);
+           $("input[type=text]").eq(5).val(event.alarmTel);
+           $("input[type=text]").eq(6).val(event.eventLevel);
+        }
     </script>
     <style>
         input[type=text] {
@@ -297,38 +321,23 @@
                             <table class="table table-hover table-condensed" id="example">
                                 <thead>
                                 <tr>
+                                    <th style="width:8%">灾害类型</th>
                                     <th style="width:8%">灾害等级</th>
                                     <th style="width:8%">共计伤亡人数</th>
                                     <th style="width:8%">详情</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr>
-                                    <td><span class="muted">2级</span></td>
-                                    <td><span class="muted">6人</span></td>
-                                    <td><span class="muted">灾害升级，请立即调配人员</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span class="muted">2级</span></td>
-                                    <td><span class="muted">6人</span></td>
-                                    <td><span class="muted">灾害升级，请立即调配人员</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span class="muted">2级</span></td>
-                                    <td><span class="muted">6人</span></td>
-                                    <td><span class="muted">灾害升级，请立即调配人员</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span class="muted">2级</span></td>
-                                    <td><span class="muted">6人</span></td>
-                                    <td><span class="muted">灾害升级，请立即调配人员</span></td>
-                                </tr>
+                                <tbody id="tbody">
+
                                 </tbody>
                             </table>
 
                         </div>
+
                         <input type="hidden" th:value="${eventId}" id="eventId">
+
                         <input type="hidden" value="2">
+
                         <button class="btn btn-success btn-cons col-sm-offset-2" type="submit"><i class="icon-ok"
                                                                                                   id="button1"></i> 返回
                         </button>

@@ -26,7 +26,7 @@ public class PlanDeptServiceImpl implements IPlanDeptService {
 
     @Override
     @Transactional
-    public void deleteplanbyid(String planid) {
+    public void deletePlanbyid(String planid) {
         planDeptDao.deleteplanbyid(planid);
     }
 
