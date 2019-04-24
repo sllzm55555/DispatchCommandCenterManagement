@@ -74,7 +74,6 @@
       var pageNum = 1;
       $.getJSON("findAllArea", {pageNum: pageNum}, showResourcePage);
 
-      addArea
       $("#addArea").click(function () {
         var $addArea = $("#addArea");
         $addArea.empty();
@@ -207,7 +206,7 @@
               <div class="row form-row">
                 <span style="font-size: 28px">区域展示界面</span>
                 <div class="pull-right">
-                  <form th:action="@{addArea}" style="display: inline">
+                  <form th:action="@{addArea}" style="display: inline" method="post">
                     <span id="addArea" th:text="${addArea}"></span>
                     <input id="areaName" name="areaName" type="text" class="form-control"
                            style="width: 150px;display: inline-block;" placeholder="区域名称"/>

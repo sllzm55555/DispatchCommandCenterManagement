@@ -245,6 +245,8 @@ public class LiTest {
      */
     @RequestMapping("addArea")
     public ModelAndView addArea(String areaName) {
+        String addArea = null;
+        ModelAndView mv=new ModelAndView("area");
         if(null!=areaName&&!"".equals(areaName)){
             List<AreaEntity> list = new ArrayList<AreaEntity>();
             list = areaService.findAllArea();
@@ -252,8 +254,8 @@ public class LiTest {
                  ) {
                 if(areaName.equals(a.getAreaName())){
 
-                    String addArea = "添加失败，已经存在相同区域名称";
-                    ModelAndView mv=new ModelAndView("area");
+                     addArea = "添加失败，已经存在相同区域名称";
+
                     mv.addObject("addArea",addArea);
                     return mv;
                 }
@@ -262,13 +264,11 @@ public class LiTest {
             AreaEntity areaEntity = new AreaEntity();
             areaEntity.setAreaName(areaName);
             areaService.saveArea(areaEntity);
-            String addArea = "添加成功";
-            ModelAndView mv=new ModelAndView("area");
+            addArea = "添加成功";
             mv.addObject("addArea",addArea);
             return mv;
         }else {
-            String addArea = "添加失败，名字不能为空";
-            ModelAndView mv=new ModelAndView("area");
+            addArea = "添加失败，名字不能为空";
             mv.addObject("addArea",addArea);
             return mv;
         }
