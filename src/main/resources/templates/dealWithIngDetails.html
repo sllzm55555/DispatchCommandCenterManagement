@@ -46,7 +46,7 @@
             let eventId=parseInt($("input[type=hidden]").eq(0).val());
             let eventPeriod=parseInt($("input[type=hidden]").eq(1).val());
             let currPage=1;
-            $.getJSON("getDealWithIngEventDeatils",{eventId:eventId,eventPeriod:eventPeriod},showDetials);
+            $.getJSON("getAllData",{eventId:eventId,eventPeriod:eventPeriod},showDetials);
             $("input[type=text]").prop("readOnly",true);
             $("input[type=text]").css("border","none");
         })

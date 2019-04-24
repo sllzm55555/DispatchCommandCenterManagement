@@ -52,4 +52,10 @@ public interface IEventService {
      * @param eventId 事件的id
      */
     public void changeEventEndTime(Date date,String eventId);
+
+    /**
+     * 新建事务
+     * @param e 事务对象
+     */
+    public void saveEvent(EventEntity e);
 }

@@ -81,4 +81,6 @@ public interface IEventDao extends CrudRepository<EventEntity,String> {
     @Query("update EventEntity e set e.endTime =?1 where e.eventId=?2")
     public void changeDate(String date,String eventId);
 
+
+
 }

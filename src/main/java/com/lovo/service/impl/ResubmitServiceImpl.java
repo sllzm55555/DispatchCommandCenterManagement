@@ -87,4 +87,14 @@ public class ResubmitServiceImpl implements IResubmitService {
         }
             return rList;
     }
+
+    @Override
+    public ResubmitDto getHotNewsResubmit(String eventId, int reperiod) {
+        List<ResubmitDto> all = findAllResubmitListByIdAndPeriod(eventId, reperiod);
+        ResubmitDto re=null;
+       if (all!=null){
+           re = all.get(0);
+       }
+        return re;
+    }
 }

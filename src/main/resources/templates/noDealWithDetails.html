@@ -44,55 +44,12 @@
 
     <script>
         $(function () {
-            let currPage=1;
             let eventPeriod=1;
-           $.getJSON("getAllData",{currPage:currPage,eventPeriod:eventPeriod},showList);
+            let eventId=$("#eId").val();
+           $.getJSON("getAllData",{eventId:eventId,eventPeriod:eventPeriod},showList);
            $("input[type=text]").prop("readOnly",true);
-           $(":button").click(changePage);
         });
-        function changePage() {
-           let name=$(this).prop("name");
-           let currPage=parseInt($("input[type=hidden]").eq(0).val());
-           let totalPage=parseInt($("input[type=hidden]").eq(1).val());
-           let eventPeriod=parseInt($("input[type=hidden]").eq(2).val());
-           if ("首页"==name){
-                currPage=1;
-               $.getJSON("getAllData",{currPage:currPage,eventPeriod:eventPeriod},showList);
-           }
-            if ("上一页"==name){
-                    if (currPage<1){
-                        currPage=1;
-                    }else {
-                        currPage--;
-                    }
-                $.getJSON("getAllData",{currPage:currPage,eventPeriod:eventPeriod},showList);
 
-            }
-            if ("下一页"==name){
-            if (currPage>=totalPage){
-                currPage=totalPage;
-            } else {
-                currPage++;
-            }
-            $.getJSON("getAllData",{currPage:currPage,eventPeriod:eventPeriod},showList);
-            }
-            if ("尾页"==name){
-                currPage=totalPage;
-                $.getJSON("getAllData",{currPage:currPage,eventPeriod:eventPeriod},showList);
-            }
-            if ("跳转"==name){
-                 currPage= parseInt($("input[type=number]").val());
-                 if (""==currPage){
-                     return  false;
-                 } else if(currPage>=totalPage){
-                     currPage=totalPage;
-                 }else if (currPage<1) {
-                     currPage=1;
-                 }
-                $.getJSON("getAllData",{currPage:currPage,eventPeriod:eventPeriod},showList);
-            }
-
-        }
         function showList(data) {
             let event= data.obj;
             $("#eventId").val(event.eventId);
@@ -112,7 +69,7 @@
                 $("#example").css('display','none');
                 return;
             }
-           $("#tbody").empty();
+
            $.each(data.tableBeans,function (i,e) {
              let th="<tr>" +
                  "<td>"+e.eventType+"</td>" +
@@ -122,14 +79,6 @@
                  "</tr>";
                 $("#tbody").append(th);
            });
-            $("input[type=hidden]").eq(0).val(data.currPate);
-            $("input[type=hidden]").eq(1).val(data.totalPate);
-            $("#span").text("/"+data.totalPate);
-            $("input[type=number]").val(data.currPate);
-            $("input[type=number]").prop("max",data.totalPate);
-            $("input[type=number]").prop("min",1);
-
-
         }
     </script>
     <style>
@@ -228,19 +177,11 @@
 
                                 </tbody>
                             </table>
-                            <div class="pull-right">
-                                <button class="btn btn-info btn-cons" name="首页" type="button"><i class="icon-ok"></i> 首页</button>
-                                <button class="btn btn-info btn-cons" name="上一页" type="button"><i class="icon-ok"></i> 上一页</button>
-                                <button class="btn btn-info btn-cons" name="下一页" type="button"><i class="icon-ok"></i> 下一页</button>
-                                <button class="btn btn-info btn-cons" name="尾页" type="button"><i class="icon-ok"></i> 尾页</button>
-                                <input type="number" class="form-control" placeholder="您要跳转的页码"
-                                       style="width: 120px;display: inline-block"/><span id="span"></span>
-                                <button class="btn btn-info btn-cons" name="跳转" type="button"><i class="icon-ok"></i> 跳转</button>
-                            </div>
+
                         </div>
-                        <input type="hidden" name="currPage">
-                        <input type="hidden" name="totalPage">
-                        <input type="hidden" name="eventPeriod" value="1">
+
+                        <input type="hidden" name="eventPeriod" value="1" id="id">
+                        <input type="hidden" name="eventId" th:value="${eventId}" id="eId">
 
                         <a href="goNoDealWith" id="returnA"> <button class="btn btn-success btn-cons col-sm-offset-3" type="button"><i class="icon-ok" id="button1"></i>
                           返回
