@@ -16,9 +16,9 @@ public class SendProgressEntity {
     private String sendProgressId;
 
     /**
-     *deptId 单位编号
+     *deptName 单位名称
      */
-    private String deptId;
+    private String deptName;
 
     /**
      * resourceName 资源名称（人名字或者车牌）
@@ -60,6 +60,7 @@ public class SendProgressEntity {
         this.eventEntity = eventEntity;
     }
 
+    @Column(length = 32)
     public String getResourceId() {
         return resourceId;
     }
@@ -106,12 +107,12 @@ public class SendProgressEntity {
     }
 
     @Column(length = 32)
-    public String getDeptId() {
-        return deptId;
+    public String getDeptName() {
+        return deptName;
     }
 
-    public void setDeptId(String deptId) {
-        this.deptId = deptId;
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
     }
 
 

@@ -48,71 +48,6 @@ public class LiTest {
         ModelAndView mv=new ModelAndView("resource");
         return mv;
     }
-    /**
-     * 跳转添加区域页面
-     * @return
-     */
-    @RequestMapping("goToAddArea")
-    public ModelAndView goToAddArea(){
-        ModelAndView mv=new ModelAndView("addArea");
-        return mv;
-    }
-
-
-
-    /**
-     * 导入资源excel文件
-     *  @param areaid 传进来的区域id
-     * @param request 请求
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value="uploadresource",method= RequestMethod.POST)
-    @ResponseBody
-    public   String  uploadResourceExcel(HttpServletRequest request,String areaid) throws Exception {
-
-        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-        InputStream inputStream =null;
-
-        List<List<Object>> list = null;
-
-        MultipartFile file = multipartRequest.getFile("filename");
-
-        if(file.isEmpty()){
-
-            return "文件不能为空";
-
-        }
-
-        inputStream = file.getInputStream();
-
-        list = resourceService.getresourceListByExcel(inputStream,file.getOriginalFilename());
-
-        inputStream.close();
-
-//连接数据库部分
-        List<ResourceEntity> resourcelist = new ArrayList<ResourceEntity>();
-        for (int i = 0; i < list.size(); i++) {
-            ResourceEntity resourceEntity = new ResourceEntity();
-            List<Object> lo = list.get(i);
-            resourceEntity.setRtype(lo.get(1).toString());
-            resourceEntity.setRname(lo.get(2).toString());
-            resourceEntity.setPnumber((int)Double.parseDouble(lo.get(3).toString()));
-            resourceEntity.setCnumber((int)Double.parseDouble(lo.get(4).toString()));
-            resourceEntity.setUrl(lo.get(5).toString());
-            AreaEntity areaEntity = new AreaEntity();
-
-            //把传进来的区域id设置给  资源对象
-            areaEntity.setAreaId(areaid);
-            resourceEntity.setAreaEntity(areaEntity);
-
-            resourcelist.add(resourceEntity);
-        }
-        resourceService.saveResourceList(resourcelist);
-
-        return "上传成功";
-
-    }
 
 
     /**
@@ -123,7 +58,56 @@ public class LiTest {
      */
     @RequestMapping(value="uploadarea",method= RequestMethod.POST)
     @ResponseBody
-    public   String  uploadAreaExcel(HttpServletRequest request) throws Exception {
+    public   ModelAndView  uploadAreaExcel(HttpServletRequest request) throws Exception {
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        InputStream inputStream =null;
+        List<List<Object>> list = null;
+        MultipartFile file = multipartRequest.getFile("filename");
+        if(file.isEmpty()){
+            String massge = "添加失败,文件不能为空";
+            ModelAndView mv=new ModelAndView("area");
+            mv.addObject("massge",massge);
+            return mv;
+        }
+        inputStream = file.getInputStream();
+        list = resourceService.getresourceListByExcel(inputStream,file.getOriginalFilename());
+        inputStream.close();
+        List<Object> objectList = list.get(1);
+        if(objectList.size()!=2){
+            String massge = "添加失败，excel文件格式不正确";
+            ModelAndView mv=new ModelAndView("area");
+            mv.addObject("massge",massge);
+            return mv;
+        }else {
+            //连接数据库部分
+            List<AreaEntity> arealist = new ArrayList<AreaEntity>();
+//        List<ResourceEntity> resourcelist = new ArrayList<ResourceEntity>();
+            for (int i = 0; i < list.size(); i++) {
+//            ResourceEntity resourceEntity = new ResourceEntity();
+                AreaEntity areaEntity = new AreaEntity();
+                List<Object> lo = list.get(i);
+                areaEntity.setAreaName(lo.get(1).toString());
+                arealist.add(areaEntity);
+            }
+//        resourceService.saveResourceList(resourcelist);
+            areaService.saveAreaList(arealist);
+            String massge = "添加成功";
+            ModelAndView mv=new ModelAndView("area");
+            mv.addObject("massge",massge);
+            return mv;
+        }
+    }
+
+    /**
+     * 导入资源excel文件
+     *  @param areaid 传进来的区域id
+     * @param request 请求
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="uploadresource",method= RequestMethod.POST)
+    @ResponseBody
+    public   ModelAndView  uploadResourceExcel(HttpServletRequest request,String areaid) throws Exception {
 
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         InputStream inputStream =null;
@@ -134,31 +118,47 @@ public class LiTest {
 
         if(file.isEmpty()){
 
-            return "文件不能为空";
-
+            String massge = "添加失败,文件不能为空";
+            ModelAndView mv=new ModelAndView("resource");
+            mv.addObject("massge",massge);
+            mv.addObject("areaid",areaid);
+            return mv;
         }
-
         inputStream = file.getInputStream();
-
         list = resourceService.getresourceListByExcel(inputStream,file.getOriginalFilename());
-
         inputStream.close();
+        List<Object> objectList = list.get(1);
+        if(objectList.size()!=6){
+            String massge = "添加失败，excel文件格式不正确";
+            ModelAndView mv=new ModelAndView("resource");
+            mv.addObject("massge",massge);
+            mv.addObject("areaid",areaid);
+            return mv;
+        }else {
+            //连接数据库部分
+            List<ResourceEntity> resourcelist = new ArrayList<ResourceEntity>();
+            for (int i = 0; i < list.size(); i++) {
+                ResourceEntity resourceEntity = new ResourceEntity();
+                List<Object> lo = list.get(i);
+                resourceEntity.setRtype(lo.get(1).toString());
+                resourceEntity.setRname(lo.get(2).toString());
+                resourceEntity.setPnumber((int)Double.parseDouble(lo.get(3).toString()));
+                resourceEntity.setCnumber((int)Double.parseDouble(lo.get(4).toString()));
+                resourceEntity.setUrl(lo.get(5).toString());
+                AreaEntity areaEntity = new AreaEntity();
+                //把传进来的区域id设置给  资源对象
+                areaEntity.setAreaId(areaid);
+                resourceEntity.setAreaEntity(areaEntity);
+                resourcelist.add(resourceEntity);
+            }
+            resourceService.saveResourceList(resourcelist);
 
-//连接数据库部分
-        List<AreaEntity> arealist = new ArrayList<AreaEntity>();
-//        List<ResourceEntity> resourcelist = new ArrayList<ResourceEntity>();
-        for (int i = 0; i < list.size(); i++) {
-//            ResourceEntity resourceEntity = new ResourceEntity();
-            AreaEntity areaEntity = new AreaEntity();
-            List<Object> lo = list.get(i);
-            areaEntity.setAreaName(lo.get(1).toString());
-            arealist.add(areaEntity);
+            String massge = "添加成功";
+            ModelAndView mv=new ModelAndView("resource");
+            mv.addObject("massge",massge);
+            mv.addObject("areaid",areaid);
+            return mv;
         }
-//        resourceService.saveResourceList(resourcelist);
-        areaService.saveAreaList(arealist);
-
-        return "上传成功";
-
     }
 
     /**

@@ -37,7 +37,8 @@
   <script>
     $(function () {
     let currPage=1;
-     $.getJSON("showEvent",{currPage:currPage},showList);
+    let eventPeriod=1;
+     $.getJSON("showEvent",{currPage:currPage,eventPeriod:eventPeriod},showList);
     $(":button").click(changePage);
     })
 
@@ -50,13 +51,16 @@
      let eventType=$("#eventType").val();
 
      let eventTime=$("#endTime").val();
+
      let currPage=parseInt($("input[type=hidden]").eq(0).val());
-     currPage=parseInt(currPage);
+
      let totalPage=parseInt($("input[type=hidden]").eq(1).val());
-     totalPage=parseInt(totalPage);
+
+     let eventPeriod=parseInt($("input[type=hidden]").eq(2).val());
+
        if ("首页"==name){
          currPage=1;
-         $.getJSON("showEvent",{currPage:currPage,eventId:eventId,eventType,eventType,eventTime:eventTime},showList);
+         $.getJSON("showEvent",{currPage:currPage,eventId:eventId,eventType:eventType,eventTime:eventTime,eventPeriod:eventPeriod},showList);
        }
       if ("上一页"==name){
         if (currPage>1){
@@ -64,7 +68,7 @@
         } else{
           currPage=1;
         }
-        $.getJSON("showEvent",{currPage:currPage,eventId:eventId,eventType,eventType,eventTime:eventTime},showList);
+        $.getJSON("showEvent",{currPage:currPage,eventId:eventId,eventType:eventType,eventTime:eventTime,eventPeriod:eventPeriod},showList);
       }
       if ("下一页"==name){
         if (currPage>=totalPage){
@@ -72,11 +76,11 @@
         } else{
           currPage++;
         }
-        $.getJSON("showEvent",{currPage:currPage,eventId:eventId,eventType,eventType,eventTime:eventTime},showList);
+        $.getJSON("showEvent",{currPage:currPage,eventId:eventId,eventType:eventType,eventTime:eventTime,eventPeriod:eventPeriod},showList);
       }
       if ("尾页"==name){
         currPage=totalPage;
-        $.getJSON("showEvent",{currPage:currPage,eventId:eventId,eventType,eventType,eventTime:eventTime},showList);
+        $.getJSON("showEvent",{currPage:currPage,eventId:eventId,eventType:eventType,eventTime:eventTime,eventPeriod:eventPeriod},showList);
       }
       if ("跳转"==name){
        let gotoPage=parseInt($("#gotoPage").val());
@@ -84,19 +88,19 @@
           return false;
         } else if(gotoPage>totalPage){
           currPage=totalPage;
-          $.getJSON("showEvent",{currPage:currPage,eventId:eventId,eventType,eventType,eventTime:eventTime},showList);
+          $.getJSON("showEvent",{currPage:currPage,eventId:eventId,eventType:eventType,eventTime:eventTime,eventPeriod:eventPeriod},showList);
         }else if(gotoPage<1){
           currPage=1;
-          $.getJSON("showEvent",{currPage:currPage,eventId:eventId,eventType,eventType,eventTime:eventTime},showList);
+          $.getJSON("showEvent",{currPage:currPage,eventId:eventId,eventType:eventType,eventTime:eventTime,eventPeriod:eventPeriod},showList);
         }
         else {
           currPage=gotoPage;
-          $.getJSON("showEvent",{currPage:currPage,eventId:eventId,eventType,eventType,eventTime:eventTime},showList);
+          $.getJSON("showEvent",{currPage:currPage,eventId:eventId,eventType:eventType,eventTime:eventTime,eventPeriod:eventPeriod},showList);
         }
       }
       if ("查询"==name){
         currPage=1;
-        $.getJSON("showEvent",{currPage:currPage,eventId:eventId,eventType,eventType,eventTime:eventTime},showList);
+        $.getJSON("showEvent",{currPage:currPage,eventId:eventId,eventType:eventType,eventTime:eventTime,eventPeriod:eventPeriod},showList);
       }
     }
 
@@ -192,7 +196,8 @@
                 <button class="btn btn-info btn-cons" type="button" name="跳转"><i class="icon-ok"></i> 跳转</button>
               </div>
               <input type="hidden" name="currPage" id="currPage">
-              <input type="hidden" name="currPage" id="totalPage">
+              <input type="hidden" name="totalPage" id="totalPage">
+              <input type="hidden" name="eventPeriod" id="eventPeriod" value="1">
             </div>
           </div>
         </div>

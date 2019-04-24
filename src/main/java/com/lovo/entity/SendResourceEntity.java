@@ -4,7 +4,7 @@ package com.lovo.entity;
 import javax.persistence.*;
 
 /**
- *  派遣资源实体：派遣资源记录表
+ *  派遣资源实体：派遣资源记录表(单个单位一次派遣)
  * @author 老妖怪
  * @date
  */
@@ -18,15 +18,14 @@ public class SendResourceEntity {
 
     /**
      *
-     * eventId  事件编号
+     * resourceName 单位名称
      */
-    private String eventId;
+    private String resourceName;
 
     /**
-     *
-     * deptId 单位编号
+     * resourceUrl 单位url（用来确定派遣单位）
      */
-    private String deptId;
+    private String resourceUrl;
 
     /**
      * requestPopulation 派遣人数
@@ -65,21 +64,6 @@ public class SendResourceEntity {
      * 事件对象
      */
     private EventEntity eventEntity;
-
-    /**
-     * 单位对象
-     */
-    private DeptEntity deptEntity;
-
-    @ManyToOne
-    @JoinColumn(name = "fk_dept_id")
-    public DeptEntity getDeptEntity() {
-        return deptEntity;
-    }
-
-    public void setDeptEntity(DeptEntity deptEntity) {
-        this.deptEntity = deptEntity;
-    }
 
     @ManyToOne
     @JoinColumn(name = "fk_event_id")
@@ -135,21 +119,21 @@ public class SendResourceEntity {
     }
 
     @Column(length = 32)
-    public String getDeptId() {
-        return deptId;
+    public String getResourceName() {
+        return resourceName;
     }
 
-    public void setDeptId(String deptId) {
-        this.deptId = deptId;
+    public void setResourceName(String resourceName) {
+        this.resourceName = resourceName;
     }
 
-    @Column(length = 32)
-    public String getEventId() {
-        return eventId;
+    @Column(length = 48)
+    public String getResourceUrl() {
+        return resourceUrl;
     }
 
-    public void setEventId(String eventId) {
-        this.eventId = eventId;
+    public void setResourceUrl(String resourceUrl) {
+        this.resourceUrl = resourceUrl;
     }
 
     @Id

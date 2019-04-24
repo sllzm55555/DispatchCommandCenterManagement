@@ -23,7 +23,7 @@ public class EventServiceImpl implements IEventService {
     private IEventDao eventDao;
     @Transactional
     @Override
-    public List<EventEntity> findEventEntitiesByCondition(String eventId, String eventType, String eventTime, int pageNo, int pageSize) {
+    public List<EventEntity> findEventEntitiesByCondition(String eventId, String eventType, String eventTime, int pageNo, int pageSize,int eventPeriod ) {
 
         if (null==eventId||"".equals(eventId)){
             eventId=null;
@@ -36,11 +36,11 @@ public class EventServiceImpl implements IEventService {
         }
 
         pageNo=pageSize*(pageNo-1);
-        return  eventDao.findEventEntitiesByCondition(eventId,eventType,eventTime,pageNo,pageSize);
+        return  eventDao.findEventEntitiesByCondition(eventId,eventType,eventTime,pageNo,pageSize,eventPeriod);
     }
 
     @Override
-    public int getTotalNumber(String eventId, String eventType, String eventTime) {
+    public int getTotalNumber(String eventId, String eventType, String eventTime,int eventPeriod) {
         if (null==eventId||"".equals(eventId)){
             eventId=null;
         }
@@ -50,7 +50,7 @@ public class EventServiceImpl implements IEventService {
         if (null==eventTime||"".equals(eventTime)){
             eventTime=null;
         }
-        List<EventEntity> all = eventDao.findAllEventEntitiesNumberByCondition(eventId, eventType, eventTime);
+        List<EventEntity> all = eventDao.findAllEventEntitiesNumberByCondition(eventId, eventType, eventTime,eventPeriod);
        int totalpage=0;
        totalpage=all.size();
        totalpage=totalpage%1==0?(totalpage/1):(totalpage/1+1);
