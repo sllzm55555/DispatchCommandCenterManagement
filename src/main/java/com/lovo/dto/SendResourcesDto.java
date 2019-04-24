@@ -45,6 +45,17 @@ public class SendResourcesDto {
      */
     private int fireResource;
 
+    public SendResourcesDto() {
+    }
+
+    public int getTime() {
+        return time;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
+    }
+
     public String getDeptTypeNature() {
         return deptTypeNature;
     }
@@ -115,13 +126,5 @@ public class SendResourcesDto {
 
     public void setFireResource(int fireResource) {
         this.fireResource = fireResource;
-    }
-
-    public int getTime() {
-        return time;
-    }
-
-    public void setTime(int time) {
-        this.time = time;
     }
 }
