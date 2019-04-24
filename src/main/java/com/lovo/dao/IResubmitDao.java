@@ -40,7 +40,9 @@ public interface IResubmitDao extends CrudRepository<ResourceEntity,String> {
     @Query(value = "select r.event_level,r.hurt_population,t.event_type,r.report_desc" +
             " from t_followup_report as r " +
             " inner join t_event as t on t.event_id=r.fk_event_entity_id" +
-            " where if(?2 is not null,t.event_period=?2,1=1) and if(?1 is not null,r.fk_event_entity_id =?1,1=1)",nativeQuery = true)
+            " where if(?2 is not null,t.event_period=?2,1=1)" +
+            " and if(?1 is not null,r.fk_event_entity_id =?1,1=1)" +
+            " order by r.report_time",nativeQuery = true)
     public List<Object []> getAllResourNumber(String eventEntityId,int eventPeriod);
 
     /**
@@ -52,5 +54,10 @@ public interface IResubmitDao extends CrudRepository<ResourceEntity,String> {
     @Query(value = "update t_followup_report as t set t.report_period=2 " +
             " where  t.fk_event_entity_id = ?1  ",nativeQuery = true)
     public void changeResubmitPeriod(String eventId);
+
+    @Query(value = "select * from t_followup_report as t " +
+            " where t.fk_event_entity_id=?1 and t.report_period=?2" +
+            " order by t.report_time desc",nativeQuery = true)
+    public List<ResubmitEntity> getResourceEntity(String eventId,int reportPeriod);
 
 }
