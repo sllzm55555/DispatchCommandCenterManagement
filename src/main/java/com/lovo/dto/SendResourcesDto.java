@@ -3,6 +3,11 @@ package com.lovo.dto;
 public class SendResourcesDto {
 
     /**
+     * 派遣次数
+     */
+    private int time;
+
+    /**
      * 匪警
      */
     private String deptTypeNature;
@@ -110,5 +115,13 @@ public class SendResourcesDto {
 
     public void setFireResource(int fireResource) {
         this.fireResource = fireResource;
+    }
+
+    public int getTime() {
+        return time;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
     }
 }
