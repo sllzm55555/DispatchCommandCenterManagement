@@ -74,6 +74,11 @@
       var pageNum = 1;
       $.getJSON("findAllArea", {pageNum: pageNum}, showResourcePage);
 
+
+      $("#massge").click(function () {
+          var $massge = $("#massge");
+          $massge.empty();
+      });
       $(":button").click(function () {
         var btn = this.value;
         var pageNum = $("#pageNum").val();
@@ -135,15 +140,17 @@
             area: area,
 
           }, showResourcePage)
-        }else if(btn==="qqq"){
-          $('#qqq').click();
         }else if(btn==="www"){
-          $('#www').click();
+            $('#www').click();
         }
+        // else if(btn==="qqq"){
+        //     $('#qqq').click();
+        // }
 
 
       })
     });
+
 
     function showResourcePage(data) {
       let $tbody = $("tbody");
@@ -249,9 +256,12 @@
 
 
                   <form method="post" enctype="multipart/form-data" id="form" style="display: inline;" action="/uploadarea">
-                    <button class="btn btn-info btn-cons" type="button" value="qqq"><i class="icon-ok"></i> 选择文件</button>
-                    <button class="btn btn-info btn-cons" type="button" value="www"><i class="icon-ok"></i> 提交文件</button>
-                    <input type="file" name="filename" id="qqq" style="display: none"/>
+
+                      <span id="massge" th:text="${massge}"></span>
+                      <input type="file" name="filename" id="qqq" style="display: inline "/>
+                    <!--<button class="btn btn-info btn-cons" type="button" value="qqq"><i class="icon-ok"></i> 选择文件</button>-->
+                    <button class="btn btn-info btn-cons" type="button" value="www" style="display: inline"><i class="icon-ok"></i> 提交文件</button>
+
                     <input type="submit" th:field="导入文件" id="www" style="display: none"/>
                   </form>
                 </div>
