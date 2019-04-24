@@ -15,6 +15,7 @@ public interface IResourceService {
     public List<ResourceEntity> findAllResource();
     /**
      * 根据区域外键查询所有相应资源
+     * @param id 区域外键
      * @return
      */
     public List<ResourceEntity> findAllResourceByID(String id);

@@ -169,8 +169,9 @@ public class PlanController {
      * @param planid
      * @return
      */
-    @RequestMapping("{planid}/findPlanByPlanId")
-    public ModelAndView findPlanByPlanId(@PathVariable("planid") String planid) {
+   /* @RequestMapping("{planid}/findPlanByPlanId")*/
+    @RequestMapping("findPlanByPlanId")
+    public ModelAndView findPlanByPlanId(/*@PathVariable("planid")*/ String planid) {
         ModelAndView mv = new ModelAndView("findplan");
 
         List<PlanDeptEntity> planDepts = planDeptService.getPlanDeptByPlanId(planid);
@@ -185,8 +186,9 @@ public class PlanController {
      * @param planid
      * @return
      */
-    @RequestMapping("{planid}/updatafindPlanByPlanId")
-    public ModelAndView updatafindPlanByPlanId(@PathVariable("planid") String planid) {
+  /*  @RequestMapping("{planid}/updatafindPlanByPlanId")*/
+   @RequestMapping("updatafindPlanByPlanId")
+    public ModelAndView updatafindPlanByPlanId(/*@PathVariable("planid")*/ String planid) {
         ModelAndView mv = new ModelAndView("updataPlan");
 
         List<PlanDeptEntity> planDepts = planDeptService.getPlanDeptByPlanId(planid);
