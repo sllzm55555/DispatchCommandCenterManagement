@@ -30,12 +30,15 @@ public class LiTest {
     @Autowired
     private IAreaService areaService;
 
+    //通过controller 跳转页面  否者读取不到页面样式等
+
     /**
      * 跳转区域页面
      * @return
      */
     @RequestMapping("goToArea")
     public ModelAndView goToArea(){
+        //进入主页面
         ModelAndView mv=new ModelAndView("area");
         return mv;
     }
@@ -72,6 +75,8 @@ public class LiTest {
         inputStream = file.getInputStream();
         list = resourceService.getresourceListByExcel(inputStream,file.getOriginalFilename());
         inputStream.close();
+        //代码健壮性  这里验证操作
+        //通过mv.addObject  键值对   发送相对应的信息到页面   页面通过   ${键}  获取到值
         List<Object> objectList = list.get(1);
         if(objectList.size()!=2){
             String massge = "添加失败，excel文件格式不正确";
@@ -79,17 +84,14 @@ public class LiTest {
             mv.addObject("massge",massge);
             return mv;
         }else {
-            //连接数据库部分
+            //连接数据库部分  循环遍历出值  添加到实体对象中  调用业务层  添加到数据库
             List<AreaEntity> arealist = new ArrayList<AreaEntity>();
-//        List<ResourceEntity> resourcelist = new ArrayList<ResourceEntity>();
             for (int i = 0; i < list.size(); i++) {
-//            ResourceEntity resourceEntity = new ResourceEntity();
                 AreaEntity areaEntity = new AreaEntity();
                 List<Object> lo = list.get(i);
                 areaEntity.setAreaName(lo.get(1).toString());
                 arealist.add(areaEntity);
             }
-//        resourceService.saveResourceList(resourcelist);
             areaService.saveAreaList(arealist);
             String massge = "添加成功";
             ModelAndView mv=new ModelAndView("area");
@@ -170,11 +172,12 @@ public class LiTest {
     @RequestMapping("findAllArea")
     public PageBean findAllArea(int pageNum, String area) throws IOException {
 
+        //静茹主界面  通过ajax 预加载 进入 controller 并传参相关参数： 当前页数  查询条件
         //页面集合
         List<AreaEntity> areaEntities = areaService.findAllArea(area, pageNum);
         //最大页数
         Integer totalPate= areaService.findcount(area);
-
+        //通过工具类  pageBean  传参  返回 pageBean 通过ajax  动态打印到页面
         PageBean bean = new PageBean();
         bean.setTableBeans(areaEntities);
         bean.setCurrPate(pageNum);
@@ -191,9 +194,14 @@ public class LiTest {
     @RequestMapping("findAllResource")
     public PageBean changePage(int pageNum,String areaid,String resourceType,HttpServletRequest request){
 
-        int pageAll = resourceService.pageAll(resourceType,areaid);
+        //这里和第一个页面不同  这里是通过区域进入  相关区域的资源  所以需要  区域id来查询 资源
+        //通过预加载  获取相关参数： 当前页数，区域id ，查询条件
+        //区域页面  通过<a  ?id=...>标签  进入controller findAllResourceByID  通过隐藏表单  获取区域id  保存区域id
 
+        //通过区域id  和查询条件  得到 集合和总条数
+        int pageAll = resourceService.pageAll(resourceType,areaid);
         List<ResourceEntity> list = resourceService.findAll(pageNum,resourceType,areaid);
+        //添加到工具  PageBean里面  返还到页面 通过ajax  打印出来
         PageBean<ResourceEntity> pageBean = new PageBean<>();
         pageBean.setCurrPate(pageNum);
         pageBean.setTableBeans(list);
@@ -209,6 +217,7 @@ public class LiTest {
     @RequestMapping("findAllResourceByID")
     public ModelAndView findPlanByPlanId(String id) {
         ModelAndView modelAndView = new ModelAndView("resource");
+        //通过addObject 键值对  保存区域id  转发到资源页面  表单中
         modelAndView.addObject("areaid",id);
         return modelAndView;
     }
@@ -236,7 +245,8 @@ public class LiTest {
      */
     @RequestMapping("addArea")
     public ModelAndView addArea(String areaName) {
-        ModelAndView mv = new ModelAndView("plan");
+        String addArea = null;
+        ModelAndView mv=new ModelAndView("area");
         if(null!=areaName&&!"".equals(areaName)){
             List<AreaEntity> list = new ArrayList<AreaEntity>();
             list = areaService.findAllArea();
@@ -244,8 +254,9 @@ public class LiTest {
                  ) {
                 if(areaName.equals(a.getAreaName())){
 
-                    RedirectView tv = new RedirectView("/goToAddArea");
-                    mv.setView(tv);
+                     addArea = "添加失败，已经存在相同区域名称";
+
+                    mv.addObject("addArea",addArea);
                     return mv;
                 }
             }
@@ -253,10 +264,15 @@ public class LiTest {
             AreaEntity areaEntity = new AreaEntity();
             areaEntity.setAreaName(areaName);
             areaService.saveArea(areaEntity);
+            addArea = "添加成功";
+            mv.addObject("addArea",addArea);
+            return mv;
+        }else {
+            addArea = "添加失败，名字不能为空";
+            mv.addObject("addArea",addArea);
+            return mv;
         }
-        RedirectView tv = new RedirectView("/goToArea");
-        mv.setView(tv);
-        return mv;
+
     }
 
 }

@@ -94,7 +94,7 @@ public class PlanController {
            /* DeptEntity deptEntity = new DeptEntity();
             deptEntity.setDeptName(planselects[i]);
             deptService.savaDeptEntity(deptEntity);*/
-                DeptEntity deptEntity = deptService.finDeptEntity(planselects[i]);
+                DeptEntity deptEntity = deptService.findDeptEntity(planselects[i]);
                 //添加中间表
                 PlanDeptEntity planDeptEntity = new PlanDeptEntity();
                 planDeptEntity.setPlanEntity(planEntity);
@@ -130,6 +130,22 @@ public class PlanController {
         }
 
     }
+    /**
+     * 判断预案的类型和级别是否有相同
+     *
+     * @param
+     * @return
+     */
+    @RequestMapping("isPlantype")
+    public void isPlanevenandeventype(HttpServletResponse response, String planevenl,String plantype)
+            throws IOException {
+        int size = planDeptService.getPlanDeptEntitiesByPlan(plantype,planevenl).size();
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        if (size >0) {
+            out.print("已有类型和等级相同预案");
+        }
+    }
 
     /**
      * 删除预案
@@ -140,7 +156,7 @@ public class PlanController {
     @RequestMapping("{planid}/DeleteServlet")
     public ModelAndView deletePlan(@PathVariable("planid") String planid) {
         ModelAndView mv = new ModelAndView("plan");
-        planDeptService.deleteplanbyid(planid);
+        planDeptService.deletePlanbyid(planid);
 
         RedirectView tv = new RedirectView("/gotoPlan");
         mv.setView(tv);
@@ -153,8 +169,9 @@ public class PlanController {
      * @param planid
      * @return
      */
-    @RequestMapping("{planid}/findPlanByPlanId")
-    public ModelAndView findPlanByPlanId(@PathVariable("planid") String planid) {
+   /* @RequestMapping("{planid}/findPlanByPlanId")*/
+    @RequestMapping("findPlanByPlanId")
+    public ModelAndView findPlanByPlanId(/*@PathVariable("planid")*/ String planid) {
         ModelAndView mv = new ModelAndView("findplan");
 
         List<PlanDeptEntity> planDepts = planDeptService.getPlanDeptByPlanId(planid);
@@ -169,8 +186,9 @@ public class PlanController {
      * @param planid
      * @return
      */
-    @RequestMapping("{planid}/updatafindPlanByPlanId")
-    public ModelAndView updatafindPlanByPlanId(@PathVariable("planid") String planid) {
+  /*  @RequestMapping("{planid}/updatafindPlanByPlanId")*/
+   @RequestMapping("updatafindPlanByPlanId")
+    public ModelAndView updatafindPlanByPlanId(/*@PathVariable("planid")*/ String planid) {
         ModelAndView mv = new ModelAndView("updataPlan");
 
         List<PlanDeptEntity> planDepts = planDeptService.getPlanDeptByPlanId(planid);

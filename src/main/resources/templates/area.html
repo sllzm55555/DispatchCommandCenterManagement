@@ -74,7 +74,10 @@
       var pageNum = 1;
       $.getJSON("findAllArea", {pageNum: pageNum}, showResourcePage);
 
-
+      $("#addArea").click(function () {
+        var $addArea = $("#addArea");
+        $addArea.empty();
+      });
       $("#massge").click(function () {
           var $massge = $("#massge");
           $massge.empty();
@@ -203,7 +206,8 @@
               <div class="row form-row">
                 <span style="font-size: 28px">区域展示界面</span>
                 <div class="pull-right">
-                  <form th:action="@{addArea}" style="display: inline">
+                  <form th:action="@{addArea}" style="display: inline" method="post">
+                    <span id="addArea" th:text="${addArea}"></span>
                     <input id="areaName" name="areaName" type="text" class="form-control"
                            style="width: 150px;display: inline-block;" placeholder="区域名称"/>
                     <button class="btn btn-success btn-cons " type="submit"><i class="icon-ok"></i>添加区域</button>
@@ -238,6 +242,8 @@
                     <!--</tr>-->
                 </tbody>
               </table>
+              <!--隐藏表单  储存相关数据    区域id  当前页数  总页数-->
+
               <span id="ajaxspan"></span>
               <input type="hidden" id="pageNum"/>
               <input type="hidden" id="pageAll"/>

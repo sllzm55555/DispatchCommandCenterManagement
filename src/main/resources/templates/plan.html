@@ -104,11 +104,12 @@
                 var type=e.enevType;
                 var leve=e.enevLeve;
                 var decs=e.planDecs;
-                var $operation = ("<a href="+e.planId+"/updatafindPlanByPlanId>修改</a>&nbsp&nbsp&nbsp" +
-                    "<a href="+e.planId+"/DeleteServlet>删除</a>");
+                var $operation = ("<a href='updatafindPlanByPlanId?planid="+ids+"'>修改</a> &nbsp&nbsp&nbsp" +
+                    "<a href="+e.planId+"/DeleteServlet>删除</a>&nbsp&nbsp&nbsp"+
+                    "<a href='findPlanByPlanId?planid="+ids+"'>查看详情</a>");
 
                 var dataTr = "<tr><td>" + ids
-                    + "</td><td>" + "<a href="+e.planId+"/findPlanByPlanId>"+name+"</a>"
+                    + "</td><td>" + name
                     + "</td><td>" + leve
                     + "</td><td>" + type
                     + "</td><td>" + decs
@@ -119,7 +120,9 @@
             var currPage = data.currPate;
             var totalPage = data.totalPate;
             //渲染 “第2页/共11页” 信息
-            $("#ajaxspan").html("第" + currPage + "页/共" + totalPage + "页");
+            $("#skip").val(currPage);
+          /*  $("#ajaxspan").html("第" + currPage + "页/共" + totalPage + "页");*/
+           $("#ajaxspan").html("/" + totalPage + "");
             //记录数据信息（当前页数和总页数）
             $(":hidden[name=currPage]").val(currPage);
             $(":hidden[name=totalPage]").val(totalPage);
@@ -132,9 +135,9 @@
 <!-- BEGIN BODY -->
 <body class="">
 <!-- 页眉，用户退出，显示头像，系统log -->
-    <div th:include="header :: header"></div>
+<div th:include="header :: header"></div>
 <!-- 页面展示部分 -->
-    <div class="page-container row-fluid">
+<div class="page-container row-fluid">
     <!-- 左侧导航栏 -->
     <div th:include="leftNavigationBar :: leftNavigationBar"></div>
 
@@ -187,10 +190,10 @@
                                 <tr>
                                     <th style="width:8%">预案编号</th>
                                     <th style="width:12%" data-hide="phone,tablet">预案名称</th>
-                                    <th style="width:10%" data-hide="phone,tablet">事件等级</th>
+                                    <th style="width:5%" data-hide="phone,tablet">事件等级</th>
                                     <th style="width:10%">事件类型</th>
                                     <th style="width:10%" data-hide="phone,tablet">预案描述</th>
-                                    <th style="width:5%" data-hide="phone,tablet">操作</th>
+                                    <th style="width:8%" data-hide="phone,tablet">操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -209,7 +212,7 @@
                                 </tbody>
                             </table>
                             <div class="pull-right">
-                                <span id="ajaxspan"></span>
+                               <!-- <span id="ajaxspan"></span>-->
                                 <a th:href="@{gotoaddPlan}">
                                     <button class="btn btn-info btn-cons" type="submit"><i class="icon-ok"></i> 添加预案
                                     </button>
@@ -220,6 +223,7 @@
                                 <button class="btn btn-info btn-cons" type="button" value="尾页"><i class="icon-ok"></i> 尾页</button>
                                 <input type="text" class="form-control" placeholder="您要跳转的页码"
                                        style="width: 120px;display: inline-block" id="skip"/>
+                                <span id="ajaxspan"></span>
                                 <button class="btn btn-info btn-cons" type="button" value="跳转"><i class="icon-ok"></i> 跳转</button>
                                 <!--隐藏表单域，将当前页数隐形传回来-->
                                 <input type="hidden" name="currPage"/>

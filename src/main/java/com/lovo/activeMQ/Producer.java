@@ -10,6 +10,7 @@ import java.util.Map;
 
 /**
  * @author 王涛
+ * 通过MQ传输消息的工具类
  */
 @Component(value = "producer")
 public class Producer{

@@ -1,6 +1,7 @@
 package com.lovo.service;
 
 import com.lovo.dto.SendResourceDto;
+import com.lovo.dto.SendResourcesDto;
 
 import java.util.List;
 
@@ -17,4 +18,11 @@ public interface ISendResourceService {
      * @return
      */
     public List<SendResourceDto> findAllSendResourceByEventId(String eventId);
+
+    /**
+     * 通过事件id得到一个事件派遣DTO集合
+     * @param eventId 事件id
+     * @return
+     */
+    List<SendResourcesDto> getSendResourcesListByEventId(String eventId);
 }

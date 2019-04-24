@@ -1,13 +1,18 @@
 package com.lovo.service.impl;
 
 import com.lovo.dao.IEventDao;
+import com.lovo.dto.ResubmitDto;
 import com.lovo.entity.EventEntity;
 import com.lovo.service.IEventService;
+import com.lovo.service.IResubmitService;
 import com.lovo.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -21,6 +26,10 @@ public class EventServiceImpl implements IEventService {
 
     @Autowired
     private IEventDao eventDao;
+    @Autowired
+    private IResubmitService resubmitService;
+
+
     @Transactional
     @Override
     public List<EventEntity> findEventEntitiesByCondition(String eventId, String eventType, String eventTime, int pageNo, int pageSize,int eventPeriod ) {
@@ -63,4 +72,30 @@ public class EventServiceImpl implements IEventService {
     }
 
 
+
+
+    @Override
+    @Transactional
+    public void changeEventEndTime(Date date, String eventId) {
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String format = sdf.format(date);
+        eventDao.changeDate(format, eventId);
+    }
+
+    @Override
+    public void saveEvent(EventEntity e) {
+        eventDao.save(e);
+    }
+
+    @Override
+    @Transactional
+    public void updateEventData(String eventId,int period) {
+        //先得到所有已经处理的续报的最后一条续报的Dto
+        List<ResubmitDto> rr =resubmitService.findAllResubmitListByIdAndPeriod(eventId, period);
+        if (null!=rr){
+        ResubmitDto r= resubmitService.getHotNewsResubmit(eventId, 2);
+        eventDao.updateEventData(eventId,r.getHurtPopulation(),r.getEventLevel(),2);
+        }
+
+    }
 }

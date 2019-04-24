@@ -1,3 +1,7 @@
+/**
+ * 单位中间表
+ * 高升
+ */
 package com.lovo.service;
 
 
@@ -16,5 +20,5 @@ public interface IDeptService {
      * @param id
      * @return
      */
-    public DeptEntity finDeptEntity(String id);
+    public DeptEntity findDeptEntity(String id);
 }

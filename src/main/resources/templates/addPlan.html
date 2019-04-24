@@ -54,9 +54,9 @@
 
         /*添加单位*/
         function addplanhtml() {
-            if(i==4){
+            if (i == 4) {
                 alert("最多三个单位")
-            }else {
+            } else {
                 var s = $("<h1>---------单位" + i + "-----------</h1>")
                 var s1 = $("#planhtml").html();
                 $("#plan").append(s)
@@ -64,7 +64,7 @@
                     "                                            <span class=\"help\"></span>\n" +
                     "                                            <div class=\"controls\">\n" +
                     "                                                <!--   <input type=\"text\" placeholder=\"请输入涉及单位\" class=\"form-control\"/>-->\n" +
-                    "                                                <select name=\"planselect\" onchange=\"isselect(this)\" id=\"select"+i+"\">\n" +
+                    "                                                <select name=\"planselect\" onchange=\"isselect(this)\" id=\"select" + i + "\">\n" +
                     "                                                    <option selected=\"selected\" value=\"\" >请选择单位</option>\n" +
                     "                                                    <option value=\"1\">公安</option>\n" +
                     "                                                    <option value=\"3\">医院</option>\n" +
@@ -86,28 +86,29 @@
                 i++;
             }
             /*删除select*/
-            var s= $("#select1").val()
-            var s1= $("#select2").val()
-            var s2= $("#select3").val()
-            if(s=="1"){
+            var s = $("#select1").val()
+            var s1 = $("#select2").val()
+            var s2 = $("#select3").val()
+            if (s == "1") {
                 $("#select2  option[value='1']").remove();
                 $("#select3  option[value='1']").remove();
-            }else if(s=="2"){
+            } else if (s == "2") {
                 $("#select2  option[value='2']").remove();
                 $("#select3  option[value='2']").remove();
-            }else if(s=="3"){
+            } else if (s == "3") {
                 $("#select2  option[value='3']").remove();
                 $("#select3  option[value='3']").remove();
             }
-            if(s1=="1"){
+            if (s1 == "1") {
                 $("#select3  option[value='1']").remove();
-            }else if(s1=="2"){
+            } else if (s1 == "2") {
                 $("#select3  option[value='2']").remove();
-            }else if(s1=="3"){
+            } else if (s1 == "3") {
                 $("#select3  option[value='3']").remove();
             }
 
-    }
+        }
+
         /*删除单位*/
         function deleteplanhtml() {
             $("#plan").empty();
@@ -123,9 +124,31 @@
             $("input[name=vehicle]").blur(ispresonNum);
             $("input[name=planDecs]").blur(ispresonNum);
             $("#addplan").click(ispresonNum);
-            /*$("select[name=planselect]").change(isselect);*/
+            $("select[name=planeven]").change(isplanType);
         })
 
+        /*判断是否有想通的预案等级*/
+        function isplanType() {
+            var planeven = $("select[name=planeven]").val()
+            var planttpe = $("select[name=planttpe]").val()
+            if (planeven != "" && planttpe != "") {
+                $.post("isPlantype", {planevenl: planeven, plantype: planttpe}, function (data) {
+                    $("#planevenspan").html(data);
+                    if ("已有类型和等级相同预案" == data) {
+                        $("#planevenspan").css("color", " #EEAD0E");
+                        /* $("#addplan").attr('disabled', true);*/
+                    } else {
+                        $("#planevenspan").empty();
+                    }
+                });
+            } else {
+                $("#planevenspan").css("color", "red");
+                $("#planevenspan").html("请选择类型或等级");
+            }
+
+        }
+
+        /*判断预案名是否重复*/
         function isplannames() {
             var text = $("input[name=planname]").val();
             if (text != "") {
@@ -145,7 +168,7 @@
             }
 
         }
-
+        /*判断所有输入框是否为空*/
         function ispresonNum() {
             var input = $("input[type=text]").each(
                 function () {
@@ -199,7 +222,6 @@
     <!-- 页面展示部分-->
 
 
-
     <!-- 页面展示部分-->
 
     <div class="page-content">
@@ -237,7 +259,7 @@
                                                     <option> 火灾</option>
                                                     <option> 地震</option>
                                                     <option> 暴动</option>
-                                                    <option> 海啸</option>
+                                                    <option> 洪水</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -253,6 +275,7 @@
                                                     <option> 3</option>
 
                                                 </select>
+                                                <span id="planevenspan"></span>
                                             </div>
                                         </div>
 
@@ -289,7 +312,7 @@
                                             <div class="controls">
                                                 <!--   <input type="text" placeholder="请输入涉及单位" class="form-control"/>-->
                                                 <select name="planselect" onchange="isselect()">
-                                                    <option selected="selected" value="" >请选择单位</option>
+                                                    <option selected="selected" value="">请选择单位</option>
                                                     <option value="1">公安</option>
                                                     <option value="3">医院</option>
                                                     <option value="2">消防</option>
@@ -344,11 +367,11 @@
                             <!--表单结束-->
                         </div>
                     </div>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 <script th:src="@{staticResources/assets/plugins/pace/pace.min.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/jquery/jquery-1.11.3.min.js}" type="text/javascript"></script>

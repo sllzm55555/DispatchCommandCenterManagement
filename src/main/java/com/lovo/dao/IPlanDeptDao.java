@@ -1,3 +1,7 @@
+/**
+ * 预案和单位中间表Dao层
+ * 高升
+ */
 package com.lovo.dao;
 
 import com.lovo.entity.PlanDeptEntity;
@@ -10,7 +14,7 @@ import java.util.List;
 
 public interface IPlanDeptDao extends CrudRepository<PlanDeptEntity, String> {
     /**
-     * 根据名字对预进行删除
+     * 根据id对预案进行删除
      *
      * @param planid
      */
