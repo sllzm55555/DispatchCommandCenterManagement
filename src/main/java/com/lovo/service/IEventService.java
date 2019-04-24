@@ -45,21 +45,26 @@ public interface IEventService {
      * 事件处理完成的时候，把事件完成的时间设置回去
      * @param date 当前时间
      * @param eventId 事件的id
+     * @return 成功返回1,失败返回0
      */
-    public void changeEventEndTime(Date date,String eventId);
+    public int changeEventEndTime(Date date,String eventId);
 
     /**
      * 新建事务
      * @param e 事务对象
+     * @return 成功返回对象，失败返回null
      */
-    public void saveEvent(EventEntity e);
+    public EventEntity saveEvent(EventEntity e);
 
 
     /**
      *  改变事件受伤人数，灾害等级，事件进度
-     * @param eventId
-     * @param period 事件的进行状态
+     * @param eventId 事件Id
+     * @param eventPeriod 事件的进行状态
+     * @param reperiod  续报的处理阶段
+     * @return 修改成功返回1，失败返回0，没有进行修改返回-1
+     *
      */
-    public void updateEventData(String eventId,int period);
+    public int updateEventData(String eventId,int eventPeriod,int reperiod);
 
 }

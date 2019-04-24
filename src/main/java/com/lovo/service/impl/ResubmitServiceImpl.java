@@ -43,8 +43,8 @@ public class ResubmitServiceImpl implements IResubmitService {
     }
 
     @Override
-    public int getAllResourNumber(String eventEntityId,int eventPeriod) {
-        List<Object[]> all = resubmitDao.getAllResourNumber(eventEntityId,eventPeriod);
+    public int getAllResourNumber(String eventEntityId,int eventPeriod,int reperiod) {
+        List<Object[]> all = resubmitDao.getAllResourNumber(eventEntityId,eventPeriod,reperiod);
         List<ResubmitDto> rList = new ArrayList<ResubmitDto>();
         int totalpage=0;
         if (null!=all){
@@ -72,10 +72,10 @@ public class ResubmitServiceImpl implements IResubmitService {
 
 
     @Override
-    public List<ResubmitDto> findAllResubmitListByIdAndPeriod(String eventId, int period) {
-        List<Object[]> all = resubmitDao.getAllResourNumber(eventId, period);
+    public List<ResubmitDto> findAllResubmitListByIdAndPeriod(String eventId, int eventPeriod,int reperiod) {
+        List<Object[]> all = resubmitDao.getAllResourNumber(eventId, eventPeriod,reperiod);
         List<ResubmitDto> rList =null;
-        if (null != all) {
+        if (null != all&&all.size()>0) {
             rList = new ArrayList<ResubmitDto>();
             for (Object[] objects : all) {
                 ResubmitDto r = new ResubmitDto();
@@ -90,8 +90,8 @@ public class ResubmitServiceImpl implements IResubmitService {
     }
 
     @Override
-    public ResubmitDto getHotNewsResubmit(String eventId, int reperiod) {
-        List<ResubmitDto> all = findAllResubmitListByIdAndPeriod(eventId, reperiod);
+    public ResubmitDto getHotNewsResubmit(String eventId,int eventPeriod,int reperiod) {
+        List<ResubmitDto> all = findAllResubmitListByIdAndPeriod(eventId, eventPeriod, reperiod);
         ResubmitDto re=null;
        if (all!=null){
            re = all.get(0);

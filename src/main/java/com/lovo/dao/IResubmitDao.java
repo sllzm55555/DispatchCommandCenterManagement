@@ -36,15 +36,17 @@ public interface IResubmitDao extends CrudRepository<ResourceEntity,String> {
      * 得到一个事件对应的所有续报
      * @param eventEntityId 续报对应的事件Id
      *  @param eventPeriod 事件的进度
+     *  @param reperiod 续报的处理阶段
      * @return 返回对应的集合
      */
-    @Query(value = "select r.event_level,r.hurt_population,t.event_type,r.report_desc" +
+    @Query(value = " select r.event_level,r.hurt_population,t.event_type,r.report_desc" +
             " from t_followup_report as r " +
             " inner join t_event as t on t.event_id=r.fk_event_entity_id" +
-            " where if(?2 is not null,t.event_period=?2,1=1)" +
-            " and if(?1 is not null,r.fk_event_entity_id =?1,1=1)" +
-            " order by r.report_time",nativeQuery = true)
-    public List<Object []> getAllResourNumber(String eventEntityId,int eventPeriod);
+            " where t.event_period=?2" +
+            " and r.fk_event_entity_id =?1" +
+            " and r.report_period=?3" +
+            " order by r.report_time desc",nativeQuery = true)
+    public List<Object []> getAllResourNumber(String eventEntityId,int eventPeriod,int reperiod);
 
     /**
      * 点击未处理事件，进行处理完成之后，把之前的续报状态全部改成已处理
@@ -55,6 +57,8 @@ public interface IResubmitDao extends CrudRepository<ResourceEntity,String> {
     @Query(value = "update t_followup_report as t set t.report_period=2 " +
             " where  t.fk_event_entity_id = ?1  ",nativeQuery = true)
     public void changeResubmitPeriod(String eventId);
+
+
 
 
 
