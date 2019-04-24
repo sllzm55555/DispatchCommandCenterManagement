@@ -26,17 +26,15 @@
             <!-- 导航 -->
             <ul>
                 <!-- 事件管理 -->
-                <li class="start open"><a th:href="@{goNoDealWith}"><i class="material-icons">timeline</i> <span
-                        class="title">事件管理</span> <span class="selected"></span> <span class="arrow open"></span> </a>
+                <li class="start active"><a th:href="@{goNoDealWith}"><i class="material-icons">timeline</i> <span
+                        class="title">事件管理</span> <span class="selected"></span> <span class="arrow"></span> </a>
                     <ul class="sub-menu">
-                        <li><a th:href="@{goNoDealWith}"> 未处理事件
-                            <span class=" label label-important pull-right m-r-30">NEW</span>
-                        </a></li>
+                        <li><a th:href="@{goNoDealWith}"> 未处理事件 </a></li>
                         <li class=""><a th:href="@{goToDealWithIng}"> 处理中事件 </a></li>
                         <li class=""><a th:href="@{goToPageDealWithEd}"> 处理完成事件 </a></li>
                     </ul>
                 </li>
-                <li class="start "><a th:href="@{gotoPlan}"><i class="material-icons">apps</i><span
+                <li class="start active"><a th:href="@{gotoPlan}"><i class="material-icons">apps</i><span
                         class="title">预案管理</span> <span class="selected"></span> <span class="arrow"></span> </a>
                     <ul class="sub-menu">
                         <li><a th:href="@{gotoPlan}"> 预案管理  </a></li>
@@ -45,7 +43,7 @@
                     </ul>
                 </li>
                 <!-- 资源管理 -->
-                <li class="start "><a th:href="@{goToArea}"><i class="material-icons">panorama_horizontal</i><span
+                <li class="start active"><a th:href="@{goToArea}"><i class="material-icons">panorama_horizontal</i><span
                         class="title">资源管理</span> <span class="selected"></span> <span class="arrow"></span> </a>
                     <ul class="sub-menu">
                         <li><a th:href="@{goToArea}"> 资源管理 </a> </li>
@@ -53,7 +51,7 @@
 
                 </li>
                 <!-- 日志管理 -->
-                <li class="start "><a th:href="@{goToLogPage}"><i class="material-icons">playlist_add_check</i><span
+                <li class="start active"><a th:href="@{goToLogPage}"><i class="material-icons">playlist_add_check</i><span
                         class="title">日志管理</span> <span class="selected"></span> <span class="arrow"></span> </a>
                     <ul class="sub-menu">
                         <li><a th:href="@{goToLogPage}">事件记录日志</a></li>
@@ -61,7 +59,7 @@
                     </ul>
                 </li>
                 <!-- 用户管理 -->
-                <li class="start "><a th:href="@{#}"><i class="material-icons">layers</i><span
+                <li class="start active"><a th:href="@{#}"><i class="material-icons">layers</i><span
                         class="title">用户管理</span> <span class="selected"></span> <span class="arrow"></span> </a>
                     <ul class="sub-menu">
                         <li><a th:href="@{#}">用户管理</a></li>
