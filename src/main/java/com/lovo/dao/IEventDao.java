@@ -4,9 +4,11 @@ import com.lovo.entity.EventEntity;
 import feign.Param;
 import org.junit.Test;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -66,8 +68,17 @@ public interface IEventDao extends CrudRepository<EventEntity,String> {
     @Query("select e from EventEntity e where e.eventId =?1")
     public EventEntity findEventByEventId(String eventId);
 
+    @Modifying
+    @Query("update EventEntity e set e.eventPeriod=2 where e.eventId =?1")
+    public void changeEventPeriod(String eventId);
 
-
-
+    /**
+     * 事件处理完成的时候，把事件完成的时间设置回去
+     * @param date 当前时间
+     * @param eventId 事件的id
+     */
+    @Modifying
+    @Query("update EventEntity e set e.endTime =?1 where e.eventId=?2")
+    public void changeDate(String date,String eventId);
 
 }

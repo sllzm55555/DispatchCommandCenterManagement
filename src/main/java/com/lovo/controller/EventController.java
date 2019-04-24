@@ -181,9 +181,16 @@ public class EventController {
 
 
     @RequestMapping("getDealWithIngEventDeatils")
+    @ResponseBody
     public PageBean getEventAboutDealWithIng(String eventId,int eventPeriod){
 
-        return null;
+        EventEntity event = eventService.findEventByEventId(eventId);
+        int allResourNumber = resubmitService.getAllResourNumber(eventId, eventPeriod);
+        List<ResubmitDto> all = resubmitService.findAllResubmitListByIdAndPeriod(eventId, eventPeriod);
+        PageBean page=new PageBean();
+        page.setObj(event);
+        page.setTableBeans(all);
+        return page;
     }
 
 }
