@@ -24,6 +24,8 @@ public class EventServiceImpl implements IEventService {
 
     @Autowired
     private IEventDao eventDao;
+
+
     @Transactional
     @Override
     public List<EventEntity> findEventEntitiesByCondition(String eventId, String eventType, String eventTime, int pageNo, int pageSize,int eventPeriod ) {
@@ -78,5 +80,10 @@ public class EventServiceImpl implements IEventService {
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String format = sdf.format(date);
         eventDao.changeDate(format, eventId);
+    }
+
+    @Override
+    public void saveEvent(EventEntity e) {
+        eventDao.save(e);
     }
 }

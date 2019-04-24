@@ -41,4 +41,14 @@ public interface IResubmitService {
 
 
     public List<ResubmitDto> findAllResubmitListByIdAndPeriod(String eventId,int period);
+
+    /**
+     * 通过事件Id,和续报的进度 得到最新的续报
+     * @param eventId 事件的Id
+     * @param reperiod 续报的进度
+     * @return 单个续报
+     */
+    public ResubmitDto getHotNewsResubmit(String eventId,int reperiod);
+
+
 }
