@@ -32,7 +32,10 @@ public class WebSocketController {
     @RequestMapping("sendMsg")
     @ResponseBody
     public void sendMsg() throws InterruptedException {
-        producer.sendMessage("testQueue001", "消息1");
+        for (int i = 0; i < 10; i++) {
+            producer.sendMessage("testQueue001", "消息"+i);
+            Thread.sleep(100);
+        }
     }
 
     /**
@@ -43,7 +46,7 @@ public class WebSocketController {
     @ResponseBody
     public void sendMsg2() throws InterruptedException {
         for (int i = 0; i < 10; i++) {
-            producer.sendMessage("testQueue002", "消息2");
+            producer.sendMessage("sb", "消息"+i);
             Thread.sleep(100);
         }
     }
