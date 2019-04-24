@@ -252,9 +252,9 @@ public class LiTest {
                  ) {
                 if(areaName.equals(a.getAreaName())){
 
-                    String massge = "添加失败，已经存在相同区域名称";
+                    String addArea = "添加失败，已经存在相同区域名称";
                     ModelAndView mv=new ModelAndView("area");
-                    mv.addObject("massge",massge);
+                    mv.addObject("addArea",addArea);
                     return mv;
                 }
             }
@@ -262,11 +262,17 @@ public class LiTest {
             AreaEntity areaEntity = new AreaEntity();
             areaEntity.setAreaName(areaName);
             areaService.saveArea(areaEntity);
+            String addArea = "添加成功";
+            ModelAndView mv=new ModelAndView("area");
+            mv.addObject("addArea",addArea);
+            return mv;
+        }else {
+            String addArea = "添加失败，名字不能为空";
+            ModelAndView mv=new ModelAndView("area");
+            mv.addObject("addArea",addArea);
+            return mv;
         }
-        String massge = "添加成功";
-        ModelAndView mv=new ModelAndView("area");
-        mv.addObject("massge",massge);
-        return mv;
+
     }
 
 }
