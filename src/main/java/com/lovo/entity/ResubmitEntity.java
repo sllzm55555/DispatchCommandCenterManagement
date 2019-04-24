@@ -51,6 +51,33 @@ public class ResubmitEntity {
      *reportTel 续报人电话
      */
     private String reportTel;
+    /**
+     * 续报的时间
+     */
+    private String reportTime;
+
+    /**
+     * 续报的状态
+     */
+    private String reportPeriod;
+
+    @Column(columnDefinition = "datetime")
+    public String getReportTime() {
+        return reportTime;
+    }
+
+    public void setReportTime(String reportTime) {
+        this.reportTime = reportTime;
+    }
+
+    @Column(length = 32)
+    public String getReportPeriod() {
+        return reportPeriod;
+    }
+
+    public void setReportPeriod(String reportPeriod) {
+        this.reportPeriod = reportPeriod;
+    }
 
     @Id
     @Column(length = 32)

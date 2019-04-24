@@ -1,6 +1,7 @@
 package com.lovo.dao;
 
 import com.lovo.entity.ResourceEntity;
+import com.lovo.entity.SendResourceEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -34,5 +35,7 @@ public interface IResourceDao extends CrudRepository<ResourceEntity,String> {
             +"if(:rType is not null ,r.dept_type like CONCAT('%',:rType,'%'),1=1) and if(:areaid is not null ,r.area_id = :areaid,1=1)",
             nativeQuery = true)
     List<ResourceEntity> findAll(@Param("rType") String rType,@Param("areaid")String areaid);
+
+
 
 }

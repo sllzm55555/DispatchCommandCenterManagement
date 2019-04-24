@@ -22,10 +22,11 @@ public interface IResubmitDao extends CrudRepository<ResourceEntity,String> {
      * @param pageSize 每页显示的条数
      * @return 返回集合
      */
-    @Query(value = "select  r.event_level,r.hurt_population,t.event_type,r.report_desc from t_followup_report as r " +
+    @Query(value = "select  r.event_level,r.hurt_population,t.event_type,r.report_desc " +
+            " from t_followup_report as r " +
             " inner join t_event as t on t.event_id = r.fk_event_entity_id" +
-            " where t.event_period=?4 r.fk_event_entity_id=?1" +
-            " order by r.fk_event_entity_id desc" +
+            " where if(?4 is not null,t.event_period=?4,1=1) and " +
+            " if(?1 is not null,r.fk_event_entity_id=?1,1=1)" +
             " limit ?2,?3",nativeQuery = true)
     public List<Object []> findResourceEntitiesByEventEntityId(String eventEntityId, int pageNo, int pageSize,int eventPeriod);
 
@@ -35,8 +36,9 @@ public interface IResubmitDao extends CrudRepository<ResourceEntity,String> {
      * @param eventEntityId 续报对应的事件Id
      * @return 返回对应的集合
      */
-    @Query(value = "select * from t_followup_report as r " +
+    @Query(value = "select r.event_level,r.hurt_population,t.event_type,r.report_desc" +
+            " from t_followup_report as r " +
             " inner join t_event as t on t.event_id=r.fk_event_entity_id" +
-            " where t.event_period=?2 and r.fk_event_entity_id =?1",nativeQuery = true)
+            " where if(?2 is not null,t.event_period=?2,1=1) and if(?1 is not null,r.fk_event_entity_id =?1,1=1)",nativeQuery = true)
     public List<Object []> getAllResourNumber(String eventEntityId,int eventPeriod);
 }
