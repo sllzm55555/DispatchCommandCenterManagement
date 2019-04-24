@@ -279,60 +279,9 @@
     </div>
 </div>
 <!-- 左侧导航栏 -->
-<div class="page-container row-fluid">
-    <div class="page-sidebar " id="main-menu">
-        <div class="page-sidebar-wrapper scrollbar-dynamic" id="main-menu-wrapper">
-            <div class="user-info-wrapper sm">
-                <div class="profile-wrapper sm">
-                    <img th:src="@{staticResources/assets/img/profiles/avatar.jpg}" alt=""
-                         data-src="staticResources/assets/img/profiles/avatar.jpg"
-                         data-src-retina="staticResources/assets/img/profiles/avatar2x.jpg" width="69" height="69"/>
-                    <div class="availability-bubble online"></div>
-                </div>
-                <!-- 名字 -->
-                <div class="user-info sm">
-                    <div class="username">Fred <span class="semi-bold">Smith</span></div>
-                    <div class="status">Life goes on...</div>
-                </div>
-            </div>
-            <p class="menu-title sm">BROWSE <span class="pull-right"><a href="javascript:;"><i class="material-icons">refresh</i></a></span>
-            </p>
-            <ul>
-                <li class="start  open active "><a th:href="@{goToNoDealWith}"><i class="material-icons">home</i> <span
-                        class="title">事件管理</span> <span class="selected"></span> <span class="arrow  open "></span> </a>
-                    <ul class="sub-menu">
-                        <li><a th:href="@{goToNoDealWith}"> 未处理事件 </a></li>
-                        <li class=""><a th:href="@{goToDealWithIng}"> 处理中事件 <span
-                                class=" label label-info pull-right m-r-30">NEW</span></a></li>
-                        <li class=""><a th:href="@{getToDealWithEd}"> 处理完成事件 <span
-                                class=" label label-info pull-right m-r-30">NEW</span></a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a th:href="@{prePlan.html}"> <i class="material-icons">panorama_horizontal</i> <span class="title">预案管理</span>
-                        <span class="label label-important bubble-only pull-right "></span></a>
-                </li>
-                <li>
-                    <a th:href="@{resources.html}"> <i class="material-icons">email</i> <span class="title">资源管理</span>
-                        <span class=" badge badge-disable pull-right ">203</span>
-                    </a>
-                </li>
-                <li>
-                    <a> <i class="material-icons">log</i> <span class="title">日志记录</span> </a>
-                    <ul class="sub-menu">
-                        <li><a th:href="@{log.html}">事件记录日志</a></li>
-                        <li><a th:href="@{planManagerLog.html}">预案管理日志</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <div class="clearfix"></div>
-            <!-- END SIDEBAR MENU -->
-        </div>
-    </div>
-    <!-- 左侧导航栏 -->
-    <a th:href="@{#}" class="scrollup">Scroll</a>
-    <!-- 页面展示部分-->
+<div th:include="leftNavigationBar :: leftNavigationBar"></div>
 
+    <!-- 页面展示部分-->
     <div class="page-content">
         <div id="portlet-config" class="modal hide">
             <div class="modal-header">
@@ -401,6 +350,7 @@
         </div>
     </div>
 </div>
+
 <script th:src="@{staticResources/assets/plugins/pace/pace.min.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/jquery/jquery-1.11.3.min.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/bootstrapv3/js/bootstrap.min.js}" type="text/javascript"></script>
