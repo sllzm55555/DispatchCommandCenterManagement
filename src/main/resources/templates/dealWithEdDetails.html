@@ -37,110 +37,7 @@
 <!-- BEGIN BODY -->
 <body class="">
 <!-- BEGIN HEADER -->
-<div class="header navbar navbar-inverse ">
-  <!-- BEGIN TOP NAVIGATION BAR -->
-  <div class="navbar-inner">
-    <div class="header-seperation">
-      <ul class="nav pull-left notifcation-center visible-xs visible-sm">
-        <li class="dropdown">
-          <a th:href="@{#main-menu}" data-webarch="toggle-left-side">
-            <i class="material-icons">menu</i>
-          </a>
-        </li>
-      </ul>
-      <!-- BEGIN LOGO -->
-      <a th:href="index.html">
-        <img th:src="@{staticResources/assets/img/logo.png}" class="logo" alt="" data-src="staticResources/assets/img/logo.png" data-src-retina="staticResources/assets/img/logo2x.png" width="106" height="21" />
-      </a>
-      <!-- END LOGO -->
-    </div>
-    <!-- END RESPONSIVE MENU TOGGLER -->
-    <div class="header-quick-nav">
-      <!-- BEGIN TOP NAVIGATION MENU -->
-
-      <div id="notification-list" style="display:none">
-        <div style="width:300px">
-          <div class="notification-messages info">
-            <div class="user-profile">
-              <img th:src="@{staticResources/assets/img/profiles/d.jpg}" alt="" data-src="staticResources/assets/img/profiles/d.jpg" data-src-retina="staticResources/assets/img/profiles/d2x.jpg" width="35" height="35"/>
-            </div>
-            <div class="message-wrapper">
-              <div class="heading">
-                David Nester - Commented on your wall
-              </div>
-              <div class="description">
-                Meeting postponed to tomorrow
-              </div>
-              <div class="date pull-left">
-                A min ago
-              </div>
-            </div>
-            <div class="clearfix"></div>
-          </div>
-          <div class="notification-messages danger">
-            <div class="iconholder">
-              <i class="icon-warning-sign"></i>
-            </div>
-            <div class="message-wrapper">
-              <div class="heading">
-                ：服务器负载有限
-              </div>
-              <div class="description">
-                数据库服务器已达到日常可用性
-              </div>
-              <div class="date pull-left">
-                2 mins ago
-              </div>
-            </div>
-            <div class="clearfix"></div>
-          </div>
-          <div class="notification-messages success">
-            <div class="user-profile">
-              <img th:src="@{staticResources/assets/img/profiles/h.jpg}" alt="" data-src="staticResources/staticResources/assets/img/profiles/h.jpg" data-src-retina="staticResources/assets/img/profiles/h2x.jpg" width="35" height="35"/>
-            </div>
-            <div class="message-wrapper">
-              <div class="heading">
-                You haveve got 150 messages
-              </div>
-              <div class="description">
-                150 newly unread messages in your inbox
-              </div>
-              <div class="date pull-left">
-                An hour ago
-              </div>
-            </div>
-            <div class="clearfix"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="pull-right">
-        <div class="chat-toggler sm">
-          <div class="profile-pic">
-            <img th:src="@{staticResources/assets/img/profiles/avatar_small.jpg}" alt="" data-src="staticResources/assets/img/profiles/avatar_small.jpg" data-src-retina="staticResources/assets/img/profiles/avatar_small2x.jpg" width="35" height="35"/>
-            <div class="availability-bubble online"></div>
-          </div>
-        </div>
-        <ul class="nav quick-section ">
-          <li class="quicklinks">
-            <a data-toggle="dropdown" class="dropdown-toggle  pull-right " href="#" id="user-options">
-              <i class="material-icons">tune</i>
-            </a>
-            <ul class="dropdown-menu  pull-right" role="menu" aria-labelledby="user-options">
-              <li>
-                <a th:href="user-profile.html">我的账号</a>
-              </li>
-              <li>
-                <a th:href="login.html"><i class="material-icons">power_settings_new</i>&nbsp;&nbsp;登出</a>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- 左侧导航栏 -->
+<div th:include="header :: header"></div>
 <div class="page-container row-fluid">
   <div class="page-sidebar " id="main-menu">
     <div class="page-sidebar-wrapper scrollbar-dynamic" id="main-menu-wrapper">
@@ -184,7 +81,7 @@
     </div>
   </div>
   <!-- 左侧导航栏 -->
-  <a th:href="@{#}" class="scrollup">Scroll</a>
+  <div th:include="leftNavigationBar :: leftNavigationBar"></div>
 
 
   <!-- 页面展示部分-->
@@ -249,7 +146,7 @@
                   <div class="form-group">
                     <span class="help">伤亡人数</span>
                     <div class="controls">
-                      <span th:text="${event.alarmPerson}"></span>
+                      <span th:text="${event.hurtPopulation}"></span>
                     </div>
                   </div>
                   <div class="form-group">

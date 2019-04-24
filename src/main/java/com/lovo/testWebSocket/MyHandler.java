@@ -1,6 +1,5 @@
 package com.lovo.testWebSocket;
 
-import com.lovo.activeMQ.Producer;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
@@ -8,8 +7,9 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.socket.*;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 
-import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -49,7 +49,10 @@ public class MyHandler implements WebSocketHandler {
     public void receiveQueue(String message) throws Exception {
 
         WebSocketSession session = sessionMap.get("/ws");
-        session.sendMessage(new TextMessage(message));
+
+        if(session != null && session.isOpen()){
+            session.sendMessage(new TextMessage(message));
+        }
     }
 
     /**
@@ -59,7 +62,25 @@ public class MyHandler implements WebSocketHandler {
     public void receiveQueue2(String message) throws Exception {
 
         WebSocketSession session = sessionMap.get("/ws02");
-        session.sendMessage(new TextMessage(message));
+        if(session != null && session.isOpen()){
+            session.sendMessage(new TextMessage(message));
+        }
+    }
+
+    @JmsListener(destination="sb")
+    public void receiveQueue3(String message) throws Exception {
+
+        WebSocketSession session = sessionMap.get("/ws02");
+        List<String> list = null;
+        if(session == null){
+            //如果没有session,那么只把数据存入数据库(这里模拟一个list来接收)
+            list = new ArrayList<>();
+            list.add(message);
+            return;
+        }else {
+            //如果有session，那么直接推送到页面，并且保存到数据库
+            session.sendMessage(new TextMessage(message));
+        }
     }
 
     /**
