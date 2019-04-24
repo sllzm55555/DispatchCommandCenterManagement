@@ -48,8 +48,10 @@ public class AreaServiceImpl implements IAreaService {
 
     @Override
     public List<AreaEntity> findAllArea(String area, int pageNum) {
+        //设置每页显示数量
         int pageSize = 4;
         pageNum = pageSize * (pageNum - 1);
+        //把  查询条件  当前页数  每页显示数量   传参
         return areaDao.findAllArea(area,pageNum,pageSize);
     }
 
@@ -60,9 +62,12 @@ public class AreaServiceImpl implements IAreaService {
 
     @Override
     public int findcount(String area) {
+        //通过查询条件  查询出符合条件list
         List<AreaEntity> list = areaDao.findcount(area);
+        //集合的总个数
         double allUserSize = list.size();
         int pageSize = 4;
+        //向上取整   强行转换成int  总页数
         allUserSize = Math.ceil(allUserSize / pageSize);
         return (int) allUserSize;
     }

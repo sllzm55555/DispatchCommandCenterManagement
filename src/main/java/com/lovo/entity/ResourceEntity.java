@@ -3,12 +3,14 @@ package com.lovo.entity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-
+//设置数据库名字
 @Table(name="t_resource")
 @Entity
 public class ResourceEntity {
     /**
      * 资源id
+     * 使用uuid方法  做主键
+     * 设置字段名
      */
     @Id
     @GenericGenerator(name="rid",strategy = "uuid")
@@ -45,6 +47,7 @@ public class ResourceEntity {
     private String url;
     /**
      *外键区域id
+     * 多对一关系
      */
     @ManyToOne
     @JoinColumn(name = "areaId")
