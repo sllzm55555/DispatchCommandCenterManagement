@@ -40,6 +40,12 @@ public interface IResubmitService {
     public void changeResubmitPeriod(String eventId);
 
 
+    /**
+     * 得到一个事件对应的所有续报
+     * @param eventId
+     * @param period
+     * @return
+     */
     public List<ResubmitDto> findAllResubmitListByIdAndPeriod(String eventId,int period);
 
     /**

@@ -27,9 +27,9 @@ public class ResubmitServiceImpl implements IResubmitService {
     public List<ResubmitDto> findResourceEntitiesByEventEntityId(String eventEntityId, int pageNo, int pageSize,int eventPeriod) {
         pageNo=pageSize*(pageNo-1);
         List<Object[]> list = resubmitDao.findResourceEntitiesByEventEntityId(eventEntityId, pageNo, pageSize,eventPeriod);
-        List<ResubmitDto> rList = new ArrayList<ResubmitDto>();
-
+        List<ResubmitDto> rList = null;
         if (null!=list){
+            rList = new ArrayList<ResubmitDto>();
         for (Object[] objects : list) {
             ResubmitDto r = new ResubmitDto();
             r.setEventLevel(objects[0].toString());
@@ -74,8 +74,9 @@ public class ResubmitServiceImpl implements IResubmitService {
     @Override
     public List<ResubmitDto> findAllResubmitListByIdAndPeriod(String eventId, int period) {
         List<Object[]> all = resubmitDao.getAllResourNumber(eventId, period);
-        List<ResubmitDto> rList = new ArrayList<ResubmitDto>();
+        List<ResubmitDto> rList =null;
         if (null != all) {
+            rList = new ArrayList<ResubmitDto>();
             for (Object[] objects : all) {
                 ResubmitDto r = new ResubmitDto();
                 r.setEventLevel(objects[0].toString());

@@ -1,8 +1,10 @@
 package com.lovo.service.impl;
 
 import com.lovo.dao.IEventDao;
+import com.lovo.dto.ResubmitDto;
 import com.lovo.entity.EventEntity;
 import com.lovo.service.IEventService;
+import com.lovo.service.IResubmitService;
 import com.lovo.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,8 @@ public class EventServiceImpl implements IEventService {
 
     @Autowired
     private IEventDao eventDao;
+    @Autowired
+    private IResubmitService resubmitService;
 
 
     @Transactional
@@ -68,11 +72,7 @@ public class EventServiceImpl implements IEventService {
     }
 
 
-    @Override
-    @Transactional
-    public void changeEventPeriod(String eventId) {
-        eventDao.changeEventPeriod(eventId);
-    }
+
 
     @Override
     @Transactional
@@ -85,5 +85,17 @@ public class EventServiceImpl implements IEventService {
     @Override
     public void saveEvent(EventEntity e) {
         eventDao.save(e);
+    }
+
+    @Override
+    @Transactional
+    public void updateEventData(String eventId,int period) {
+        //先得到所有已经处理的续报的最后一条续报的Dto
+        List<ResubmitDto> rr =resubmitService.findAllResubmitListByIdAndPeriod(eventId, period);
+        if (null!=rr){
+        ResubmitDto r= resubmitService.getHotNewsResubmit(eventId, 2);
+        eventDao.updateEventData(eventId,r.getHurtPopulation(),r.getEventLevel(),2);
+        }
+
     }
 }

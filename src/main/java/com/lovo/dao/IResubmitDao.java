@@ -35,6 +35,7 @@ public interface IResubmitDao extends CrudRepository<ResourceEntity,String> {
     /**
      * 得到一个事件对应的所有续报
      * @param eventEntityId 续报对应的事件Id
+     *  @param eventPeriod 事件的进度
      * @return 返回对应的集合
      */
     @Query(value = "select r.event_level,r.hurt_population,t.event_type,r.report_desc" +
@@ -55,9 +56,6 @@ public interface IResubmitDao extends CrudRepository<ResourceEntity,String> {
             " where  t.fk_event_entity_id = ?1  ",nativeQuery = true)
     public void changeResubmitPeriod(String eventId);
 
-    @Query(value = "select * from t_followup_report as t " +
-            " where t.fk_event_entity_id=?1 and t.report_period=?2" +
-            " order by t.report_time desc",nativeQuery = true)
-    public List<ResubmitEntity> getResourceEntity(String eventId,int reportPeriod);
+
 
 }

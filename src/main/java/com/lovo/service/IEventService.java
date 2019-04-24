@@ -40,11 +40,6 @@ public interface IEventService {
      */
     public EventEntity findEventByEventId(String eventId);
 
-    /**
-     * 通过事件id,改变事件的状态，把未处理事件改成处理中事件
-     * @param eventId 事件id
-     */
-    public void changeEventPeriod(String eventId);
 
     /**
      * 事件处理完成的时候，把事件完成的时间设置回去
@@ -58,4 +53,13 @@ public interface IEventService {
      * @param e 事务对象
      */
     public void saveEvent(EventEntity e);
+
+
+    /**
+     *  改变事件受伤人数，灾害等级，事件进度
+     * @param eventId
+     * @param period 事件的进行状态
+     */
+    public void updateEventData(String eventId,int period);
+
 }
