@@ -120,8 +120,8 @@ public class EventController {
      */
     @RequestMapping("getAllData")
     @ResponseBody
-    public PageBean showPageBean(String eventId,int eventPeriod){
-        List<ResubmitDto> rList = resubmitService.findAllResubmitListByIdAndPeriod(eventId,eventPeriod);
+    public PageBean showPageBean(String eventId,int eventPeriod,int reperiod){
+        List<ResubmitDto> rList = resubmitService.findAllResubmitListByIdAndPeriod(eventId,eventPeriod,reperiod);
         PageBean page=new PageBean();
         EventEntity event = eventService.findEventByEventId(eventId);
         page.setTableBeans(rList);

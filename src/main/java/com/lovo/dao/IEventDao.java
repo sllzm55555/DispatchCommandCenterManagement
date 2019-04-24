@@ -76,7 +76,7 @@ public interface IEventDao extends CrudRepository<EventEntity,String> {
      */
     @Modifying
     @Query("update EventEntity e set e.endTime =?1 where e.eventId=?2")
-    public void changeDate(String date,String eventId);
+    public int changeDate(String date,String eventId);
 
     /**
      * 改变事件受伤人数，灾害等级，事件进度
@@ -90,5 +90,5 @@ public interface IEventDao extends CrudRepository<EventEntity,String> {
             " t.event_period=?4," +
             " t.hurt_population=?2 " +
             " where t.event_id=?1",nativeQuery = true)
-    public void updateEventData(String eventId,String hurtPopulation,String  eventLevel,int eventPeriod);
+    public int updateEventData(String eventId,String hurtPopulation,String eventLevel,int eventPeriod);
 }
