@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -16,27 +17,42 @@ public interface IEventLogDao extends CrudRepository<EventLogEntity, String> {
 
     /**
      * 分页查找满足情况的所有日志
-     * @param pageable 分页情况
+     * @param  pageNum 页数
      * @param eventId 条件中的事件编号
      * @param operateType 操作类型
      * @param operator 操作人
      * @param operateTime 操作时间
      * @return
      */
-    @Query("select e from EventLogEntity e where operator=?4")
-    public List<EventLogEntity> getEventLogListByPage(Pageable pageable, String eventId, String operateType, String operator, String operateTime);
+    @Query(value = "SELECT * FROM t_event_log where " +
+            " if(?1 is not null,event_id like concat('%',?1,'%'),1=1) " +
+            " and if(?2 is not null ,operator like concat('%',?2,'%'),1=1)" +
+            " and if(?3 is not null ,operate_time like CONCAT('%',?3,'%'),1=1)" +
+            " and if(?4 is not null ,operate_type=?4 ,1=1)"+
+            " limit ?5,?6",
+            nativeQuery = true)
+    public List<EventLogEntity> showEventLogListByPage(String eventId,
+                                                       String operator,
+                                                       String operateTime,
+                                                       Integer operateType,
+                                                       Integer pageNum,
+                                                       Integer pageSize);
+
+
+
 
     /**
-     * 使用hibernate中的方法实现分页查询
+     * 得到满足情况的所有日志数
+     * @param eventId
+     * @param operateType
      * @param operator
-     * @param pageable
+     * @param operateTime
      * @return
      */
-
-
-    @Query(value = "SELECT * FROM t_event_log as e where if(?1 is not null,e.operator like ?1,1=1) \n#pageable\n",
-            countQuery = "SELECT count(*) FROM t_event_log as e where if(?1 is not null,e.operator like ?1,1=1)",
+    @Query(value = "SELECT COUNT(*) FROM t_event_log where if(?1 is not null,event_id=?1,1=1) " +
+            " and if(?2 is not null ,operate_type=?2,1=1)" +
+            " and if(?3 is not null ,operator=?3,1=1)" +
+            " and if(?4 is not null ,operate_type=?4,1=1)",
             nativeQuery = true)
-    public List<EventLogEntity> getAllEventLogByCondition(String operator, Pageable pageable);
-
+    public Integer getCount(String eventId, Integer operateType, String operator, String operateTime);
 }
