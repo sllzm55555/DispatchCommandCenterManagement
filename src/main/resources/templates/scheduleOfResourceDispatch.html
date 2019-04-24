@@ -88,9 +88,8 @@
                                 <thead>
                                 <tr>
                                     <th style="width:8%">是否续派</th>
-                                    <th style="width:8%">单位类型</th>
                                     <th style="width:8%">单位名称</th>
-                                    <th style="width:8%">单位所在区域</th>
+                                    <!--<th style="width:8%">单位所在区域</th>-->
                                     <th style="width:8%">调用人数</th>
                                     <th style="width:8%">调用车辆</th>
                                     <th style="width:8%">负责人姓名</th>
@@ -98,35 +97,14 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td><span class="muted">第一次派遣</span></td>
-                                    <td><span class="muted">110</span></td>
-                                    <td><span class="muted">青羊区第一派出所</span></td>
-                                    <td><span class="muted">青羊区</span></td>
-                                    <td><span class="muted">10</span></td>
-                                    <td><span class="muted">3</span></td>
-                                    <td><span class="muted">涛涛</span></td>
-                                    <td><span class="muted">13265894632</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span class="muted">第一次派遣</span></td>
-                                    <td><span class="muted">120</span></td>
-                                    <td><span class="muted">青羊区第一人民医院</span></td>
-                                    <td><span class="muted">青羊区</span></td>
-                                    <td><span class="muted">6</span></td>
-                                    <td><span class="muted">3</span></td>
-                                    <td><span class="muted">亚亚</span></td>
-                                    <td><span class="muted">18345793457</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span class="muted">第一次续派</span></td>
-                                    <td><span class="muted">120</span></td>
-                                    <td><span class="muted">青羊区第一人民医院</span></td>
-                                    <td><span class="muted">青羊区</span></td>
-                                    <td><span class="muted">4</span></td>
-                                    <td><span class="muted">2</span></td>
-                                    <td><span class="muted">瑞瑞</span></td>
-                                    <td><span class="muted">15694632658</span></td>
+                                <tr th:each="sendResource:${allSendResourceByEventId}">
+                                    <td th:text="${sendResource.requestTimes}"></td>
+                                    <td th:text="${sendResource.resourceName}"></td>
+                                    <td th:text="${sendResource.requestPopulation}"></td>
+                                    <td th:text="${sendResource.requestResource}"></td>
+                                    <td th:text="${sendResource.chargeName}"></td>
+                                    <td th:text="${sendResource.chargeTel}"></td>
+                                    <!--<td th:text="${sendResource}"></td>-->
                                 </tr>
                                 </tbody>
                             </table>
@@ -145,77 +123,11 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr class="progress-bar-warning">
-                                    <td><span class="muted">青羊区第一派出所</span></td>
-                                    <td><span class="muted">王涛</span></td>
-                                    <td><span class="muted">2019-04-17 17：05：05</span></td>
-                                    <td><span class="muted">未归</span></td>
-                                </tr>
-                                <tr class="progress-bar-warning">
-                                    <td><span class="muted">青羊区第一派出所</span></td>
-                                    <td><span class="muted">吉涛</span></td>
-                                    <td><span class="muted">2019-04-17 17：05：05</span></td>
-                                    <td><span class="muted">未归</span></td>
-                                </tr>
-                                <tr class="progress-bar-warning">
-                                    <td><span class="muted">青羊区第一派出所</span></td>
-                                    <td><span class="muted">吉涛</span></td>
-                                    <td><span class="muted">2019-04-17 17：05：05</span></td>
-                                    <td><span class="muted">未归</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span class="muted">青羊区第一人民医院</span></td>
-                                    <td><span class="muted">川K 32968</span></td>
-                                    <td><span class="muted">2019-04-17 17：05：05</span></td>
-                                    <td><span class="muted">2019-04-17 19：05：00</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span class="muted">青羊区第一人民医院</span></td>
-                                    <td><span class="muted">川K 32968</span></td>
-                                    <td><span class="muted">2019-04-17 17：05：05</span></td>
-                                    <td><span class="muted">2019-04-17 19：05：00</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span class="muted">青羊区第一人民医院</span></td>
-                                    <td><span class="muted">川K 32968</span></td>
-                                    <td><span class="muted">2019-04-17 17：05：05</span></td>
-                                    <td><span class="muted">2019-04-17 19：05：00</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span class="muted">青羊区第一人民医院</span></td>
-                                    <td><span class="muted">川K 32968</span></td>
-                                    <td><span class="muted">2019-04-17 17：05：05</span></td>
-                                    <td><span class="muted">2019-04-17 19：05：00</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span class="muted">青羊区第一人民医院</span></td>
-                                    <td><span class="muted">川K 32968</span></td>
-                                    <td><span class="muted">2019-04-17 17：05：05</span></td>
-                                    <td><span class="muted">2019-04-17 19：05：00</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span class="muted">青羊区第一人民医院</span></td>
-                                    <td><span class="muted">川K 32968</span></td>
-                                    <td><span class="muted">2019-04-17 17：05：05</span></td>
-                                    <td><span class="muted">2019-04-17 19：05：00</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span class="muted">青羊区第一人民医院</span></td>
-                                    <td><span class="muted">川K 32968</span></td>
-                                    <td><span class="muted">2019-04-17 17：05：05</span></td>
-                                    <td><span class="muted">2019-04-17 19：05：00</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span class="muted">青羊区第一人民医院</span></td>
-                                    <td><span class="muted">川K 32968</span></td>
-                                    <td><span class="muted">2019-04-17 17：05：05</span></td>
-                                    <td><span class="muted">2019-04-17 19：05：00</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span class="muted">青羊区第一人民医院</span></td>
-                                    <td><span class="muted">川K 32968</span></td>
-                                    <td><span class="muted">2019-04-17 17：05：05</span></td>
-                                    <td><span class="muted">2019-04-17 19：05：00</span></td>
+                                <tr th:each="progressDto:${allProgressDto}">
+                                    <td th:text="${progressDto.deptName}"></td>
+                                    <td th:text="${progressDto.resourceName}"></td>
+                                    <td th:text="${progressDto.startTime}"></td>
+                                    <td th:text="${progressDto.returnTime}"></td>
                                 </tr>
                                 </tbody>
                             </table>

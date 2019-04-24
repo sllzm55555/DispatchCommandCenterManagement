@@ -24,8 +24,9 @@ public class Producer{
     private Map<String, Destination> destinationMap = new HashMap<>();
     /**
      * 将消息放入队列，传输到资源方
-     * @param queueName 单位的英文名
+     * @param queueName 队列名
      * @param message 消息的内容，通常是转化为json格式的对象
+     *                该对象通常是一个DTO，如果传输给资源方，那么Message就是一个包含续报list和单个单位的dto
      * @throws InterruptedException 传输异常
      */
     public void sendMessage(String queueName, String message) throws InterruptedException {
