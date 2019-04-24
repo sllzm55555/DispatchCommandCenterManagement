@@ -87,19 +87,19 @@
                             <div class="row">
                                 <div class="col-md-8 col-sm-8 col-xs-8">
                                     <div class="form-group">
-                                        <label class="form-label">预案名称</label>
+                                        <label class="form-label"><h4>预案名称</h4></label>
                                         <span class="help"></span>
                                         <div class="controls">
-                                            <span class="form-control"
+                                            <span
                                                   th:text="${planDepts.get(0).planEntity.planName}"></span>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label">事件类型</label>
+                                        <label class="form-label"><h4>事件类型</h4></label>
                                         <span class="help"></span>
                                         <div class="controls">
                                             <!-- <input type="text" placeholder="请输入事件类型" class="form-control" name="planttpe"/>-->
-                                            <span  class="form-control"
+                                            <span
                                                    th:text=" ${planDepts.get(0).planEntity.enevType}"></span>
                                             <!--<select id="plantypes" name="plantypes">
                                                 <option value="火灾"> 火灾</option>
@@ -110,7 +110,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label">事件级别</label>
+                                        <label class="form-label"><h4>事件级别</h4></label>
                                         <span class="help"></span>
                                         <div class="controls">
                                             <!--  <input type="text" placeholder="请输入事件级别" class="form-control" name="planeven"/>-->
@@ -130,29 +130,29 @@
                                         <div th:each="plan,planstate:${planDepts}">
                                             <!--将id通过隐藏表单传过去-->
                                             <input th:type="hidden" th:value="${plan.pdId}" name="planDeptId"/>
-                                            <h5><label class="form-label">涉及单位</label></h5>
+                                            <h5><label class="form-label"><h4>涉及单位</h4></label></h5>
                                             <span class="help"></span>
                                             <div class="controls">
-                                                <span class="form-control"
+                                                <span
                                                        th:text=" ${plan.deptEntity.deptName}"></span>
                                             </div>
-                                            <label class="form-label">出动人数</label>
+                                            <label class="form-label"><h4>出动人数</h4></label>
                                             <span class="help"></span>
                                             <div class="controls">
                                                 <input th:type="number"  th:value=" ${plan.personNum}" name="personNum"/>
                                             </div>
-                                            <label class="form-label">需要资源</label>
+                                            <label class="form-label"><h4>需要资源</h4></label>
                                             <span class="help"></span>
                                             <div class="controls">
                                                 <input th:type="number"  th:value=" ${plan.resource}" name="resource"/>
                                             </div>
-
+                                            <br/><br/>
                                         </div>
                                     </div>
 
 
                                     <div class="form-group">
-                                        <label class="form-label">预案详情</label>
+                                        <label class="form-label"><h4>预案详情</h4></label>
                                         <span class="help"></span>
                                         <div class="controls">
                                             <input class="form-control"
