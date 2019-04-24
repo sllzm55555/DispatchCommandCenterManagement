@@ -1,3 +1,7 @@
+/**
+ * 预案Dao层
+ * 高升
+ */
 package com.lovo.dao;
 
 import com.lovo.entity.PlanEntity;
@@ -21,7 +25,8 @@ public interface IPlanDao extends CrudRepository<PlanEntity, String> {
      * @param pageNum
      * @return
      */
-    @Query(value = "select p.* from t_plan p where if(?1 !='',event_level=?1,1=1) and if(?2 !='' ,event_type=?2,1=1)" +
+    @Query(value = "select p.* from t_plan p   where if(?1 !='',event_level=?1,1=1) and if(?2 !='' ,event_type=?2,1=1)" +
+            " ORDER BY event_level desc"+
             " limit ?3,10 "
             , nativeQuery = true)
     public List<PlanEntity> findAllPlanEntity(String plangrade, String planType, Integer pageNum);

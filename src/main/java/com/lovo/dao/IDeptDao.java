@@ -1,3 +1,7 @@
+/**
+ * 单位Dao层
+ * 高升
+ */
 package com.lovo.dao;
 
 import com.lovo.entity.DeptEntity;

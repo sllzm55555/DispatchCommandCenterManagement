@@ -17,7 +17,7 @@ public class DeptServiceImpl implements IDeptService {
     }
 
     @Override
-    public DeptEntity finDeptEntity(String id) {
+    public DeptEntity findDeptEntity(String id) {
         return deptDao.findOne(id);
     }
 }

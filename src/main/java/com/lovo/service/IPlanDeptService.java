@@ -1,3 +1,7 @@
+/**
+ * 预案单位中间表
+ * 高升
+ */
 package com.lovo.service;
 
 import com.lovo.entity.PlanDeptEntity;
@@ -17,7 +21,7 @@ public interface IPlanDeptService {
      * 删除预案
      * @param planid
      */
-    public void deleteplanbyid(String planid);
+    public void deletePlanbyid(String planid);
 
     /**
      * 取得单个预案模板

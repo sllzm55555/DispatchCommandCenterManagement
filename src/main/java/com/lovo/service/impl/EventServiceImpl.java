@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -63,4 +66,17 @@ public class EventServiceImpl implements IEventService {
     }
 
 
+    @Override
+    @Transactional
+    public void changeEventPeriod(String eventId) {
+        eventDao.changeEventPeriod(eventId);
+    }
+
+    @Override
+    @Transactional
+    public void changeEventEndTime(Date date, String eventId) {
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String format = sdf.format(date);
+        eventDao.changeDate(format, eventId);
+    }
 }
