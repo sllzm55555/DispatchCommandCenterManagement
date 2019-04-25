@@ -188,7 +188,7 @@ public class LogController {
         ModelAndView mv = new ModelAndView("log");
         EventEntity eventEntity = new EventEntity();
         eventEntity.setEndTime("2019-09-09");
-        eventEntity.setEventId("1");
+        eventEntity.setEventId("32322ddg");
         eventEntity.setEventType("teji");
         eventEntity.setEventUploadPeople("lin");
         eventService.saveEvent(eventEntity);
@@ -199,7 +199,7 @@ public class LogController {
     public ModelAndView testUpdateEvent(){
         ModelAndView mv = new ModelAndView("log");
 
-        eventService.updateEventData("1", 2, 3);
+        eventService.updateEventData("1", 2);
         return mv;
     }
 
