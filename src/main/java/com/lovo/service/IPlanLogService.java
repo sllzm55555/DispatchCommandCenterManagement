@@ -19,7 +19,7 @@ public interface IPlanLogService {
      * @param planId  预案id
      * @return
      */
-    public PlanLogEntity savePlanLog(String pLogId,String operator,String operateTime,Integer operateType,String planId);
+    public PlanLogEntity savePlanLog(String pLogId, String operator, String operateTime, Integer operateType, String planId);
 
 
     /**
@@ -44,6 +44,6 @@ public interface IPlanLogService {
      * @param pageSize
      * @return
      */
-    public Integer getCount(String planId, Integer operateType, String operator, String operateTime,Integer pageSize);
+    public Integer getCount(String planId, Integer operateType, String operator, String operateTime, Integer pageSize);
 
 }

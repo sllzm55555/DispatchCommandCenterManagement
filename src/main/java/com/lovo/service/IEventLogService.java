@@ -22,7 +22,7 @@ public interface IEventLogService {
      * @param eventId 时间id
      * @return
      */
-    public EventLogEntity saveEventLog(String eLogId,String operator,String operateTime,Integer operateType,String eventId);
+    public EventLogEntity saveEventLog(String eLogId, String operator, String operateTime, Integer operateType, String eventId);
 
 
     /**
@@ -35,7 +35,7 @@ public interface IEventLogService {
      * @param operateTime
      * @return
      */
-    public List<EventLogEntity> showEventLogByPage(Integer currpage,Integer pageSize,String eventId, Integer operateType, String operator, String operateTime);
+    public List<EventLogEntity> showEventLogByPage(Integer currpage, Integer pageSize, String eventId, Integer operateType, String operator, String operateTime);
 
 
     /**
@@ -47,6 +47,6 @@ public interface IEventLogService {
      * @param pageSize
      * @return
      */
-    public Integer getCount(String eventId, Integer operateType, String operator, String operateTime,Integer pageSize);
+    public Integer getCount(String eventId, Integer operateType, String operator, String operateTime, Integer pageSize);
 
 }

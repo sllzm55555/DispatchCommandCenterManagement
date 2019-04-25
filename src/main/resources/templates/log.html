@@ -130,6 +130,11 @@
 
                 let operator = e.operator;
                 let operateType = e.operateType;
+              if(operateType == 1){
+                operateType = "接受事件";
+              }else if(operateType == 2){
+                operateType = "处理事件";
+              }
                 let operateTime = e.operateTime;
                 let eventId = e.eventId;
 
@@ -138,7 +143,7 @@
                         + "</td><td><span class='muted'>" + operateType + "</span>"
                         + "</td><td class='v-align-middle'>" + operateTime + "</td>"
                         + "</td><td >" + eventId + "</td>"
-                        + "<td><a href='check?eventId="+eventId+"'>查看事件详情</a></td></tr>";
+                        + "<td><a href='jump?eventId="+eventId+"'>查看事件详情</a></td></tr>";
                 $tbody.append(dataTr);
             });
 

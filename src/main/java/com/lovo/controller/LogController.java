@@ -147,7 +147,7 @@ public class LogController {
     }
 
 
-    /*-----------------------测试方法--------------------------*/
+    /*-----------------------测试方法--------------------------*//*
     @Autowired
     private IPlanService planService;
     @RequestMapping("testSavePlan")
@@ -169,7 +169,8 @@ public class LogController {
 
         planService.updataPlanByPlanId("4028ab956a4e370e016a4e375be20000", "特别危险", "嗯，是真的!");
         return mv;
-    }
+    }*/
+
     @Autowired
     private IPlanDeptService planDeptService;
     @RequestMapping("testDeletePlan")

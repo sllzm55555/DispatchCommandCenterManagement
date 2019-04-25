@@ -66,7 +66,6 @@
           if (currpage < 1) {
             currpage = 1
           }
-          alert(currpage);
           $.getJSON("findPlanLogByCondition", {
             currpage: currpage,
             planId: planId,
@@ -79,7 +78,6 @@
           if (currpage > pageAll) {
             currpage = pageAll;
           }
-          alert(currpage);
           $.getJSON("findPlanLogByCondition", {
             currpage: currpage,
             planId: planId,
@@ -89,7 +87,6 @@
           }, showPlanLogPage)
         } else if ("last"==btn) {
           currpage = pageAll;
-          alert(currpage);
           $.getJSON("findPlanLogByCondition", {
             currpage: currpage,
             planId: planId,
@@ -132,6 +129,13 @@
 
         let operator = e.operator;
         let operateType = e.operateType;
+        if(operateType == 1){
+          operateType = "添加预案";
+        }else if(operateType == 2){
+          operateType = "修改预案";
+        }else if(operateType == 3){
+          operateType = "删除预案";
+        }
         let operateTime = e.operateTime;
         let planId = e.planId;
 
@@ -140,7 +144,7 @@
                 + "</td><td><span class='muted'>" + operateType + "</span>"
                 + "</td><td class='v-align-middle'>" + operateTime + "</td>"
                 + "</td><td >" + planId + "</td>"
-                + "<td><a href='check?planId="+planId+"'>查看预案详情</a></td></tr>";
+                + "<td><a href='findPlanByPlanId?planId="+planId+"'>查看预案详情</a></td></tr>";
         $tbody.append(dataTr);
       });
 

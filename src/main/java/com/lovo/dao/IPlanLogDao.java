@@ -26,11 +26,11 @@ public interface IPlanLogDao  extends CrudRepository<PlanLogEntity, String> {
             " limit ?5,?6",
             nativeQuery = true)
     public List<PlanLogEntity> showPlanLogListByPage(String planId,
-                                                       String operator,
-                                                       String operateTime,
-                                                       Integer operateType,
-                                                       Integer pageNum,
-                                                       Integer pageSize);
+                                                     String operator,
+                                                     String operateTime,
+                                                     Integer operateType,
+                                                     Integer pageNum,
+                                                     Integer pageSize);
 
 
     /**
