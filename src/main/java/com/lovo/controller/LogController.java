@@ -1,10 +1,7 @@
 package com.lovo.controller;
 
-import com.lovo.entity.EventLogEntity;
-import com.lovo.entity.PageBean;
-import com.lovo.entity.PlanLogEntity;
-import com.lovo.service.IEventLogService;
-import com.lovo.service.IPlanLogService;
+import com.lovo.entity.*;
+import com.lovo.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -45,10 +43,10 @@ public class LogController {
     @RequestMapping("saveEventLog")
     public ModelAndView saveEventLog(){
         ModelAndView mv = new ModelAndView("log");
-        String eLogId = "wart1020999";
-        String operator = "堂中原";
-        String operateTime = "2019-04-16 12:30";
-        int operateType = 1;
+        String eLogId = "ffdg556";
+        String operator = "高翔";
+        String operateTime = "2019-04-24 12:30";
+        int operateType = 2;
         String eventId = "123235334dftrhf";
         eventLogService.saveEventLog(eLogId,operator,operateTime, operateType, eventId);
         return mv;
@@ -106,8 +104,8 @@ public class LogController {
     @RequestMapping("savePlanLog")
     public ModelAndView savePlanLog(){
         ModelAndView mv = new ModelAndView("log");
-        String pLogId = "yuan01";
-        String operator = "黄中原";
+        String pLogId = "dffg";
+        String operator = "高翔";
         String operateTime = "2019-02-16 12:30";
         int operateType = 1;
         String planId = "123235334dftrhf";
@@ -147,4 +145,69 @@ public class LogController {
 
         return pageBean;
     }
+
+
+    /*-----------------------测试方法--------------------------*/
+    @Autowired
+    private IPlanService planService;
+    @RequestMapping("testSavePlan")
+    public ModelAndView testSavePlan(){
+        ModelAndView mv = new ModelAndView("log");
+        PlanEntity planEntity = new PlanEntity();
+        planEntity.setPlanId("12345");
+        planEntity.setPlanName("plan01");
+        planEntity.setEnevLeve("dfsr");
+        planEntity.setEnevType("地震");
+        planEntity.setPlanDecs("dfhtfhdg");
+        planService.savaPlan(planEntity);
+        return mv;
+    }
+
+    @RequestMapping("testUpdatePlan")
+    public ModelAndView testUpdatePlan(){
+        ModelAndView mv = new ModelAndView("log");
+
+        planService.updataPlanByPlanId("4028ab956a4e370e016a4e375be20000", "特别危险", "嗯，是真的!");
+        return mv;
+    }
+    @Autowired
+    private IPlanDeptService planDeptService;
+    @RequestMapping("testDeletePlan")
+    public ModelAndView testDeletePlan(){
+        ModelAndView mv = new ModelAndView("log");
+        planDeptService.deletePlanbyid("4028ab956a4e84c6016a4e87562a0000");
+        return mv;
+    }
+
+    @Autowired
+    private IEventService eventService;
+
+    @RequestMapping("testSaveEvent")
+    public ModelAndView testSaveEvent(){
+        ModelAndView mv = new ModelAndView("log");
+        EventEntity eventEntity = new EventEntity();
+        eventEntity.setEndTime("2019-09-09");
+        eventEntity.setEventId("1");
+        eventEntity.setEventType("teji");
+        eventEntity.setEventUploadPeople("lin");
+        eventService.saveEvent(eventEntity);
+        return mv;
+    }
+
+    @RequestMapping("testUpdateEvent")
+    public ModelAndView testUpdateEvent(){
+        ModelAndView mv = new ModelAndView("log");
+
+        eventService.updateEventData("1", 2, 3);
+        return mv;
+    }
+
+    @RequestMapping("testChangeEvent")
+    public ModelAndView testChangeEvent(){
+        ModelAndView mv = new ModelAndView("log");
+        Date date = new Date();
+        eventService.changeEventEndTime(date,  "1");
+        return mv;
+    }
+
 }
