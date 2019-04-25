@@ -93,15 +93,20 @@ public class EventServiceImpl implements IEventService {
 
     @Transactional
     @Override
-    public int updateEventData(String eventId,int eventPeriod,int reperiod) {
+    public int updateEventData(String eventId,int eventPeriod) {
         int n=0;
         //先得到所有已经处理的续报的最后一条续报的Dto
-        List<ResubmitDto> rr =resubmitService.findAllResubmitListByIdAndPeriod(eventId, eventPeriod,reperiod);
+        List<ResubmitDto> rr =resubmitService.findAllResubmitListByIdAndPeriod(eventId, eventPeriod,"2");
         if (null==rr||rr.size()==0){
             return -1;
         }else if (null!=rr&&rr.size()>0){
-            ResubmitDto r= resubmitService.getHotNewsResubmit(eventId, eventPeriod,reperiod);
-            n = eventDao.updateEventData(eventId, r.getHurtPopulation(), r.getEventLevel(), 2);
+            ResubmitDto r= resubmitService.getHotNewsResubmit(eventId, eventPeriod,"2");
+            if (eventPeriod==1){
+                eventPeriod+=1;
+            }else if (eventPeriod==2){
+                eventPeriod+=1;
+            }
+            n = eventDao.updateEventData(eventId, r.getHurtPopulation(), r.getEventLevel(), eventPeriod);
         }
         return n;
     }
