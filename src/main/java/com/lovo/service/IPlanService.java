@@ -4,6 +4,7 @@
  */
 package com.lovo.service;
 
+import com.lovo.dto.DeptDto;
 import com.lovo.entity.PlanEntity;
 import org.springframework.data.domain.Pageable;
 
@@ -49,4 +50,15 @@ public interface IPlanService {
      * @return
      */
     public Integer updatePlanByPlanId(String planid,String level,String desc);
+
+    /**
+     *  通过预案id，得到所有的需要的单位的资源
+     * @param planId 预案id
+     * @return 返回符合要求的Dto集合
+     */
+    public List<DeptDto> getAllDept(String planId);
+
+    public List<String> findAllEventIdByEnevTypeAndEnevLeve(String eventType,String eventLevel);
+
+    public PlanEntity findByPlanId(String planId);
 }

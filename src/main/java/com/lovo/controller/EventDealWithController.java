@@ -1,22 +1,23 @@
 package com.lovo.controller;
 
+import com.lovo.dto.DeptDto;
+import com.lovo.dto.PlanFindDto;
+import com.lovo.dto.ResubmitDto;
 import com.lovo.dto.SendResourcesDto;
-import com.lovo.entity.EventEntity;
-import com.lovo.entity.PlanDeptEntity;
-import com.lovo.entity.ResubmitEntity;
-import com.lovo.entity.SendResourceBean;
-import com.lovo.service.IEventService;
-import com.lovo.service.IPlanDeptService;
-import com.lovo.service.IResubmitService;
-import com.lovo.service.ISendResourceService;
+import com.lovo.entity.*;
+import com.lovo.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 处理事件Controller
+ */
 @Controller
 public class EventDealWithController {
 
@@ -32,6 +33,9 @@ public class EventDealWithController {
     @Autowired
     private IPlanDeptService planDeptService;
 
+    @Autowired
+    private IPlanService planService;
+
     /**
      * @return 资源调用页面
      */
@@ -43,27 +47,28 @@ public class EventDealWithController {
 
         //事件实体 EventEntity eventEntity;
         EventEntity eventEntity = eventService.findEventByEventId(eventId);
-        //最后一次续报实体 ResubmitEntity resubmitEntity;
-//        ResubmitEntity resubmitEntity = resubmitService. ;
+        //最后一次续报实体
+        ResubmitDto hotNewsResubmit = resubmitService.getHotNewsResubmit("1", 1, null);
         //如果是续报，需要显示之前派遣的信息 List<T> SendResourcesList;
         List<SendResourcesDto> sendResourcesListByEventId = sendResourceService.getSendResourcesListByEventId(eventId);
-        //预案模板 List<T> planDeptList;
-        List<PlanDeptEntity> planDeptEntitiesByPlan = planDeptService.getPlanDeptEntitiesByPlan(eventEntity.getEventType(), eventEntity.getEventLevel());
-
+        //预案模板 List<T> PlanFindDto;
+        List<PlanFindDto> planFindDtoList = new ArrayList<>();
+        List<String> idByEnevTypeAndEnevLeve = planService.findAllEventIdByEnevTypeAndEnevLeve(eventEntity.getEventType(), eventEntity.getEventLevel());
+        for (String s:idByEnevTypeAndEnevLeve) {
+            PlanFindDto planFindDto = new PlanFindDto();
+            PlanEntity planEntity = planService.findByPlanId(s);
+            planFindDto.setPlanId(planEntity.getPlanId());
+            planFindDto.setPlanName(planEntity.getPlanName());
+            planFindDto.setPlanType(planEntity.getEnevType());
+            planFindDto.setPlanLevel(planEntity.getEnevLeve());
+            List<DeptDto> allDept = planService.getAllDept(planEntity.getPlanId());
+            planFindDto.setDeptDtos(allDept);
+            planFindDtoList.add(planFindDto);
+        }
         objectSendResourceBean.setEventEntity(eventEntity);
-//        objectSendResourceBean.setResubmitEntity(resubmitEntity);
+        objectSendResourceBean.setResubmitDto(hotNewsResubmit);
         objectSendResourceBean.setSendResourcesDtoList(sendResourcesListByEventId);
-        objectSendResourceBean.setPlanDeptList(planDeptEntitiesByPlan);
-
-        //假数据如果是续派的话要查询前面的派遣记录
-//        SendResourcesDto sendResourcesDto = new SendResourcesDto();
-//        sendResourcesDto.setTime(1);
-//        sendResourcesDto.setDeptTypeNature("110");
-//        sendResourcesDto.setNaturePolulation(4);
-//        sendResourcesDto.setNatureResource(2);
-//        sendResourcesDto.setDeptTypeHospital("120");
-//        sendResourcesDto.setHospitalPolulation(4);
-//        sendResourcesDto.setHospitalResource(2);
+        objectSendResourceBean.setPlanFindDtoList(planFindDtoList);
 
         return objectSendResourceBean;
     }
@@ -78,6 +83,13 @@ public class EventDealWithController {
         modelAndView.addObject("eventId",eventId);
         modelAndView.setViewName("sendResources");
         return modelAndView;
+    }
+
+    @RequestMapping("changePlan")
+    @ResponseBody
+    public List<DeptDto> changePlan(String planId) {
+        List<DeptDto> allDept = planService.getAllDept(planId);
+        return allDept;
     }
 
 }
