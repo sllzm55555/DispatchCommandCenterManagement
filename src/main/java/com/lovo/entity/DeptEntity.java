@@ -48,6 +48,7 @@ public class DeptEntity {
         this.deptName = deptName;
     }
     @OneToMany(mappedBy="deptEntity")
+    @JsonIgnore
     public Set<PlanDeptEntity> getSetPlanDeptEntity() {
         return setPlanDeptEntity;
     }

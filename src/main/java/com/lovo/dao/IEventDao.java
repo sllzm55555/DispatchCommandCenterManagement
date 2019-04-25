@@ -86,9 +86,16 @@ public interface IEventDao extends CrudRepository<EventEntity,String> {
      * @param eventPeriod
      */
     @Modifying
-    @Query(value = "update t_event as t set t.event_level =?3," +
+    @Query(value = "update t_event as t set " +
+            " t.event_level =?3," +
             " t.event_period=?4," +
             " t.hurt_population=?2 " +
             " where t.event_id=?1",nativeQuery = true)
     public int updateEventData(String eventId,String hurtPopulation,String eventLevel,int eventPeriod);
+
+
+    @Query(value = "update t_event as t set " +
+            " t.event_period =?2 " +
+            " where t.event_id=?1",nativeQuery = true)
+    public int updateEventPeriod(String eventId,int eventPeriod);
 }

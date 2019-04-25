@@ -32,12 +32,12 @@ public class PlanDeptServiceImpl implements IPlanDeptService {
 
     @Override
     public List<PlanDeptEntity> getPlanDeptEntitiesByPlan(String EvenType, String EvenLive) {
-        String id = "";
+       /* String id = "";*/
         List<String> ids = planDao.getPlanIdBytypeandlevel(EvenType, EvenLive);
-        if (ids.size() > 0) {
+      /*  if (ids.size() > 0) {
             id = ids.get(0);
-        }
-        return planDeptDao.getPlanDeptEntitiesByPlan(id);
+        }*/
+        return planDeptDao.getPlanDeptEntitiesByPlan(EvenType,EvenLive);
     }
 
     @Override

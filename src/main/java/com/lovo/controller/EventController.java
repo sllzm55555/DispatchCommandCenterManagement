@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 /***
@@ -120,11 +122,17 @@ public class EventController {
      */
     @RequestMapping("getAllData")
     @ResponseBody
-    public PageBean showPageBean(String eventId,int eventPeriod,int reperiod){
-        List<ResubmitDto> rList = resubmitService.findAllResubmitListByIdAndPeriod(eventId,eventPeriod,reperiod);
+    public PageBean showPageBean(String eventId,int eventPeriod,String reperiod){
+        List<ResubmitDto> rList =null;
+        int all = resubmitService.getAllResourNumber(eventId, eventPeriod, reperiod);
+        if (all!=0){
+        rList = resubmitService.findAllResubmitListByIdAndPeriod(eventId,eventPeriod,reperiod);
+        }
         PageBean page=new PageBean();
         EventEntity event = eventService.findEventByEventId(eventId);
+        if (null!=rList){
         page.setTableBeans(rList);
+        }
         page.setObj(event);
         return page;
     }
@@ -170,6 +178,33 @@ public class EventController {
       ModelAndView mv=new ModelAndView("dealWithIngDetails");
       mv.addObject("eventId",eventId);
        return  mv;
+    }
+
+
+    /**
+     * 修改事件的进度，等级，伤亡人数，并且把所有的续报的状态改变
+     * @param eId 事件的id
+     * @param ePeriod 事件的进度
+     * @return 返回页面
+     */
+    @RequestMapping("updateEvent")
+    public String updateEventData(String eId,int ePeriod){
+        String str="";
+//        把当前事件的所有续报状态改成已处理
+        resubmitService.changeResubmitPeriod(eId);
+//        根据事件Id,事件的状态，续报的状态，改变这个事件的进度，等级，伤亡人数
+        eventService.updateEventData(eId, ePeriod);
+//   当事件的等级，受伤人数，事件等级全部改变以后，重定向到这个controller，看看从页面传过来的数据
+        if (ePeriod==1){
+//          看传过来的事件进度为1的话，不做任何操作，直接跳转到处理中事件的首页
+            str="dealWithIng";
+        }else{
+//           传过来的数据如果不为1的话，就是处理中的事件，除了改变这些东西外，还要改变事件的结束时间
+//            并且跳转到处理完事件的首页
+            eventService.changeEventEndTime(new Date(),eId);
+            str="dealWithEd";
+        }
+        return str;
     }
 
 

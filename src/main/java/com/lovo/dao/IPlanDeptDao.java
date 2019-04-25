@@ -38,8 +38,8 @@ public interface IPlanDeptDao extends CrudRepository<PlanDeptEntity, String> {
             " t_plan_dept pd" +
             " INNER JOIN t_plan p ON pd.plan_id = p.plan_id" +
             " INNER JOIN t_dept d ON pd.dept_id = d.dept_id" +
-            " WHERE p.plan_id=?1 ",nativeQuery = true)
-    public List<PlanDeptEntity> getPlanDeptEntitiesByPlan(String planId);
+            " WHERE p.event_type=?1 and p.event_level=?2 ",nativeQuery = true)
+    public List<PlanDeptEntity> getPlanDeptEntitiesByPlan(String eventtype,String eventlevel);
 
     /**
      * 查询详情
