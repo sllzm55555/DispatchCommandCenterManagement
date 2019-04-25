@@ -66,12 +66,22 @@ public class LogController {
     public PageBean findEventLogByCondition(Integer currpage,String eventId,
                                             String operator,
                                             String operateTime,
-                                            Integer operateType) throws IOException {
+                                            String operateType) throws IOException {
+        Integer operatetype = null;
+        if(null==operateType){
+            operatetype = null;
+        }else if(operateType.contains("接受")){
+            operatetype = 1;
+        }else if(operateType.contains("处理")){
+            operatetype = 2;
+        }else{
+            operatetype = null;
+        }
         //页面集合,每页8条数据
-        List<EventLogEntity> eventLogList = eventLogService.showEventLogByPage(currpage,pageSize,eventId,operateType,operator,operateTime );
+        List<EventLogEntity> eventLogList = eventLogService.showEventLogByPage(currpage,pageSize,eventId,operatetype,operator,operateTime );
 
         //最大页数
-        Integer totalPage = eventLogService.getCount(eventId,operateType,
+        Integer totalPage = eventLogService.getCount(eventId,operatetype,
                 operator,operateTime,pageSize);
 
         PageBean pageBean = new PageBean();
@@ -129,11 +139,24 @@ public class LogController {
     public PageBean findPlanLogByCondition(Integer currpage,String planId,
                                             String operator,
                                             String operateTime,
-                                            Integer operateType) throws IOException {
+                                            String operateType) throws IOException {
+        Integer type = null;
+        if(null==operateType){
+            type = null;
+        }else if(operateType.contains("添加")){
+            type = 1;
+        }else if(operateType.contains("修改")){
+            type = 2;
+        }else if(operateType.contains("删除")){
+            type = 3;
+        }else{
+            type = null;
+        }
+
         //页面集合,每页8条数据
-        List<PlanLogEntity> planLogList = planLogService.showPlanLogByPage(currpage,pageSize,planId,operateType,operator,operateTime );
+        List<PlanLogEntity> planLogList = planLogService.showPlanLogByPage(currpage,pageSize,planId,type,operator,operateTime );
         //预案日志总页数
-        Integer totalPage = planLogService.getCount(planId,operateType,operator,operateTime,pageSize);
+        Integer totalPage = planLogService.getCount(planId,type,operator,operateTime,pageSize);
 
         PageBean pageBean = new PageBean();
 
