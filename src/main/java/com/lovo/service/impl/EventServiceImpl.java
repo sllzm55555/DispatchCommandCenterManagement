@@ -1,8 +1,10 @@
 package com.lovo.service.impl;
 
 import com.lovo.dao.IEventDao;
+import com.lovo.dto.ResubmitDto;
 import com.lovo.entity.EventEntity;
 import com.lovo.service.IEventService;
+import com.lovo.service.IResubmitService;
 import com.lovo.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,8 @@ public class EventServiceImpl implements IEventService {
 
     @Autowired
     private IEventDao eventDao;
+    @Autowired
+    private IResubmitService resubmitService;
 
 
     @Transactional
@@ -68,22 +72,37 @@ public class EventServiceImpl implements IEventService {
     }
 
 
-    @Override
-    @Transactional
-    public void changeEventPeriod(String eventId) {
-        eventDao.changeEventPeriod(eventId);
-    }
+
 
     @Override
     @Transactional
-    public void changeEventEndTime(Date date, String eventId) {
+    public int changeEventEndTime(Date date, String eventId) {
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String format = sdf.format(date);
-        eventDao.changeDate(format, eventId);
+        int   n = eventDao.changeDate(format, eventId);
+        return n;
     }
 
     @Override
-    public void saveEvent(EventEntity e) {
-        eventDao.save(e);
+    public EventEntity saveEvent(EventEntity e) {
+
+        EventEntity   event = eventDao.save(e);
+
+        return event;
+    }
+
+    @Transactional
+    @Override
+    public int updateEventData(String eventId,int eventPeriod,int reperiod) {
+        int n=0;
+        //先得到所有已经处理的续报的最后一条续报的Dto
+        List<ResubmitDto> rr =resubmitService.findAllResubmitListByIdAndPeriod(eventId, eventPeriod,reperiod);
+        if (null==rr||rr.size()==0){
+            return -1;
+        }else if (null!=rr&&rr.size()>0){
+            ResubmitDto r= resubmitService.getHotNewsResubmit(eventId, eventPeriod,reperiod);
+            n = eventDao.updateEventData(eventId, r.getHurtPopulation(), r.getEventLevel(), 2);
+        }
+        return n;
     }
 }

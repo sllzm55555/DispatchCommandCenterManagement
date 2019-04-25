@@ -67,5 +67,5 @@ public interface IPlanDao extends CrudRepository<PlanEntity, String> {
             " p.event_level=?2," +
             " p.plan_desc=?3" +
             " WHERE p.plan_id=?1", nativeQuery = true)
-    public Integer updataPlanByPlanId(String planid,String level,String desc);
+    public Integer updatePlanByPlanId(String planid,String level,String desc);
 }

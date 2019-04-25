@@ -29,7 +29,6 @@ public interface IEventDao extends CrudRepository<EventEntity,String> {
      * @param eventPeriod 当前事件阶段
      * @return 返回符合条件的未处理事件集合
      */
-
     @Query(value = "select * from t_event as e " +
             "  where if(?1 is not null,e.event_id like ?1,1=1)" +
             "  and if(?2 is not null,e.event_type like concat('%',?2,'%') ,1=1) " +
@@ -68,9 +67,7 @@ public interface IEventDao extends CrudRepository<EventEntity,String> {
     @Query("select e from EventEntity e where e.eventId =?1")
     public EventEntity findEventByEventId(String eventId);
 
-    @Modifying
-    @Query("update EventEntity e set e.eventPeriod=2 where e.eventId =?1")
-    public void changeEventPeriod(String eventId);
+
 
     /**
      * 事件处理完成的时候，把事件完成的时间设置回去
@@ -79,8 +76,19 @@ public interface IEventDao extends CrudRepository<EventEntity,String> {
      */
     @Modifying
     @Query("update EventEntity e set e.endTime =?1 where e.eventId=?2")
-    public void changeDate(String date,String eventId);
+    public int changeDate(String date,String eventId);
 
-
-
+    /**
+     * 改变事件受伤人数，灾害等级，事件进度
+     * @param eventId
+     * @param hurtPopulation
+     * @param eventLevel
+     * @param eventPeriod
+     */
+    @Modifying
+    @Query(value = "update t_event as t set t.event_level =?3," +
+            " t.event_period=?4," +
+            " t.hurt_population=?2 " +
+            " where t.event_id=?1",nativeQuery = true)
+    public int updateEventData(String eventId,String hurtPopulation,String eventLevel,int eventPeriod);
 }

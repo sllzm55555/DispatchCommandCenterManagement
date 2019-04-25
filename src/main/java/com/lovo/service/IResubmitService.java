@@ -29,7 +29,7 @@ public interface IResubmitService {
      * @param eventEntityId 续报对应的事件Id
      * @return 返回事件对应的所有续报的总页数
      */
-    public int getAllResourNumber(String eventEntityId,int eventPeriod);
+    public int getAllResourNumber(String eventEntityId,int eventPeriod,int reperiod);
 
 
     /**
@@ -40,7 +40,14 @@ public interface IResubmitService {
     public void changeResubmitPeriod(String eventId);
 
 
-    public List<ResubmitDto> findAllResubmitListByIdAndPeriod(String eventId,int period);
+    /**
+     * 得到一个事件某个阶段对应的所有续报
+     * @param eventId 事件id
+     * @param eventPeriod 事件的阶段
+     * @param reperiod  续报的处理阶段
+     * @return 返回集合
+     */
+    public List<ResubmitDto> findAllResubmitListByIdAndPeriod(String eventId,int eventPeriod,int reperiod);
 
     /**
      * 通过事件Id,和续报的进度 得到最新的续报
@@ -48,7 +55,7 @@ public interface IResubmitService {
      * @param reperiod 续报的进度
      * @return 单个续报
      */
-    public ResubmitDto getHotNewsResubmit(String eventId,int reperiod);
+    public ResubmitDto getHotNewsResubmit(String eventId,int eventPeriod,int reperiod);
 
 
 }

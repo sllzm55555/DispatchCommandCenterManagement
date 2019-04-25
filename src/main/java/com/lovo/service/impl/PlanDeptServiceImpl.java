@@ -20,14 +20,14 @@ public class PlanDeptServiceImpl implements IPlanDeptService {
     private IPlanDeptDao planDeptDao;
 
     @Override
-    public PlanDeptEntity savaPlanDept(PlanDeptEntity planDeptEntity) {
+    public PlanDeptEntity savePlanDept(PlanDeptEntity planDeptEntity) {
         return planDeptDao.save(planDeptEntity);
     }
 
     @Override
     @Transactional
-    public void deletePlanbyid(String planid) {
-        planDeptDao.deleteplanbyid(planid);
+    public Integer deletePlanbyid(String planid) {
+      return   planDeptDao.deleteplanbyid(planid);
     }
 
     @Override
