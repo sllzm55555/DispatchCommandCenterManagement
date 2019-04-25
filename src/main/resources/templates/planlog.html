@@ -1,0 +1,286 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <meta charset="utf-8" />
+  <title>预案日志</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta content="" name="description" />
+  <meta content="" name="author" />
+  <!-- BEGIN PLUGIN CSS -->
+  <link th:href="@{staticResources/assets/plugins/font-awesome/css/font-awesome.css}" rel="stylesheet" type="text/css" />
+  <link th:href="@{staticResources/assets/plugins/jquery-metrojs/MetroJs.min.css}" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" type="text/css" th:href="@{staticResources/assets/plugins/shape-hover/css/demo.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{staticResources/assets/plugins/shape-hover/css/component.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{staticResources/assets/plugins/owl-carousel/owl.carousel.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{staticResources/assets/plugins/owl-carousel/owl.theme.css}" />
+  <link th:href="@{staticResources/assets/plugins/pace/pace-theme-flash.css}" rel="stylesheet" type="text/css" media="screen" />
+  <link th:href="@{staticResources/assets/plugins/jquery-slider/css/jquery.sidr.light.css}" rel="stylesheet" type="text/css" media="screen" />
+  <link rel="stylesheet" th:href="@{staticResources/assets/plugins/jquery-ricksaw-chart/css/rickshaw.css}" type="text/css" media="screen"/>
+  <link rel="stylesheet" th:href="@{staticResources/assets/plugins/Mapplic/mapplic/mapplic.css}" type="text/css" media="screen"/>
+  <!-- END PLUGIN CSS -->
+  <!-- BEGIN PLUGIN CSS -->
+  <link th:href="@{staticResources/assets/plugins/pace/pace-theme-flash.css}" rel="stylesheet" type="text/css" media="screen" />
+  <link th:href="@{staticResources/assets/plugins/bootstrapv3/css/bootstrap.min.css}" rel="stylesheet" type="text/css" />
+  <link th:href="@{staticResources/assets/plugins/bootstrapv3/css/bootstrap-theme.min.css}" rel="stylesheet" type="text/css" />
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+  <link th:href="@{staticResources/assets/plugins/animate.min.css}" rel="stylesheet" type="text/css" />
+  <link th:href="@{staticResources/assets/plugins/jquery-scrollbar/jquery.scrollbar.css}" rel="stylesheet" type="text/css" />
+  <!-- END PLUGIN CSS -->
+  <!-- BEGIN CORE CSS FRAMEWORK -->
+  <link th:href="@{staticResources/webarch/css/webarch.css}" rel="stylesheet" type="text/css" />
+  <!-- END CORE CSS FRAMEWORK -->
+  <script th:src="@{../staticResources/jquery-2.1.4.js}" type="text/javascript"></script>
+  <!-- END CORE CSS FRAMEWORK -->
+  <script>
+    $(function () {
+      let currpage = 1;
+      $.getJSON("findPlanLogByCondition", {currpage: currpage}, showPlanLogPage);
+
+      $(":button").click(function () {
+        let btn = this.value;
+        let currpage = $("#pageNum").val();
+        let pageAll = $("#pageAll").val();
+
+        let planId = $("#planNum").val();
+        let operator = $("#operator").val();
+        let operateType = $("#operateType").val();
+        let operateTime = $("#operateTime").val();
+
+        currpage = parseInt(currpage);
+        pageAll = parseInt(pageAll);
+
+        if ("first"==btn) {
+          currpage = 1;
+          $.getJSON("findPlanLogByCondition", {
+            currpage: currpage,
+            planId: planId,
+            operator: operator,
+            operateType: operateType,
+            operateTime: operateTime
+          }, showPlanLogPage)
+        } else if ("pre"==btn) {
+          currpage -= 1;
+          if (currpage < 1) {
+            currpage = 1
+          }
+          alert(currpage);
+          $.getJSON("findPlanLogByCondition", {
+            currpage: currpage,
+            planId: planId,
+            operator: operator,
+            operateType: operateType,
+            operateTime: operateTime
+          }, showPlanLogPage)
+        } else if ("next"==btn) {
+          currpage += 1;
+          if (currpage > pageAll) {
+            currpage = pageAll;
+          }
+          alert(currpage);
+          $.getJSON("findPlanLogByCondition", {
+            currpage: currpage,
+            planId: planId,
+            operator: operator,
+            operateType: operateType,
+            operateTime: operateTime
+          }, showPlanLogPage)
+        } else if ("last"==btn) {
+          currpage = pageAll;
+          alert(currpage);
+          $.getJSON("findPlanLogByCondition", {
+            currpage: currpage,
+            planId: planId,
+            operator: operator,
+            operateType: operateType,
+            operateTime: operateTime
+          }, showPlanLogPage)
+        } else if ("change"==btn) {
+          currpage = $("#goToPage").val();
+          if (currpage >= pageAll){
+            currpage = pageAll;
+          } else if (""==currpage){
+            currpage = 1;
+          }
+          $.getJSON("findPlanLogByCondition", {
+            currpage: currpage,
+            planId: planId,
+            operator: operator,
+            operateType: operateType,
+            operateTime: operateTime
+          }, showPlanLogPage)
+        } else if (btn =="查询") {
+          currpage = 1;
+          $.getJSON("findPlanLogByCondition", {
+            currpage: currpage,
+            planId: planId,
+            operator: operator,
+            operateType: operateType,
+            operateTime: operateTime
+          }, showPlanLogPage)
+        }
+      })
+    });
+
+    function showPlanLogPage(data) {
+      let $tbody = $("tbody");
+      $tbody.empty();
+
+      $.each(data.tableBeans, function (i, e) {
+
+        let operator = e.operator;
+        let operateType = e.operateType;
+        let operateTime = e.operateTime;
+        let planId = e.planId;
+
+        let dataTr = "<tr>"
+                + "<td class='v-align-middle'><span class='muted'>" + operator + "</span>"
+                + "</td><td><span class='muted'>" + operateType + "</span>"
+                + "</td><td class='v-align-middle'>" + operateTime + "</td>"
+                + "</td><td >" + planId + "</td>"
+                + "<td><a th:href='@{check?planId="+planId+"}'>查看预案详情</a></td></tr>";
+        $tbody.append(dataTr);
+      });
+
+      //把这里的页数传回到Controller页面
+      let pageNum = data.currPate;
+      let pageAll = data.totalPate;
+
+      //记录数据信息（当前页数和总页数）
+      $("#pageNum").val(pageNum);
+      $("#pageAll").val(pageAll);
+      $("#goToPage").prop("max",data.totalPate);
+      $("#goToPage").prop("min",1);
+      $("#goToPage").val(data.currPate);
+      $("#totalPage").text("/"+data.totalPate);
+    }
+  </script>
+</head>
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<body class="">
+<!-- 页眉，用户退出，显示头像，系统log -->
+<div th:include="header :: header"></div>
+<!-- 页面展示部分 -->
+<div class="page-container row-fluid">
+    <!-- 左侧导航栏 -->
+    <div th:include="leftNavigationBar :: leftNavigationBar"></div>
+
+    <!-- 主要内容展示部分，自己的页面内容全写在这里面-->
+
+  <div class="page-content">
+    <div id="portlet-config" class="modal hide">
+      <div class="modal-header">
+        <button data-dismiss="modal" class="close" type="button"></button>
+        <h3>Widget Settings</h3>
+      </div>
+      <div class="modal-body"> Widget settings form goes here</div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="content sm-gutter">
+      <div class="content sm-gutter">
+        <div class="row-fluid">
+          <div class="span12">
+            <div class="grid simple ">
+              <div class="grid-title">
+                <div class="row form-row">
+                  <span style="font-size: 28px">预案管理日志</span>
+                  <form action="" class="pull-right">
+                    <input id="planNum" name="planNum" type="text" class="form-control"
+                           style="width: 150px;display: inline-block;" placeholder="预案编号"/>
+                    <input id="operator" name="operator" type="text" class="form-control"
+                           style="width: 150px;display: inline-block;" placeholder="操作人员"/>
+                    <input id="operateType" name="operateType" type="text" class="form-control"
+                           style="width: 150px;display: inline-block;" placeholder="操作类型"/>
+                    <input id="operateTime" name="operateTime" type="date" class="form-control"
+                           style="width: 150px;display: inline-block;" placeholder="操作时间"/>
+                    <button class="btn btn-success btn-cons" type="button" value="查询"><i class="icon-ok"></i>查询
+                    </button>
+                  </form>
+                </div>
+              </div>
+              <div class="grid-body ">
+                <table class="table table-hover table-condensed" id="example">
+                  <thead>
+                  <tr>
+                    <th style="width:10%" data-hide="phone,tablet">操作人</th>
+                    <th style="width:10%"> 操作类型</th>
+                    <th style="width:10%" data-hide="phone,tablet">操作时间</th>
+                    <th style="width:10%" data-hide="phone,tablet">预案编号</th>
+                    <th style="width:10%" data-hide="phone,tablet">查看</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+
+                  </tbody>
+                </table>
+                <input type="hidden" id="pageNum"/>
+                <input type="hidden" id="pageAll"/>
+                <div class="pull-right">
+                  <button class="btn btn-info btn-cons" type="button" value="first"><i class="icon-ok"></i> 首页</button>
+                  <button class="btn btn-info btn-cons" type="button" value="pre"><i class="icon-ok"></i> 上一页</button>
+                  <button class="btn btn-info btn-cons" type="button" value="next"><i class="icon-ok"></i> 下一页</button>
+                  <button class="btn btn-info btn-cons" type="button" value="last"><i class="icon-ok"></i> 尾页</button>
+                  <input type="text" class="form-control" placeholder="您要跳转的页码"
+                         style="width: 120px;display: inline-block" id="goToPage"/>
+                  <span id="totalPage"></span>
+                  <button class="btn btn-info btn-cons" type="button" value="change"><i class="icon-ok"></i> 跳转</button>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script th:src="@{staticResources/assets/plugins/pace/pace.min.js}" type="text/javascript"></script>
+
+<script th:src="@{staticResources/assets/plugins/jquery/jquery-1.11.3.min.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/bootstrapv3/js/bootstrap.min.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-block-ui/jqueryblockui.min.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-unveil/jquery.unveil.min.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-numberAnimate/jquery.animateNumbers.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-validation/js/jquery.validate.min.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/bootstrap-select2/select2.min.js}" type="text/javascript"></script>
+
+<script th:src="@{staticResources/webarch/js/webarch.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/js/chat.js}" type="text/javascript"></script>
+
+<script th:src="@{staticResources/assets/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-ricksaw-chart/js/raphael-min.js}"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-ricksaw-chart/js/d3.v2.js}"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-ricksaw-chart/js/rickshaw.min.js}"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-sparkline/jquery-sparkline.js}"></script>
+<script th:src="@{staticResources/assets/plugins/skycons/skycons.js}"></script>
+
+
+
+<script th:src="@{staticResources/assets/plugins/owl-carousel/owl.carousel.min.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/Mapplic/js/jquery.easing.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/Mapplic/js/jquery.mousewheel.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/Mapplic/js/jquery.flot.min.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/Mapplic/mapplic/mapplic.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-flot/jquery.flot.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-metrojs/MetroJs.min.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/js/dashboard_v2.js}" type="text/javascript"></script>
+
+<script th:src="@{staticResources/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-block-ui/jqueryblockui.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-morris-chart/js/morris.min.js}"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-easy-pie-chart/js/jquery.easypiechart.min.js}"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-slider/jquery.sidr.min.js}" type="text/javascript}"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-jvectormap/js/jquery-jvectormap-1.2.2.min.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-jvectormap/js/jquery-jvectormap-us-lcc-en.js}" type="text/javascript"></script>
+
+<script th:src="@{staticResources/assets/plugins/jquery-flot/jquery.flot.min.js}"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-flot/jquery.flot.animator.min.js}"></script>
+<!-- END PAGE LEVEL PLUGINS   -->
+<!-- PAGE JS -->
+<script th:src="@{staticResources/assets/js/dashboard.js}" type="text/javascript"></script>
+</body>
+</html>
