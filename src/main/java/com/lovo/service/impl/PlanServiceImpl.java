@@ -35,7 +35,7 @@ public class PlanServiceImpl implements IPlanService {
     }
 
     @Override
-    public PlanEntity savaPlan(PlanEntity planEntity) {
+    public PlanEntity savePlan(PlanEntity planEntity) {
         return planDao.save(planEntity);
     }
 
@@ -46,8 +46,8 @@ public class PlanServiceImpl implements IPlanService {
 
     @Override
     @Transactional
-    public Integer updataPlanByPlanId(String planid, String level, String desc) {
-        return planDao.updataPlanByPlanId(planid,level,desc);
+    public Integer updatePlanByPlanId(String planid, String level, String desc) {
+        return planDao.updatePlanByPlanId(planid,level,desc);
     }
 
 

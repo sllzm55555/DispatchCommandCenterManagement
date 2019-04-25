@@ -15,13 +15,13 @@ public interface IPlanDeptService {
      * @param planDeptEntity
      * @return
      */
-    public PlanDeptEntity savaPlanDept(PlanDeptEntity planDeptEntity);
+    public PlanDeptEntity savePlanDept(PlanDeptEntity planDeptEntity);
 
     /**
      * 删除预案
      * @param planid
      */
-    public void deletePlanbyid(String planid);
+    public Integer deletePlanbyid(String planid);
 
     /**
      * 取得单个预案模板

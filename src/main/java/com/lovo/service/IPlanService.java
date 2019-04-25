@@ -32,7 +32,7 @@ public interface IPlanService {
      * @param planEntity
      * @return
      */
-    public PlanEntity savaPlan(PlanEntity planEntity);
+    public PlanEntity savePlan(PlanEntity planEntity);
 
     /**
      * 根据名字进行非空判断查询
@@ -48,5 +48,5 @@ public interface IPlanService {
      * @param desc
      * @return
      */
-    public Integer updataPlanByPlanId(String planid,String level,String desc);
+    public Integer updatePlanByPlanId(String planid,String level,String desc);
 }
