@@ -44,7 +44,7 @@ public interface IPlanLogDao  extends CrudRepository<PlanLogEntity, String> {
     @Query(value = "SELECT COUNT(*) FROM t_plan_log where if(?1 is not null ,plan_id like concat('%',?1,'%'),1=1) " +
             " and if(?2 is not null ,operate_type like concat('%',?2,'%'),1=1)" +
             " and if(?3 is not null ,operator like CONCAT('%',?3,'%'),1=1)" +
-            " and if(?4 is not null ,operate_type like CONCAT('%',?4,'%'),1=1)",
+            " and if(?4 is not null ,operate_time like CONCAT('%',?4,'%'),1=1)",
             nativeQuery = true)
     public Integer getAllPlanLogCount(String planId, Integer operateType, String operator, String operateTime);
 

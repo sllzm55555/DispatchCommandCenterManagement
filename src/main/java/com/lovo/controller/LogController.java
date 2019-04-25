@@ -188,7 +188,7 @@ public class LogController {
         ModelAndView mv = new ModelAndView("log");
         EventEntity eventEntity = new EventEntity();
         eventEntity.setEndTime("2019-09-09");
-        eventEntity.setEventId("32322ddg");
+        eventEntity.setEventId("4");
         eventEntity.setEventType("teji");
         eventEntity.setEventUploadPeople("lin");
         eventService.saveEvent(eventEntity);
