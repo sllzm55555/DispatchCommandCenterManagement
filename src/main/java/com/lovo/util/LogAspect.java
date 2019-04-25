@@ -120,7 +120,7 @@ public class LogAspect {
                 }
             }
 
-        } else if(methodName.contains("updataPlan")){
+        } else if(methodName.contains("updatePlan")){
             operateType = 2;
             Object[] args1 = joinPoint.getArgs();
             id = (String)args1[0];

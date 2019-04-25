@@ -49,9 +49,9 @@ public interface IEventLogDao extends CrudRepository<EventLogEntity, String> {
      * @param operateTime
      * @return
      */
-    @Query(value = "SELECT COUNT(*) FROM t_event_log where if(?1 is not null,event_id=?1,1=1) " +
-            " and if(?2 is not null ,operate_type=?2,1=1)" +
-            " and if(?3 is not null ,operator=?3,1=1)" +
+    @Query(value = "SELECT COUNT(*) FROM t_event_log where if(?1 is not null,event_id like concat('%',?1,'%'),1=1) " +
+            " and if(?2 is not null ,operate_type like concat('%',?2,'%'),1=1)" +
+            " and if(?3 is not null ,operator like CONCAT('%',?3,'%'),1=1)" +
             " and if(?4 is not null ,operate_type=?4,1=1)",
             nativeQuery = true)
     public Integer getCount(String eventId, Integer operateType, String operator, String operateTime);
