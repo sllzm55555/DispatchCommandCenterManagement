@@ -1,5 +1,7 @@
 package com.lovo.entity;
 
+import com.lovo.dto.PlanFindDto;
+import com.lovo.dto.ResubmitDto;
 import com.lovo.dto.SendResourcesDto;
 
 import java.util.List;
@@ -18,7 +20,7 @@ public class SendResourceBean {
     /***
      * 最后一次续报实体
      */
-    private ResubmitEntity resubmitEntity;
+    private ResubmitDto resubmitDto;
 
     /***
      * 如果是续报，需要显示之前派遣的信息
@@ -28,16 +30,9 @@ public class SendResourceBean {
     /**
      *预案模板
      */
-    private List<PlanDeptEntity> planDeptList;
+    private List<PlanFindDto> planFindDtoList;
 
     public SendResourceBean() {
-    }
-
-    public SendResourceBean(EventEntity eventEntity, ResubmitEntity resubmitEntity, List<SendResourcesDto> sendResourcesDtoList, List<PlanDeptEntity> planDeptList) {
-        this.eventEntity = eventEntity;
-        this.resubmitEntity = resubmitEntity;
-        this.sendResourcesDtoList = sendResourcesDtoList;
-        this.planDeptList = planDeptList;
     }
 
     public EventEntity getEventEntity() {
@@ -48,12 +43,12 @@ public class SendResourceBean {
         this.eventEntity = eventEntity;
     }
 
-    public ResubmitEntity getResubmitEntity() {
-        return resubmitEntity;
+    public ResubmitDto getResubmitDto() {
+        return resubmitDto;
     }
 
-    public void setResubmitEntity(ResubmitEntity resubmitEntity) {
-        this.resubmitEntity = resubmitEntity;
+    public void setResubmitDto(ResubmitDto resubmitDto) {
+        this.resubmitDto = resubmitDto;
     }
 
     public List<SendResourcesDto> getSendResourcesDtoList() {
@@ -64,11 +59,18 @@ public class SendResourceBean {
         this.sendResourcesDtoList = sendResourcesDtoList;
     }
 
-    public List<PlanDeptEntity> getPlanDeptList() {
-        return planDeptList;
+    public List<PlanFindDto> getPlanFindDtoList() {
+        return planFindDtoList;
     }
 
-    public void setPlanDeptList(List<PlanDeptEntity> planDeptList) {
-        this.planDeptList = planDeptList;
+    public void setPlanFindDtoList(List<PlanFindDto> planFindDtoList) {
+        this.planFindDtoList = planFindDtoList;
+    }
+
+    public SendResourceBean(EventEntity eventEntity, ResubmitDto resubmitDto, List<SendResourcesDto> sendResourcesDtoList, List<PlanFindDto> planFindDtoList) {
+        this.eventEntity = eventEntity;
+        this.resubmitDto = resubmitDto;
+        this.sendResourcesDtoList = sendResourcesDtoList;
+        this.planFindDtoList = planFindDtoList;
     }
 }
