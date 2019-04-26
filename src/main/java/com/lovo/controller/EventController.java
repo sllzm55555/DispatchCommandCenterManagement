@@ -45,7 +45,7 @@ public class EventController {
      * 未处理事件首页
      * @return
      */
-    @RequestMapping("goNoDealWith")
+    @RequestMapping("goToNoDealWith")
     public String gotoNoDealWith(){
         ModelAndView mv=new ModelAndView("noDealWith");
         return "noDealWith";
@@ -55,7 +55,7 @@ public class EventController {
      * 未处理事件详情
      * @return
      */
-    @RequestMapping("goToNoDealWithDetails")
+    @RequestMapping("goNoDealWithDetails")
     public String gotoNoDealWithDetails(){
         return "noDealWithDetails";
     }
@@ -63,7 +63,7 @@ public class EventController {
     /**
      * 处理完成事件
      */
-    @RequestMapping("gotoDealWithEd")
+    @RequestMapping("goToDealWithEd")
     public String gotoDealWithEd(){
         return "dealWithEd";
     }
@@ -71,7 +71,7 @@ public class EventController {
     /**
      * 处理完成事件详情
      */
-    @RequestMapping("gotoDealWithEdDetails")
+    @RequestMapping("goDealWithEdDetails")
     public String gotoDealWithEdDetails(){
         return "dealWithEdDetails";
     }
@@ -97,7 +97,7 @@ public class EventController {
      *
      * @return  处理中事件查看详情
      */
-    @RequestMapping("dealWithIngDetails")
+    @RequestMapping("goDealWithIngDetails")
     public String gotoDealWithIngDetails(){
         return "dealWithIngDetails";
     }
@@ -124,9 +124,9 @@ public class EventController {
     @ResponseBody
     public PageBean showPageBean(String eventId,int eventPeriod,String reperiod){
         List<ResubmitDto> rList =null;
-        int all = resubmitService.getAllResourNumber(eventId, eventPeriod, reperiod);
-        if (all!=0){
-        rList = resubmitService.findAllResubmitListByIdAndPeriod(eventId,eventPeriod,reperiod);
+       List<ResubmitDto> allList =resubmitService.findAllResubmitListByIdAndPeriod(eventId,eventPeriod,reperiod);
+        if (null!=allList){
+        rList = allList;
         }
         PageBean page=new PageBean();
         EventEntity event = eventService.findEventByEventId(eventId);

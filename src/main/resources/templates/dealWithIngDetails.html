@@ -50,7 +50,8 @@
             $("#event1").append(goSendResource);
             $("#event1").append(retureDealWithing);
             let currPage=1;
-            $.getJSON("getAllData",{eventId:eventId,eventPeriod:eventPeriod},showDetials);
+            let reperiod="1";
+            $.getJSON("getAllData",{eventId:eventId,eventPeriod:eventPeriod,reperiod:reperiod},showDetials);
             $("input[type=text]").prop("readOnly",true);
             $("input[type=text]").css("border","none");
         })
@@ -64,7 +65,7 @@
                    "<td>"+e.hurtPopulation+"</td>" +
                    "<td>"+e.reportDesc+"</td>" +
                    "<tr>";
-               $("#tbody").append(th);
+               $("#tbody").append(td);
                })
            }
           let event= data.obj;
