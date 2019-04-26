@@ -61,4 +61,6 @@ public interface IPlanService {
     public List<String> findAllEventIdByEnevTypeAndEnevLeve(String eventType,String eventLevel);
 
     public PlanEntity findByPlanId(String planId);
+
+    public List<DeptDto> getAllByLeveLAndType(String eventlevel,String eventType);
 }

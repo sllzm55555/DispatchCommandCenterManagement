@@ -45,6 +45,10 @@
         $(function () {
             let eventId=parseInt($("input[type=hidden]").eq(0).val());
             let eventPeriod=parseInt($("input[type=hidden]").eq(1).val());
+            let goSendResource = "<a href=\"/sendResourcesJump?eventId=" + eventId + "&eventPeriod=" + eventPeriod + "\"> <button class=\"btn btn-success btn-cons col-sm-offset-2\" type=\"submit\"><i class=\"icon-ok\"></i>处理续报</button></a>";
+            let retureDealWithing = "<button class=\"btn btn-success btn-cons col-sm-offset-2\" type=\"submit\"><i class=\"icon-ok\"></i>查看调用的资源</button>";
+            $("#event1").append(goSendResource);
+            $("#event1").append(retureDealWithing);
             let currPage=1;
             $.getJSON("getAllData",{eventId:eventId,eventPeriod:eventPeriod},showDetials);
             $("input[type=text]").prop("readOnly",true);
@@ -284,7 +288,7 @@
         <div class="content sm-gutter">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="grid simple">
+                    <div class="grid simple" id="event1">
                         <div class="grid-title no-border">
                             <h4>处理中事件详情<span class="semi-bold">详情</span></h4>
                         </div>
@@ -338,16 +342,9 @@
 
                         <input type="hidden" value="2">
 
-                        <button class="btn btn-success btn-cons col-sm-offset-2" type="submit"><i class="icon-ok"
-                                                                                                  id="button1"></i> 返回
-                        </button>
-
-                        <button class="btn btn-success btn-cons col-sm-offset-2" type="submit"><i class="icon-ok"></i>
-                            处理续报
-                        </button> <button class="btn btn-success btn-cons col-sm-offset-2" type="submit"><i class="icon-ok"></i>
-                            查看调用的资源
-                        </button>
-
+                        <a href="/goToDealWithIng"> <button class="btn btn-success btn-cons col-sm-offset-2" type="submit"><i class="icon-ok" id="button1"></i> 返回</button></a>
+                        <!--<a href="/sendResourcesJump"> <button class="btn btn-success btn-cons col-sm-offset-2" type="submit"><i class="icon-ok"></i>处理续报</button></a>-->
+                        <!--<button class="btn btn-success btn-cons col-sm-offset-2" type="submit"><i class="icon-ok"></i>查看调用的资源</button>-->
                     </div>
                 </div>
             </div>

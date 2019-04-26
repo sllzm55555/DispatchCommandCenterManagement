@@ -20,4 +20,6 @@ public class DeptServiceImpl implements IDeptService {
     public DeptEntity findDeptEntity(String id) {
         return deptDao.findOne(id);
     }
+
+
 }

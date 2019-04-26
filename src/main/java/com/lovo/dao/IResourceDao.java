@@ -2,6 +2,7 @@ package com.lovo.dao;
 
 import com.lovo.entity.ResourceEntity;
 import com.lovo.entity.SendResourceEntity;
+import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -36,6 +37,7 @@ public interface IResourceDao extends CrudRepository<ResourceEntity,String> {
             nativeQuery = true)
     List<ResourceEntity> findAll(@Param("rType") String rType,@Param("areaid")String areaid);
 
-
+    @Query(value = "SELECT * from t_resource r WHERE r.dept_type=?1 and r.area_id=?2",nativeQuery = true)
+    public List<ResourceEntity> findAllByTypeAndAreaId(String type,String areaId);
 
 }

@@ -62,6 +62,13 @@ public interface IAreaService {
      */
     public int findcount(String area);
 
+    /**
+     * 通过名字找区域
+     * @param areaName
+     * @return
+     */
+    public AreaEntity findByAreaName(String areaName);
+
 
 
 

@@ -64,4 +64,6 @@ public interface IResourceService {
      */
     public int pageAll(String resourceType,String areaid);
 
+    public List<ResourceEntity> findAllByTypeAndAreaId(String type,String areaId);
+
 }

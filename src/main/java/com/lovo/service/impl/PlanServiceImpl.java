@@ -67,6 +67,20 @@ public class PlanServiceImpl implements IPlanService {
     }
 
     @Override
+    public List<DeptDto> getAllByLeveLAndType(String eventlevel, String eventType) {
+        List<Object []> all = planDao.getAllByLeveLAndType(eventlevel, eventType);
+        List<DeptDto> list=new ArrayList<DeptDto>();
+        for (Object[] objects : all) {
+            DeptDto deptDto=new DeptDto();
+            deptDto.setDeptName(objects[0].toString());
+            deptDto.setPersonNumber(objects[1].toString());
+            deptDto.setCarNumber(objects[2].toString());
+            list.add(deptDto);
+        }
+        return list;
+    }
+
+    @Override
     public PlanEntity findByPlanId(String planId) {
         return planDao.findByPlanId(planId);
     }
