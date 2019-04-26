@@ -18,6 +18,11 @@ public class UserEntity {
     private String userId;
 
     /**
+     * 用户名
+     */
+    private String username;
+
+    /**
      * 用户密码
      */
     private String password;
@@ -37,6 +42,16 @@ public class UserEntity {
      */
     private String tel;
 
+    /**
+     * 性别
+     */
+    private String gender;
+
+    /**
+     * 权限
+     */
+    private String power;
+
     @Id
     @GenericGenerator(name = "userUUID" , strategy = "uuid")
     @GeneratedValue(generator = "userUUID")
@@ -49,7 +64,6 @@ public class UserEntity {
         this.userId = userId;
     }
 
-    @Column(name = "u_password" , length = 32)
     public String getPassword() {
         return password;
     }
@@ -58,7 +72,6 @@ public class UserEntity {
         this.password = password;
     }
 
-    @Column(name = "u_realName" , length = 32)
     public String getRealName() {
         return realName;
     }
@@ -67,7 +80,6 @@ public class UserEntity {
         this.realName = realName;
     }
 
-    @Column(name = "u_address" , length = 88)
     public String getAddress() {
         return address;
     }
@@ -76,7 +88,6 @@ public class UserEntity {
         this.address = address;
     }
 
-    @Column(name = "u_tel" , length = 11)
     public String getTel() {
         return tel;
     }
@@ -85,4 +96,27 @@ public class UserEntity {
         this.tel = tel;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getPower() {
+        return power;
+    }
+
+    public void setPower(String power) {
+        this.power = power;
+    }
 }

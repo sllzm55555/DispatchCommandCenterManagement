@@ -87,7 +87,7 @@ public class PlanController {
             planEntity.setEnevType(planttpe);
             planEntity.setEnevLeve(planeven);
             planEntity.setPlanDecs(planDecs);
-            planService.savaPlan(planEntity);
+            planService.savePlan(planEntity);
             //添加单位和中间表
             for (int i = 0; i < planselects.length; i++) {
                 //添加单位
@@ -101,7 +101,7 @@ public class PlanController {
                 planDeptEntity.setDeptEntity(deptEntity);
                 planDeptEntity.setResource(vehicles[i]);
                 planDeptEntity.setPersonNum(presonNums[i]);
-                planDeptService.savaPlanDept(planDeptEntity);
+                planDeptService.savePlanDept(planDeptEntity);
 
             }
 
@@ -218,7 +218,7 @@ public class PlanController {
         String[] planDeptIds = planDeptId.split(",");//中间表id
         if(planDeptIds.length==resources.length&&resources.length==presonNums.length) {
             //修改预案表
-            planService.updataPlanByPlanId(planId, planeven, planDecs);
+            planService.updatePlanByPlanId(planId, planeven, planDecs);
             //修改中间表
             for (int i = 0; i < planDeptIds.length - 1; i++) {
                 System.out.println(planDeptIds[i]);

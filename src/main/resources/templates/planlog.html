@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <meta charset="utf-8" />
-  <title>资源页面</title>
+  <title>预案日志</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta content="" name="description" />
   <meta content="" name="author" />
@@ -32,125 +32,135 @@
   <!-- BEGIN CORE CSS FRAMEWORK -->
   <link th:href="@{staticResources/webarch/css/webarch.css}" rel="stylesheet" type="text/css" />
   <!-- END CORE CSS FRAMEWORK -->
-
-  <script th:src="@{staticResources/jquery-2.1.4.js}" type="text/javascript"></script>
+  <script th:src="@{../staticResources/jquery-2.1.4.js}" type="text/javascript"></script>
+  <!-- END CORE CSS FRAMEWORK -->
   <script>
     $(function () {
-      var pageNum = 1;
-      var areaid = $("#areaid").val();
+      let currpage = 1;
+      $.getJSON("findPlanLogByCondition", {currpage: currpage}, showPlanLogPage);
 
-      $.getJSON("findAllResource", {pageNum: pageNum,areaid:areaid}, showResourcePage);
-
-        $("#massge").click(function () {
-            var $massge = $("#massge");
-            $massge.empty();
-        });
       $(":button").click(function () {
-        var btn = this.value;
-        var pageNum = $("#pageNum").val();
-        var pageAll = $("#pageAll").val();
-        var resourceType = $("#resourceType").val();
+        let btn = this.value;
+        let currpage = $("#pageNum").val();
+        let pageAll = $("#pageAll").val();
 
+        let planId = $("#planNum").val();
+        let operator = $("#operator").val();
+        let operateType = $("#operateType").val();
+        let operateTime = $("#operateTime").val();
 
-        pageNum = parseInt(pageNum);
+        currpage = parseInt(currpage);
         pageAll = parseInt(pageAll);
-        if (btn === "first") {
-          pageNum = 1;
-          $.getJSON("findAllResource", {
-            pageNum: pageNum,
-            resourceType: resourceType,
-            areaid:areaid
-          }, showResourcePage)
-        } else if (btn === "pre") {
-          pageNum -= 1;
-          if (pageNum == 0) {
-            pageNum = 1
+
+        if ("first"==btn) {
+          currpage = 1;
+          $.getJSON("findPlanLogByCondition", {
+            currpage: currpage,
+            planId: planId,
+            operator: operator,
+            operateType: operateType,
+            operateTime: operateTime
+          }, showPlanLogPage)
+        } else if ("pre"==btn) {
+          currpage -= 1;
+          if (currpage < 1) {
+            currpage = 1
           }
-          $.getJSON("findAllResource", {
-            pageNum: pageNum,
-            resourceType: resourceType,
-            areaid:areaid
-          }, showResourcePage)
-        } else if (btn === "next") {
-          pageNum += 1;
-          if (pageNum > pageAll) {
-            pageNum = pageAll;
+          $.getJSON("findPlanLogByCondition", {
+            currpage: currpage,
+            planId: planId,
+            operator: operator,
+            operateType: operateType,
+            operateTime: operateTime
+          }, showPlanLogPage)
+        } else if ("next"==btn) {
+          currpage += 1;
+          if (currpage > pageAll) {
+            currpage = pageAll;
           }
-          $.getJSON("findAllResource", {
-            pageNum: pageNum,
-            resourceType: resourceType,
-            areaid:areaid
-          }, showResourcePage)
-        } else if (btn === "last") {
-          pageNum = pageAll;
-          $.getJSON("findAllResource", {
-            pageNum: pageNum,
-            resourceType: resourceType,
-            areaid:areaid
-          }, showResourcePage)
-        } else if (btn === "change") {
-          pageNum = $("#number").val();
-          if (pageNum >= pageAll){
-            pageNum = pageAll;
-          } else if (pageNum === ""){
-            pageNum = 1;
+          $.getJSON("findPlanLogByCondition", {
+            currpage: currpage,
+            planId: planId,
+            operator: operator,
+            operateType: operateType,
+            operateTime: operateTime
+          }, showPlanLogPage)
+        } else if ("last"==btn) {
+          currpage = pageAll;
+          $.getJSON("findPlanLogByCondition", {
+            currpage: currpage,
+            planId: planId,
+            operator: operator,
+            operateType: operateType,
+            operateTime: operateTime
+          }, showPlanLogPage)
+        } else if ("change"==btn) {
+          currpage = $("#goToPage").val();
+          if (currpage >= pageAll){
+            currpage = pageAll;
+          } else if (""==currpage){
+            currpage = 1;
           }
-          $.getJSON("findAllResource", {
-            pageNum: pageNum,
-            resourceType: resourceType,
-            areaid:areaid
-          }, showResourcePage)
-        } else if (btn === "check") {
-          pageNum = 1;
-          $.getJSON("findAllResource", {
-            pageNum: pageNum,
-            resourceType: resourceType,
-            areaid:areaid
-          }, showResourcePage)
-        }else if(btn==="www"){
-            $('#www').click();
+          $.getJSON("findPlanLogByCondition", {
+            currpage: currpage,
+            planId: planId,
+            operator: operator,
+            operateType: operateType,
+            operateTime: operateTime
+          }, showPlanLogPage)
+        } else if (btn =="查询") {
+          currpage = 1;
+          $.getJSON("findPlanLogByCondition", {
+            currpage: currpage,
+            planId: planId,
+            operator: operator,
+            operateType: operateType,
+            operateTime: operateTime
+          }, showPlanLogPage)
         }
-          // else if(btn==="qqq"){
-          //     $('#qqq').click();
-          // }
-
-
       })
     });
 
-    function showResourcePage(data) {
+    function showPlanLogPage(data) {
       let $tbody = $("tbody");
       $tbody.empty();
 
       $.each(data.tableBeans, function (i, e) {
-        var rid = e.rid;
-        // var AreaId = e.areaEntity.areaName;
-        var rtype = e.rtype;
-        var rname = e.rname;
-        var pnumber = e.pnumber;
-        var cnumber = e.cnumber;
 
-        var dataTr = "<tr><td class='v-align-middle'>" + rid + "</td>" +
-                // "<td class='v-align-middle'><span class='muted'>" + AreaId + "</span></td>" +
-                "<td class='v-align-middle'><span class='muted'>" + rtype + "</span></td>" +
-                "<td class='v-align-middle'><span class='muted'>" + rname + "</span></td>" +
-                "<td class='v-align-middle'><span class='muted'>" + pnumber + "</span></td>" +
-                "<td class='v-align-middle'><span class='muted'>" + cnumber + "</span></td>" +
-                "</tr>";
+        let operator = e.operator;
+        let operateType = e.operateType;
+        if(operateType == 1){
+          operateType = "添加预案";
+        }else if(operateType == 2){
+          operateType = "修改预案";
+        }else if(operateType == 3){
+          operateType = "删除预案";
+        }
+        let operateTime = e.operateTime;
+        let planId = e.planId;
+
+        let dataTr = "<tr>"
+                + "<td class='v-align-middle'><span class='muted'>" + operator + "</span>"
+                + "</td><td><span class='muted'>" + operateType + "</span>"
+                + "</td><td class='v-align-middle'>" + operateTime + "</td>"
+                + "</td><td >" + planId + "</td>"
+                + "<td><a href='findPlanByPlanId?planId="+planId+"'>查看预案详情</a></td></tr>";
         $tbody.append(dataTr);
       });
-      var pageNum = data.currPate;
-      var pageAll = data.totalPate;
-      //渲染 “第2页/共11页” 信息
-        $("#number").val(pageNum);
-        $("#ajaxspan").html("/" + pageAll + "");
-      // $("#ajaxspan").html("第" + pageNum + "页/共" + pageAll + "页");
+
+      //把这里的页数传回到Controller页面
+      let pageNum = data.currPate;
+      let pageAll = data.totalPate;
+
       //记录数据信息（当前页数和总页数）
       $("#pageNum").val(pageNum);
       $("#pageAll").val(pageAll);
+      $("#goToPage").prop("max",data.totalPate);
+      $("#goToPage").prop("min",1);
+      $("#goToPage").val(data.currPate);
+      $("#totalPage").text("/"+data.totalPate);
     }
   </script>
-
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -159,74 +169,71 @@
 <div th:include="header :: header"></div>
 <!-- 页面展示部分 -->
 <div class="page-container row-fluid">
-  <!-- 左侧导航栏 -->
-  <div th:include="leftNavigationBar :: leftNavigationBar"></div>
+    <!-- 左侧导航栏 -->
+    <div th:include="leftNavigationBar :: leftNavigationBar"></div>
 
-  <!-- 主要内容展示部分，自己的页面内容全写在这里面-->
+    <!-- 主要内容展示部分，自己的页面内容全写在这里面-->
 
   <div class="page-content">
-
+    <div id="portlet-config" class="modal hide">
+      <div class="modal-header">
+        <button data-dismiss="modal" class="close" type="button"></button>
+        <h3>Widget Settings</h3>
+      </div>
+      <div class="modal-body"> Widget settings form goes here</div>
+    </div>
     <div class="clearfix"></div>
     <div class="content sm-gutter">
-      <div class="row-fluid">
-        <div class="span12">
-          <div class="grid simple ">
-            <div class="grid-title">
-              <div class="row form-row">
-                <span style="font-size: 28px">资源展示界面</span>
-                <form th:action="@{findAllResource}" class="pull-right" id="findAllResource" method="get">
-                  <input id="resourceType" name="resourceType" type="text" class="form-control"
-                         style="width: 150px;display: inline-block;" placeholder="资源类型"/>
-
-                  <button class="btn btn-success btn-cons" type="button" value="check"><i class="icon-ok"></i>查询</button>
-                </form>
-              </div>
-            </div>
-            <div class="grid-body ">
-              <table class="table table-hover table-condensed" id="example">
-                <thead>
-                <tr>
-                  <th style="width:6%">资源编号</th>
-                  <!--<th style="width:8%" data-hide="phone,tablet">区域</th>-->
-                  <th style="width:4%">单位类型</th>
-                  <th style="width:8%" data-hide="phone,tablet">单位名称</th>
-                  <th style="width:4%">总人数</th>
-                  <th style="width:4%" data-hide="phone,tablet">资源总数</th>
-                </tr>
-                </thead>
-                <tbody>
-
-
-                </tbody>
-              </table>
-<!--隐藏表单  储存相关数据    区域id  当前页数  总页数-->
-              <input type="hidden" th:value="${areaid}" id="areaid">
-              <input type="hidden" id="pageNum"/>
-              <input type="hidden" id="pageAll"/>
-              <div class="pull-right">
-
-                <button class="btn btn-info btn-cons" type="button" value="first"><i class="icon-ok"></i> 首页</button>
-                <button class="btn btn-info btn-cons" type="button" value="pre"><i class="icon-ok"></i> 上一页</button>
-                <button class="btn btn-info btn-cons" type="button" value="next"><i class="icon-ok"></i> 下一页</button>
-                <button class="btn btn-info btn-cons" type="button" value="last"><i class="icon-ok"></i> 尾页</button>
-                <input type="text" class="form-control" placeholder="您要跳转的页码"
-                       style="width: 120px;display: inline-block" id="number"/>
-                  <span id="ajaxspan"></span>
-
-                  <button class="btn btn-info btn-cons" type="button" value="change"><i class="icon-ok"></i>跳转</button>
-              </div>
-                <div class="pull-right">
-                  <form method="post" enctype="multipart/form-data" id="form" style="display: inline;" action="/uploadresource">
-
-                    <input type="hidden" th:value="${areaid}" name="areaid">
-
-                      <span id="massge" th:text="${massge}"></span>
-                      <input type="file" name="filename" id="qqq" style="display: inline "/>
-                    <!--<button class="btn btn-info btn-cons" type="button" value="qqq"><i class="icon-ok"></i> 选择文件</button>-->
-                    <button class="btn btn-info btn-cons" type="button" value="www" style="display: inline "><i class="icon-ok"></i> 提交文件</button>
-                    <input type="submit" th:field="导入文件" id="www" style="display: none"/>
+      <div class="content sm-gutter">
+        <div class="row-fluid">
+          <div class="span12">
+            <div class="grid simple ">
+              <div class="grid-title">
+                <div class="row form-row">
+                  <span style="font-size: 28px">预案管理日志</span>
+                  <form action="" class="pull-right">
+                    <input id="planNum" name="planNum" type="text" class="form-control"
+                           style="width: 150px;display: inline-block;" placeholder="预案编号"/>
+                    <input id="operator" name="operator" type="text" class="form-control"
+                           style="width: 150px;display: inline-block;" placeholder="操作人员"/>
+                    <input id="operateType" name="operateType" type="text" class="form-control"
+                           style="width: 150px;display: inline-block;" placeholder="操作类型"/>
+                    <input id="operateTime" name="operateTime" type="date" class="form-control"
+                           style="width: 150px;display: inline-block;" placeholder="操作时间"/>
+                    <button class="btn btn-success btn-cons" type="button" value="查询"><i class="icon-ok"></i>查询
+                    </button>
                   </form>
                 </div>
+              </div>
+              <div class="grid-body ">
+                <table class="table table-hover table-condensed" id="example">
+                  <thead>
+                  <tr>
+                    <th style="width:10%" data-hide="phone,tablet">操作人</th>
+                    <th style="width:10%"> 操作类型</th>
+                    <th style="width:10%" data-hide="phone,tablet">操作时间</th>
+                    <th style="width:10%" data-hide="phone,tablet">预案编号</th>
+                    <th style="width:10%" data-hide="phone,tablet">查看</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+
+                  </tbody>
+                </table>
+                <input type="hidden" id="pageNum"/>
+                <input type="hidden" id="pageAll"/>
+                <div class="pull-right">
+                  <button class="btn btn-info btn-cons" type="button" value="first"><i class="icon-ok"></i> 首页</button>
+                  <button class="btn btn-info btn-cons" type="button" value="pre"><i class="icon-ok"></i> 上一页</button>
+                  <button class="btn btn-info btn-cons" type="button" value="next"><i class="icon-ok"></i> 下一页</button>
+                  <button class="btn btn-info btn-cons" type="button" value="last"><i class="icon-ok"></i> 尾页</button>
+                  <input type="text" class="form-control" placeholder="您要跳转的页码"
+                         style="width: 120px;display: inline-block" id="goToPage"/>
+                  <span id="totalPage"></span>
+                  <button class="btn btn-info btn-cons" type="button" value="change"><i class="icon-ok"></i> 跳转</button>
+
+                </div>
+              </div>
             </div>
           </div>
         </div>

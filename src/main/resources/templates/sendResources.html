@@ -65,7 +65,7 @@
             margin-top: -10px;
             margin-bottom: -10px;
             padding-left: -20px;
-            width: 70px;
+            width: 200px;
         }
         th.tt{
          margin-left: -50px;
@@ -75,9 +75,12 @@
     <script>
         $(function () {
             let eventId = $("#eventId").val();
-            $.getJSON("sendResources",{eventId:eventId},showSendResource)
-        })
+            $.getJSON("sendResources",{eventId:eventId},showSendResource);
+
+        });
+        /* 以往派遣信息和预案显示 */
         function showSendResource(data) {
+            /* 以往派遣信息 */
             let isAgain = $("#isAgain");
             isAgain.empty();
             //此处要加上判断有没有续派
@@ -89,14 +92,14 @@
                 "                                        <tr>\n" +
                 "                                            <th style=\"width:8%\">派遣次数</th>\n" +
                 "                                            <th style=\"width:8%\">110</th>\n" +
-                "                                            <th style=\"width:8%\">派遣车辆</th>\n" +
                 "                                            <th style=\"width:8%\">派遣人数</th>\n" +
+                "                                            <th style=\"width:8%\">派遣车辆</th>\n" +
                 "                                            <th style=\"width:8%\">120</th>\n" +
-                "                                            <th style=\"width:8%\">派遣车辆</th>\n" +
                 "                                            <th style=\"width:8%\">派遣人数</th>\n" +
+                "                                            <th style=\"width:8%\">派遣车辆</th>\n" +
                 "                                            <th style=\"width:8%\">119</th>\n" +
-                "                                            <th style=\"width:8%\">派遣车辆</th>\n" +
                 "                                            <th style=\"width:8%\">派遣人数</th>\n" +
+                "                                            <th style=\"width:8%\">派遣车辆</th>\n" +
                 "                                        </tr>\n" +
                 "                                        </thead>" +
                 "                                        <tbody id='resourceTr'>\n" +
@@ -106,42 +109,111 @@
             let resourceTr = $("#resourceTr");
             $.each(data.sendResourcesDtoList,function (i, e) {
                 if (e.time == 0) {
-                    let dataTrs = "<tr><td><span class=\"muted\">第1次派遣</span></td>\n" +
+                    let dataTrs = "<tr><td><span class=\"muted\">初次派遣</span></td>\n" +
                         "                                            <td><span class=\"muted\">110</span></td>\n" +
-                        "                                            <td><span class=\"muted\">" + e.naturePolulation + "</span></td>\n" +
-                        "                                            <td><span class=\"muted\">" + e.natureResource + "</span></td>\n" +
+                        "                                            <td><span class=\"muted\">" + e.naturePolulation + "\/人</span></td>\n" +
+                        "                                            <td><span class=\"muted\">" + e.natureResource + "\/辆</span></td>\n" +
                         "                                            <td><span class=\"muted\">120</span></td>\n" +
-                        "                                            <td><span class=\"muted\">" + e.hospitalPolulation + "</span></td>\n" +
-                        "                                            <td><span class=\"muted\">" + e.hospitalResource + "</span></td>\n" +
+                        "                                            <td><span class=\"muted\">" + e.hospitalPolulation + "/人</span></td>\n" +
+                        "                                            <td><span class=\"muted\">" + e.hospitalResource + "/辆</span></td>\n" +
                         "                                            <td><span class=\"muted\">119</span></td>\n" +
-                        "                                            <td><span class=\"muted\">" + e.firePolulation + "</span></td>\n" +
-                        "                                            <td><span class=\"muted\">" + e.fireResource + "</span></td></tr>";
+                        "                                            <td><span class=\"muted\">" + e.firePolulation + "/人</span></td>\n" +
+                        "                                            <td><span class=\"muted\">" + e.fireResource + "/辆</span></td></tr>";
                     resourceTr.append(dataTrs);
                 } else if (e.time == -1) {
                     let dataTrs = "<tr><td><span class=\"muted\">资源总计</span></td>\n" +
                         "                                            <td><span class=\"muted\">110</span></td>\n" +
-                        "                                            <td><span class=\"muted\">" + e.naturePolulation + "</span></td>\n" +
-                        "                                            <td><span class=\"muted\">" + e.natureResource + "</span></td>\n" +
+                        "                                            <td><span class=\"muted\">" + e.naturePolulation + "/人</span></td>\n" +
+                        "                                            <td><span class=\"muted\">" + e.natureResource + "/辆</span></td>\n" +
                         "                                            <td><span class=\"muted\">120</span></td>\n" +
-                        "                                            <td><span class=\"muted\">" + e.hospitalPolulation + "</span></td>\n" +
-                        "                                            <td><span class=\"muted\">" + e.hospitalResource + "</span></td>\n" +
+                        "                                            <td><span class=\"muted\">" + e.hospitalPolulation + "/人</span></td>\n" +
+                        "                                            <td><span class=\"muted\">" + e.hospitalResource + "/辆</span></td>\n" +
                         "                                            <td><span class=\"muted\">119</span></td>\n" +
-                        "                                            <td><span class=\"muted\">" + e.firePolulation + "</span></td>\n" +
-                        "                                            <td><span class=\"muted\">" + e.fireResource + "</span></td></tr>";
+                        "                                            <td><span class=\"muted\">" + e.firePolulation + "/人</span></td>\n" +
+                        "                                            <td><span class=\"muted\">" + e.fireResource + "/辆</span></td></tr>";
                     resourceTr.append(dataTrs);
                 } else {
                     let dataTrs = "<tr><td><span class=\"muted\">第" + e.time + "次派遣</span></td>\n" +
                         "                                            <td><span class=\"muted\">110</span></td>\n" +
-                        "                                            <td><span class=\"muted\">" + e.naturePolulation + "</span></td>\n" +
-                        "                                            <td><span class=\"muted\">" + e.natureResource + "</span></td>\n" +
+                        "                                            <td><span class=\"muted\">" + e.naturePolulation + "/人</span></td>\n" +
+                        "                                            <td><span class=\"muted\">" + e.natureResource + "/辆</span></td>\n" +
                         "                                            <td><span class=\"muted\">120</span></td>\n" +
-                        "                                            <td><span class=\"muted\">" + e.hospitalPolulation + "</span></td>\n" +
-                        "                                            <td><span class=\"muted\">" + e.hospitalResource + "</span></td>\n" +
+                        "                                            <td><span class=\"muted\">" + e.hospitalPolulation + "/人</span></td>\n" +
+                        "                                            <td><span class=\"muted\">" + e.hospitalResource + "/辆</span></td>\n" +
                         "                                            <td><span class=\"muted\">119</span></td>\n" +
-                        "                                            <td><span class=\"muted\">" + e.firePolulation + "</span></td>\n" +
-                        "                                            <td><span class=\"muted\">" + e.fireResource + "</span></td></tr>";
+                        "                                            <td><span class=\"muted\">" + e.firePolulation + "/人</span></td>\n" +
+                        "                                            <td><span class=\"muted\">" + e.fireResource + "/辆</span></td></tr>";
                     resourceTr.append(dataTrs);
                 }
+            });
+
+            /* 预案模块 */
+            let $plan = $("#plan");
+            let resubmitDto = data.resubmitDto;
+            let planFindDtoList = data.planFindDtoList;
+            let plan = "                                         <label class=\"form-label\">事件类型:</label><input type=\"text\" class=\"input\" value=\"" + eventEntity.eventType + "\" disabled='true'/>\n" +
+                "                                                <label class=\"form-label\">事件等级:</label><input type=\"text\" class=\"input\" value=\"" + eventEntity.eventLevel + "\" disabled='true'/>\n" +
+                "                                                <label class=\"form-label\">事发区域:</label><input type=\"text\" class=\"input\" value=\"" + eventEntity.eventArea + "\" disabled='true'/>\n" +
+                "                                                <label class=\"form-label\">当前预案:</label>\n" +
+                "                                                <select name=\"chooicePlan\" id=\"select1\" class=\"select\" onchange='changePlan()'>\n" +
+                "                                                </select>";
+            $plan.append(plan);
+            let select1 = $("#select1");
+            $("#ren110").val(0);
+            $("#che110").val(0);
+            $("#ren120").val(0);
+            $("#che120").val(0);
+            $("#ren119").val(0);
+            $("#che119").val(0);
+            $.each(planFindDtoList,function (i, e) {
+                let selentPlan = "<option value=\"" + e.planId + "\">" + e.planName + "</option>";
+                select1.append(selentPlan);
+            });
+            $.each(planFindDtoList,function (i, e) {
+                $.each(e.deptDtos,function (j, f) {
+                    if (f.deptName == 110) {
+                        $("#ren110").val(f.personNumber);
+                        $("#che110").val(f.carNumber);
+                    }
+                    if (f.deptName == 120) {
+                        $("#ren120").val(f.personNumber);
+                        $("#che120").val(f.carNumber);
+                    }
+                    if (f.deptName == 119) {
+                        $("#ren119").val(f.personNumber);
+                        $("#che119").val(f.carNumber);
+                    }
+                    return false;
+                });
+                return false;
+            })
+
+        }
+        function changePlan() {
+            /* 更改预案选择，动态打印预案内容 */
+            $("#ren110").val(0);
+            $("#che110").val(0);
+            $("#ren120").val(0);
+            $("#che120").val(0);
+            $("#ren119").val(0);
+            $("#che119").val(0);
+            let planId = $("#select1 option:selected").val();
+            alert(planId);
+            $.getJSON("changePlan",{planId:planId},function (data) {
+                $.each(data,function (i, e) {
+                    if (e.deptName == 110) {
+                        $("#ren110").val(e.personNumber);
+                        $("#che110").val(e.carNumber);
+                    }
+                    if (e.deptName == 120) {
+                        $("#ren120").val(e.personNumber);
+                        $("#che120").val(e.carNumber);
+                    }
+                    if (e.deptName == 119) {
+                        $("#ren119").val(e.personNumber);
+                        $("#che119").val(e.carNumber);
+                    }
+                })
             });
         }
     </script>
@@ -175,85 +247,40 @@
                                 <span style="font-size: 28px">资源调用</span>
                                 <p></p>
                                 <div id="isAgain">
-                                    <!--<table class="table table-hover table-condensed" id="example">-->
-                                        <!--<thead>-->
-                                        <!--<tr>-->
-                                            <!--<th style="width:8%">派遣次数</th>-->
-                                            <!--<th style="width:8%">110</th>-->
-                                            <!--<th style="width:8%">派遣车辆</th>-->
-                                            <!--<th style="width:8%">派遣人数</th>-->
-                                            <!--<th style="width:8%">120</th>-->
-                                            <!--<th style="width:8%">派遣车辆</th>-->
-                                            <!--<th style="width:8%">派遣人数</th>-->
-                                            <!--<th style="width:8%">119</th>-->
-                                            <!--<th style="width:8%">派遣车辆</th>-->
-                                            <!--<th style="width:8%">派遣人数</th>-->
-                                        <!--</tr>-->
-                                        <!--</thead>-->
-                                        <tbody>
-                                        <tr>
-                                            <td><span class="muted">第1次派遣</span></td>
-                                            <td><span class="muted">110</span></td>
-                                            <td><span class="muted">2</span></td>
-                                            <td><span class="muted">11</span></td>
-                                            <td><span class="muted">120</span></td>
-                                            <td><span class="muted">3</span></td>
-                                            <td><span class="muted">4</span></td>
-                                            <td><span class="muted">119</span></td>
-                                            <td><span class="muted">2</span></td>
-                                            <td><span class="muted">3</span></td>
-                                        </tr>
-                                        </tbody>
-                                    <!--</table>-->
+                                    <!-- 这里是以往派遣信息，有过记录才显示 -->
                                 </div>
+                                <span style="font-size: 28px">事件状态与预案</span>
                                 <div class="grid-body no-border">
                                     <br/>
                                     <div class="row">
                                         <div class="col-md-8 col-sm-8 col-xs-8">
-                                            <div class="form-group">
-                                                <label class="form-label">事件类型:</label><input type="text"
-                                                                                              class="input"/>
-                                                <label class="form-label">事件等级:</label><input type="text"
-                                                                                              class="input"/>
-                                                <label class="form-label">当前预案:</label>
-                                                <select name="" id="select1" class="select">
-                                                    <option>预案1</option>
-                                                    <option>预案2</option>
-                                                    <option>预案3</option>
-                                                    <option>预案4</option>
-                                                    <option>预案5</option>
-                                                </select>
-                                                <label class="form-label">事发区域:</label><input type="text"
-                                                                                              class="input"/>
+                                            <!-- 预案显示 -->
+                                            <div class="form-group"  id="plan">
                                             </div>
                                         </div>
                                     </div>
                                     <br>
                                     <div class="row" id="div1">
                                         <div class="form-group">
-                                            <input type="checkbox" id="checkbox2"/>
-                                            <label class="form-label aa">医院:</label>
-                                            <label class="form-label event">预派遣车辆:</label><input type="text"
-                                                                                                 class="input"/>/辆
-                                            <label class="form-label">预派遣人数:</label><input type="text" class="input"/>/人
+                                            <label class="form-label aa" style="font-size: 16px">警察:</label>
+                                            <label class="form-label event">预派遣人数:</label><input type="text" class="input" id="ren110" disabled="disabled"/>/人
+                                            <label class="form-label">预派遣车辆:</label><input type="text" class="input" id="che110" disabled="disabled"/>/辆
                                         </div>
                                     </div>
                                     <br>
                                     <div class="row" id="div2">
                                         <div class="form-group">
-                                            <input type="checkbox" id="checkbox3"/> 警察局
-                                            <label class="form-label event">预派遣车辆:</label><input type="text"
-                                                                                                 class="input"/>/辆
-                                            <label class="form-label">预派遣人数:</label><input type="text" class="input"/>/人
+                                            <label class="form-label aa" style="font-size: 16px">医院:</label>
+                                            <label class="form-label event">预派遣人数:</label><input type="text" class="input" id="ren120" disabled="disabled"/>/人
+                                            <label class="form-label">预派遣车辆:</label><input type="text" class="input" id="che120" disabled="disabled">/辆
                                         </div>
                                     </div>
                                     <br>
                                     <div class="row" id="div3">
                                         <div class="form-group">
-                                            <input type="checkbox" id="checkbox4"/> 消防局
-                                            <label class="form-label event">预派遣车辆:</label><input type="text"
-                                                                                                 class="input"/>/辆
-                                            <label class="form-label">预派遣人数:</label><input type="text" class="input"/>/人
+                                            <label class="form-label aa" style="font-size: 16px">消防:</label>
+                                            <label class="form-label event">预派遣人数:</label><input type="text" class="input" id="ren119" disabled="disabled"/>/人
+                                            <label class="form-label">预派遣车辆:</label><input type="text" class="input" id="che119" disabled="disabled"/>/辆
                                         </div>
                                     </div>
                                 </div>
@@ -395,7 +422,7 @@
 <script th:src="@{staticResources/assets/plugins/owl-carousel/owl.carousel.min.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/Mapplic/js/jquery.easing.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/Mapplic/js/jquery.mousewheel.js}" type="text/javascript"></script>
-<script th:src="@{staticResources/assets/plugins/Mapplic/js/jquery.flot.min.js}" type="text/javascript"></script>
+<!--<script th:src="@{staticResources/assets/plugins/Mapplic/js/jquery.flot.min.js}" type="text/javascript"></script>-->
 <script th:src="@{staticResources/assets/plugins/Mapplic/mapplic/mapplic.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/jquery-flot/jquery.flot.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/jquery-metrojs/MetroJs.min.js}" type="text/javascript"></script>

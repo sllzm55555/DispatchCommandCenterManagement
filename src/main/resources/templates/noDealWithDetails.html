@@ -46,9 +46,12 @@
         $(function () {
             let eventPeriod=1;
             let eventId=$("#eId").val();
-           $.getJSON("getAllData",{eventId:eventId,eventPeriod:eventPeriod},showList);
+            let reperiod=$("#reperiod").val();
+           $.getJSON("getAllData",{eventId:eventId,reperiod:reperiod,eventPeriod:eventPeriod},showList);
            $("input[type=text]").prop("readOnly",true);
+
         });
+
 
         function showList(data) {
             let event= data.obj;
@@ -64,6 +67,7 @@
             $("#returnA").after("<a href=\"sendResourcesJump?eventId=" + event.eventId + "\"><button class=\"btn btn-success btn-cons col-sm-offset-2\"  type=\"button\"><i class=\"icon-ok\"></i>\n" +
                 "                            处理\n" +
                 "                        </button></a>");
+
 
             if(data.totalPate==0||data.tableBeans==null||data.tableBeans==undefined){
                 $("#example").css('display','none');
@@ -180,17 +184,33 @@
 
                         </div>
 
-                        <input type="hidden" name="eventPeriod" value="1" id="id">
+                        <input type="hidden" name="eventPeriod" value="1" id="eventPeriod">
                         <input type="hidden" name="eventId" th:value="${eventId}" id="eId">
-
+                        <input type="hidden" name="reperiod" value="1" id="reperiod">
                         <a href="goNoDealWith" id="returnA"> <button class="btn btn-success btn-cons col-sm-offset-3" type="button"><i class="icon-ok" id="button1"></i>
                           返回
                         </button></a>
 
-                        <!--<a href="goTosendResources"><button class="btn btn-success btn-cons col-sm-offset-2"  type="button"><i class="icon-ok"></i>-->
-                            <!--处理-->
-                        <!--</button></a>-->
+                        <button class="btn btn-success btn-cons col-sm-offset-3" type="button" th:onclick="|javascript:goUpdate()|"><i class="icon-ok" id="button3"></i>
+                            处理2
+                        </button>
 
+                        <div style="display: none">
+                            <form th:action="@{updateEvent}" method="post" id="updateEvent">
+                                <input type="text" name="eId"/>
+                                <input type="text" name="ePeriod"/>
+                            </form>
+                        </div>
+
+                        <script>
+                            function goUpdate() {
+                                let id=$("#eventId").val()
+                                let ePeriod=$("#eventPeriod").val();
+                                $("input[name=eId]").val(id);
+                                $("input[name=ePeriod]").val(ePeriod);
+                                $("#updateEvent").submit();
+                            }
+                        </script>
                     </div>
                 </div>
             </div>

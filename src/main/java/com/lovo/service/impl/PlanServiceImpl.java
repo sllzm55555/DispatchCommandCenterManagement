@@ -1,6 +1,7 @@
 package com.lovo.service.impl;
 
 import com.lovo.dao.IPlanDao;
+import com.lovo.dto.DeptDto;
 import com.lovo.entity.PlanEntity;
 import com.lovo.service.IPlanService;
 import com.lovo.util.StringUtil;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service(value = "planServiceImpl")
@@ -35,7 +37,7 @@ public class PlanServiceImpl implements IPlanService {
     }
 
     @Override
-    public PlanEntity savaPlan(PlanEntity planEntity) {
+    public PlanEntity savePlan(PlanEntity planEntity) {
         return planDao.save(planEntity);
     }
 
@@ -46,9 +48,32 @@ public class PlanServiceImpl implements IPlanService {
 
     @Override
     @Transactional
-    public Integer updataPlanByPlanId(String planid, String level, String desc) {
-        return planDao.updataPlanByPlanId(planid,level,desc);
+    public Integer updatePlanByPlanId(String planid, String level, String desc) {
+        return planDao.updatePlanByPlanId(planid,level,desc);
     }
 
+    @Override
+    public List<DeptDto> getAllDept(String planId) {
+        List<Object[]> allDept = planDao.getAllDept(planId);
+        List<DeptDto> list=new ArrayList<DeptDto>();
+        for (Object[] objects : allDept) {
+            DeptDto deptDto=new DeptDto();
+            deptDto.setDeptName(objects[0].toString());
+            deptDto.setPersonNumber(objects[1].toString());
+            deptDto.setCarNumber(objects[2].toString());
+            list.add(deptDto);
+        }
+        return list;
+    }
 
+    @Override
+    public PlanEntity findByPlanId(String planId) {
+        return planDao.findByPlanId(planId);
+    }
+
+    @Override
+    public List<String> findAllEventIdByEnevTypeAndEnevLeve(String eventType, String eventLevel) {
+        List<String> allEventIdByEnevTypeAndEnevLeve = planDao.findAllEventIdByEnevTypeAndEnevLeve(eventType, eventLevel);
+        return allEventIdByEnevTypeAndEnevLeve;
+    }
 }

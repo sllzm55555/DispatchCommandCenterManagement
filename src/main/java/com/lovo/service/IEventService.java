@@ -65,6 +65,6 @@ public interface IEventService {
      * @return 修改成功返回1，失败返回0，没有进行修改返回-1
      *
      */
-    public int updateEventData(String eventId,int eventPeriod,int reperiod);
+    public int updateEventData(String eventId,int eventPeriod);
 
 }

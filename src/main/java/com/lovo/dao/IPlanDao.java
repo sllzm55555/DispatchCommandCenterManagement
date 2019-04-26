@@ -67,5 +67,18 @@ public interface IPlanDao extends CrudRepository<PlanEntity, String> {
             " p.event_level=?2," +
             " p.plan_desc=?3" +
             " WHERE p.plan_id=?1", nativeQuery = true)
-    public Integer updataPlanByPlanId(String planid,String level,String desc);
+    public Integer updatePlanByPlanId(String planid,String level,String desc);
+
+    @Query(value = "select d.dept_name,pd.plan_person_num,pd.plan_resource from t_plan as p " +
+            " inner join t_plan_dept as pd on pd.plan_id = p.plan_id" +
+            " inner join t_dept as d on d.dept_id =pd.dept_id" +
+            " where p.plan_id = ?1",nativeQuery = true)
+    public List<Object [] > getAllDept(String planId);
+
+    @Query(value = "SELECT p.plan_id FROM t_plan as p " +
+            "WHERE p.event_type=?1 AND p.event_level=?2",nativeQuery = true)
+    public List<String> findAllEventIdByEnevTypeAndEnevLeve(String eventType,String eventLevel);
+
+
+    public PlanEntity findByPlanId(String planId);
 }

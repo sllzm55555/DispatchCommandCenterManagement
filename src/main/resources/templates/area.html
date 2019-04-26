@@ -175,7 +175,9 @@
       var pageNum = data.currPate;
       var pageAll = data.totalPate;
       //渲染 “第2页/共11页” 信息
-      $("#ajaxspan").html("第" + pageNum + "页/共" + pageAll + "页");
+      $("#number").val(pageNum);
+      $("#ajaxspan").html("/" + pageAll + "");
+      // $("#ajaxspan").html("第" + pageNum + "页/共" + pageAll + "页");
       //记录数据信息（当前页数和总页数）
       $("#pageNum").val(pageNum);
       $("#pageAll").val(pageAll);
@@ -244,7 +246,7 @@
               </table>
               <!--隐藏表单  储存相关数据    区域id  当前页数  总页数-->
 
-              <span id="ajaxspan"></span>
+
               <input type="hidden" id="pageNum"/>
               <input type="hidden" id="pageAll"/>
               <div class="pull-right">
@@ -255,6 +257,7 @@
                 <button class="btn btn-info btn-cons" type="button" value="last"><i class="icon-ok"></i> 尾页</button>
                 <input type="text" class="form-control" placeholder="您要跳转的页码"
                        style="width: 120px;display: inline-block" id="number"/>
+                <span id="ajaxspan"></span>
                 <button class="btn btn-info btn-cons" type="button" value="change"><i class="icon-ok"></i>跳转</button>
               </div>
                 <div class="pull-right">
