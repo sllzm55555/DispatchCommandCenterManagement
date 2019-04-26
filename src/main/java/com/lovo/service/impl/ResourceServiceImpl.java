@@ -153,5 +153,10 @@ public class ResourceServiceImpl implements IResourceService {
 
     }
 
+    @Override
+    public List<ResourceEntity> findAllByTypeAndAreaId(String type, String areaId) {
+        return resourceDao.findAllByTypeAndAreaId(type, areaId);
+    }
+
 
 }

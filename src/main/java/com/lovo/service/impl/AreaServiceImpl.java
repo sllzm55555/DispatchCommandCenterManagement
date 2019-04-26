@@ -71,4 +71,9 @@ public class AreaServiceImpl implements IAreaService {
         allUserSize = Math.ceil(allUserSize / pageSize);
         return (int) allUserSize;
     }
+
+    @Override
+    public AreaEntity findByAreaName(String areaName) {
+        return areaDao.findByAreaName(areaName);
+    }
 }
