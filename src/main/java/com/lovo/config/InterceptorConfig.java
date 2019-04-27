@@ -13,7 +13,9 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new MyInterceptor())
-                .addPathPatterns("/**");
+                .addPathPatterns("/**").excludePathPatterns("/login")
+                .excludePathPatterns("/testLogin")
+                .excludePathPatterns("/goToLogin").excludePathPatterns("/error");
     }
 
     /**
@@ -23,5 +25,8 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/staticResources/**")
                 .addResourceLocations("classPath:/staticResources/");
+
+        registry.addResourceHandler("/templates/**")//放行的资源
+                .addResourceLocations("classpath:/templates/"); //资源所在本地位置
     }
 }
