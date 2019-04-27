@@ -234,7 +234,7 @@
             $('body').addClass('open-menu-right');
         }        
     }
-    // Util Functions
+    // util Functions
     Webarch.prototype.initUtil = function(){
         $('[data-height-adjust="true"]').each(function () {
             var h = $(this).attr('data-elem-height');
