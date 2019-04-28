@@ -28,6 +28,12 @@ public interface IAreaDao extends CrudRepository<AreaEntity,String> {
     @Query(value = "select * from t_area a where if(:area is not null,a.area_name like CONCAT('%',:area,'%'),1=1)", nativeQuery = true)
     public List<AreaEntity> findcount(@Param("area") String area);
 
+    /**
+     * 通过名字找区域
+     * @param areaName
+     * @return
+     */
+    public AreaEntity findByAreaName(String areaName);
 
 
 }
