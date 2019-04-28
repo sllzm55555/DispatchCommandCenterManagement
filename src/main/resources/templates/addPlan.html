@@ -133,6 +133,7 @@
             var presonNum = $("input[name=presonNum]").val()
             var vehicle = $("input[name=vehicle]").val()
             var ret = /^[0-9]*[0-9][0-9]*$/ ;
+
             if ( !ret.test(presonNum) || !ret.test(vehicle)) {
                 $("#notfushu").html("请输入正整数")
                 $("#addplan").attr('disabled', true);
@@ -183,6 +184,7 @@
             }
 
         }
+
         /*判断所有输入框是否为空*/
         function ispresonNum() {
             var input = $("input[type=text]").each(
