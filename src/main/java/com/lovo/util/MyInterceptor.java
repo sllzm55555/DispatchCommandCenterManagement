@@ -34,9 +34,9 @@ public class MyInterceptor implements HandlerInterceptor {
                 }
                 //循环完都没有找到权限
                 if(!bl){
-                    //跳到登录页面
+                    //跳到错误页面
                     //request.setAttribute("loginMessage", StringUtil.loginMessage);
-                    httpServletRequest.getRequestDispatcher("error").forward(httpServletRequest, httpServletResponse);
+                    httpServletRequest.getRequestDispatcher("403").forward(httpServletRequest, httpServletResponse);
                 }
             }else {
                 return true;
@@ -51,6 +51,9 @@ public class MyInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
+//        List<PowerDto> powerList = (List<PowerDto>) httpServletRequest.getSession().getAttribute("powerList");
+//        String userName = powerList.get(0).getUserName();
+//        modelAndView.addObject("userName", userName);
     }
 
     @Override
