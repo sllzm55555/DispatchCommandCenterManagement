@@ -34,7 +34,7 @@ public class GotoPlanController {
      * 跳转添加预案页面
      * @return
      */
-    @RequestMapping("gotoaddPlan")
+    @RequestMapping("addPlanhtml")
     public ModelAndView gotoaddPlan(){
         ModelAndView mv=new ModelAndView("addplan");
         return mv;
@@ -43,10 +43,9 @@ public class GotoPlanController {
      * 跳转详情页面
      * @return
      */
-    @RequestMapping("gotofindPlan")
+    @RequestMapping("findPlanhtml")
     public ModelAndView gotofindPlan(){
         ModelAndView mv=new ModelAndView("findPlan");
-        mv.addObject("");
         return mv;
     }
 }
