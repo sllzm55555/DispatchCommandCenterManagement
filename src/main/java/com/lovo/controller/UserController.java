@@ -30,26 +30,26 @@ public class UserController {
         return "login";
     }
 
+//    @RequestMapping("login")
+//    public ModelAndView login(UserEntity userEntity, HttpSession session){
+//
+//        ModelAndView modelAndView = new ModelAndView();
+//        UserEntity user = userService.login(userEntity.getUsername(),userEntity.getPassword());
+//
+//        if (user != null){
+//            modelAndView.setViewName("dealWithIng");
+//            session.setAttribute("user",user);
+//        }else {
+//            modelAndView.setViewName("login");
+//        }
+//
+//        return modelAndView;
+//    }
+
     @RequestMapping("login")
-    public ModelAndView login(UserEntity userEntity, HttpSession session){
-
-        ModelAndView modelAndView = new ModelAndView();
-        UserEntity user = userService.login(userEntity.getUsername(),userEntity.getPassword());
-
-        if (user != null){
-            modelAndView.setViewName("dealWithIng");
-            session.setAttribute("user",user);
-        }else {
-            modelAndView.setViewName("login");
-        }
-
-        return modelAndView;
-    }
-
-    @RequestMapping("testLogin")
     public ModelAndView testLogin(String username, String password, HttpServletRequest rq){
         ModelAndView mv=new ModelAndView("dealWithIng");
-        PowerDtoReslut pdresult = restTemplate.getForEntity("http://SpringBoot01/{userName}/{password}/PowerDtoReslut", PowerDtoReslut.class,username,password).getBody();
+        PowerDtoReslut pdresult = restTemplate.getForEntity("http://PremessionManagement/{userName}/{password}/PowerDtoReslut", PowerDtoReslut.class,username,password).getBody();
         //用户信息
         List<PowerDto> list = pdresult.getDto();
 
@@ -61,10 +61,11 @@ public class UserController {
         }else{
             //登录成功就把用户信息放入到session
             rq.getSession().setAttribute("powerList", list);
-            for (PowerDto powerDto:list) {
-                System.out.println(powerDto.getUserName()+",权限有："+powerDto.getPowerUri());
-
-            }
+            mv.addObject("user", list.get(0).getUserName());
+//            for (PowerDto powerDto:list) {
+//                System.out.println(powerDto.getUserName()+",权限有："+powerDto.getPowerUri());
+//
+//            }
         }
         //远程调用用户权限
         return mv;
@@ -85,5 +86,11 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView("login");
         userService.register(user);
         return modelAndView;
+    }
+
+    @RequestMapping("logout")
+    public String logout(HttpServletRequest request){
+        request.getSession().invalidate();
+        return "login";
     }
 }

@@ -25,7 +25,6 @@ public class MyInterceptor implements HandlerInterceptor {
         }else {
             //获取访问的URI
             String uri = httpServletRequest.getServletPath();
-            System.out.println(uri);
             if(uri.contains("/goto")||uri.contains("/goTo")){
                 for (PowerDto p : list) {
                     if(p.getPowerUri().equals(uri)){
@@ -52,11 +51,9 @@ public class MyInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
-        System.out.println("执行时");
     }
 
     @Override
     public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception {
-        System.out.println("渲染后！");
     }
 }

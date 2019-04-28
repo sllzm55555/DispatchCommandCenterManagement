@@ -75,7 +75,6 @@ public class LogAspect {
         HttpServletRequest request = ((ServletRequestAttributes)requestAttributes).getRequest();
 
         userName = (String)request.getSession().getAttribute("userName");
-        System.out.println("当前用户是"+userName);
 
     }
 
@@ -168,19 +167,17 @@ public class LogAspect {
         }
 
 
-        List<Object> args = Arrays.asList(joinPoint.getArgs());
-        System.out.println("连接点方法为：" + methodName + ",参数为：" + args );
+//        List<Object> args = Arrays.asList(joinPoint.getArgs());
 
 
-        System.out.println("返回值 : " + returnObj);
 
-        Object[] args1 = joinPoint.getArgs();
-        for (Object obj:args1) {
-            if(obj!=null){
-                System.out.println("参数有："+obj.toString());
-            }
-
-        }
+//        Object[] args1 = joinPoint.getArgs();
+//        for (Object obj:args1) {
+//            if(obj!=null){
+//                System.out.println("参数有："+obj.toString());
+//            }
+//
+//        }
     }
 
 
