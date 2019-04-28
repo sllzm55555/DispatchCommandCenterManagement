@@ -153,14 +153,16 @@ public class PlanController {
      * @param planid
      * @return
      */
-    @RequestMapping("{planid}/DeleteServlet")
-    public ModelAndView deletePlan(@PathVariable("planid") String planid) {
+   /* @RequestMapping("{planid}/DeleteServlet")*/
+    @ResponseBody
+    @RequestMapping("DeleteServlet")
+    public Integer deletePlan( String planid) {
         ModelAndView mv = new ModelAndView("plan");
-        planDeptService.deletePlanbyid(planid);
+        Integer isdel=  planDeptService.deletePlanbyid(planid);
 
-        RedirectView tv = new RedirectView("/gotoPlan");
-        mv.setView(tv);
-        return mv;
+     /*   RedirectView tv = new RedirectView("/gotoPlan");
+        mv.setView(tv);*/
+        return isdel;
     }
 
     /**
