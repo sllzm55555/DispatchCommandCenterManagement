@@ -61,6 +61,8 @@ public class UserController {
         }else{
             //登录成功就把用户信息放入到session
             rq.getSession().setAttribute("powerList", list);
+            rq.getSession().setAttribute("userName", list.get(0).getUserName());
+
 //            for (PowerDto powerDto:list) {
 //                System.out.println(powerDto.getUserName()+",权限有："+powerDto.getPowerUri());
 //
