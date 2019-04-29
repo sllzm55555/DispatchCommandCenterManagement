@@ -144,8 +144,6 @@ public class EventEntity {
 
     @Id
     @Column(length = 32 )
-    @GenericGenerator(name="eventId",strategy = "uuid")
-    @GeneratedValue(generator = "eventId")
     public String getEventId() {
         return eventId;
     }

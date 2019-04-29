@@ -24,6 +24,7 @@
 		};
 		//接收服务器发送回来的消息
 		websocket.onmessage = function(event) {
+
 			var span = "<span>"+event.data+"</span><p/>";
 			$("#xxid").append(span);
 		};
