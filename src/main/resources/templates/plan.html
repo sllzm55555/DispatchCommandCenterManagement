@@ -42,6 +42,11 @@
     <link th:href="@{staticResources/webarch/css/webarch.css}" rel="stylesheet" type="text/css"/>
     <!-- END CORE CSS FRAMEWORK -->
     <script th:src="@{staticResources/jquery-2.1.4.js}"></script>
+<!--删除弹框-->
+    <link rel="stylesheet" type="text/css" href="https://www.huangwx.cn/css/sweetalert.css">
+    <script type="text/javascript" src="https://www.huangwx.cn/js/sweetalert-dev.js"></script>
+
+
     <script>
         $(function () {
             var currpage=1;
@@ -94,6 +99,37 @@
             })
         });
 
+        function del(del){
+            swal({
+                    title: "确定删除吗？",
+                    text: "你将无法恢复该虚拟文件！",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "确定删除！",
+                    cancelButtonText: "取消删除！",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                },
+
+                function (isConfirm){
+                    if (isConfirm) {
+                        var id=$(del).next().val();
+                       $.getJSON("DeleteServlet",{planid:id},function (data) {
+                           if(data>=1){
+                               swal("删除！", "你的虚拟文件已经被删除。",
+                                   "success");
+                               $.getJSON("findAllplan",{currpage:1},filldate);
+                           }
+                       })
+
+                    } else {
+                        swal("取消！", "你取消了操作)",
+                            "error");
+                    }
+                });
+        }
+
         function filldate(data){
             var $table=$("tbody");
             $table.empty();
@@ -105,7 +141,7 @@
                 var leve=e.enevLeve;
                 var decs=e.planDecs;
                 var $operation = ("<a href='updatafindPlanByPlanId?planid="+ids+"'>修改</a> &nbsp&nbsp&nbsp" +
-                    "<a href="+e.planId+"/DeleteServlet>删除</a>&nbsp&nbsp&nbsp"+
+                    "<a style='color: #23527c ; cursor:pointer' name='del' onclick='del(this)'  '>删除</a><input  type='hidden' value='"+ids+"'>&nbsp&nbsp&nbsp"+
                     "<a href='findPlanByPlanId?planid="+ids+"'>查看详情</a>");
 
                 var dataTr = "<tr><td>" + ids
