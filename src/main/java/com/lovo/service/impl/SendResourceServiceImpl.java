@@ -318,7 +318,7 @@ public class SendResourceServiceImpl implements ISendResourceService {
 
     @Override
     public int findMaxRequestTime(String eventId) {
-        return sendResourceService.findMaxRequestTime(eventId);
+        return sendResourceDao.findMaxRequestTime(eventId);
     }
 
     /**
@@ -327,7 +327,7 @@ public class SendResourceServiceImpl implements ISendResourceService {
      * @return
      */
     private int getRequestTime(String eventId){
-
-        return sendResourceService.findMaxRequestTime(eventId);
+        int maxRequestTime = sendResourceDao.findMaxRequestTime(eventId);
+        return maxRequestTime;
     }
 }
