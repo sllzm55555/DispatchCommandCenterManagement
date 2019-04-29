@@ -64,6 +64,14 @@ public interface IResourceService {
      */
     public int pageAll(String resourceType,String areaid);
 
+    /**
+     * 通过单位类型（110，120，119）和地区id找到所有资源
+     * @param type
+     * @param areaId
+     * @return
+     */
     public List<ResourceEntity> findAllByTypeAndAreaId(String type,String areaId);
+
+    ResourceEntity findByUrl(String url);
 
 }

@@ -22,6 +22,11 @@ public class SendProgressServiceImpl implements ISendProgressService {
     }
 
     @Override
+    public void saveSendProgressEntity(SendProgressEntity sendProgressEntity) {
+        sendProgressDao.save(sendProgressEntity);
+    }
+
+    @Override
     public void saveSendResourceEntityList(List<SendProgressEntity> sendProgressEntityList) {
         sendProgressDao.save(sendProgressEntityList);
     }

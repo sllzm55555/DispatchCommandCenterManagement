@@ -46,12 +46,11 @@
             let eventId=parseInt($("input[type=hidden]").eq(0).val());
             let eventPeriod=parseInt($("input[type=hidden]").eq(1).val());
             let goSendResource = "<a href=\"/sendResourcesJump?eventId=" + eventId + "&eventPeriod=" + eventPeriod + "\"> <button class=\"btn btn-success btn-cons col-sm-offset-2\" type=\"submit\"><i class=\"icon-ok\"></i>处理续报</button></a>";
-            let retureDealWithing = "<button class=\"btn btn-success btn-cons col-sm-offset-2\" type=\"submit\"><i class=\"icon-ok\"></i>查看调用的资源</button>";
+            let retureDealWithing = "<a href='progress?eventId=" + eventId + "' <button class=\"btn btn-success btn-cons col-sm-offset-2\" type=\"submit\"><i class=\"icon-ok\"></i>查看调用的资源</button>";
             $("#event1").append(goSendResource);
             $("#event1").append(retureDealWithing);
             let currPage=1;
-            let reperiod="1";
-            $.getJSON("getAllData",{eventId:eventId,eventPeriod:eventPeriod,reperiod:reperiod},showDetials);
+            $.getJSON("getAllData",{eventId:eventId,eventPeriod:eventPeriod},showDetials);
             $("input[type=text]").prop("readOnly",true);
             $("input[type=text]").css("border","none");
         })
@@ -65,7 +64,7 @@
                    "<td>"+e.hurtPopulation+"</td>" +
                    "<td>"+e.reportDesc+"</td>" +
                    "<tr>";
-               $("#tbody").append(td);
+               $("#tbody").append(th);
                })
            }
           let event= data.obj;

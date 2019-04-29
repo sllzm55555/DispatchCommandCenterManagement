@@ -158,5 +158,10 @@ public class ResourceServiceImpl implements IResourceService {
         return resourceDao.findAllByTypeAndAreaId(type, areaId);
     }
 
+    @Override
+    public ResourceEntity findByUrl(String url) {
+        return resourceDao.findByUrl(url);
+    }
+
 
 }

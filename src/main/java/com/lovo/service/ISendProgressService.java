@@ -19,6 +19,8 @@ public interface ISendProgressService {
      */
     public List<ProgressDto> findAllProgressDto(String eventId);
 
+    public void saveSendProgressEntity(SendProgressEntity sendProgressEntity);
+
     /***
      * 保存资源进度信息
      * @param sendProgressEntityList
