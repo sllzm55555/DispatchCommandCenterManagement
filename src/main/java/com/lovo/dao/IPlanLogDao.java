@@ -23,7 +23,7 @@ public interface IPlanLogDao  extends CrudRepository<PlanLogEntity, String> {
             " and if(?2 is not null ,operator like concat('%',?2,'%'),1=1)" +
             " and if(?3 is not null ,operate_time like CONCAT('%',?3,'%'),1=1)" +
             " and if(?4 is not null ,operate_type=?4 ,1=1)"+
-            " limit ?5,?6",
+            " order by operate_time desc limit ?5,?6",
             nativeQuery = true)
     public List<PlanLogEntity> showPlanLogListByPage(String planId,
                                                      String operator,

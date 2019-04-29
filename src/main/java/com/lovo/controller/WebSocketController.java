@@ -3,11 +3,15 @@ package com.lovo.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.lovo.activeMQ.Producer;
 import com.lovo.dto.NoDealWithDto;
+import com.lovo.testDto.EventSinkDto;
 import netscape.javascript.JSObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * @author wt
@@ -29,29 +33,39 @@ public class WebSocketController {
     }
 
     /**
-     * 往队列一存入数据
+     * 给三组发消息
      * @throws InterruptedException
      */
     @RequestMapping("sendMsg")
     @ResponseBody
     public void sendMsg() throws InterruptedException {
-        for (int i = 0; i < 10; i++) {
-            producer.sendMessage("testQueue001", "消息"+i);
-            Thread.sleep(100);
-        }
+
+        EventSinkDto eventSinkDto = new EventSinkDto();
+
+        eventSinkDto.setId("1");
+        eventSinkDto.setAlarmAddress("郫县");
+        eventSinkDto.setAlarmPerson("假老练");
+        eventSinkDto.setAlarmTel("133232321");
+        eventSinkDto.setCarNum(10);
+        eventSinkDto.setPersonNum(10);
+        eventSinkDto.setEventArea("郫县");
+        eventSinkDto.setEventTime(new Timestamp(System.currentTimeMillis()));
+
+        producer.sendMessage("yiyuan",JSONObject.toJSONString(eventSinkDto));
+
+
+
     }
 
     /**
-     * 往队列二存入数据
+     * 给一组发消息
      * @throws InterruptedException
      */
     @RequestMapping("sendMsg2")
     @ResponseBody
     public void sendMsg2() throws InterruptedException {
-        for (int i = 0; i < 10; i++) {
-            producer.sendMessage("sb", "消息"+i);
-            Thread.sleep(100);
-        }
+        String string = "123456";
+        producer.sendMessage("sendMessageToUploadSystem", string);
     }
     @RequestMapping("sendEvent")
     @ResponseBody

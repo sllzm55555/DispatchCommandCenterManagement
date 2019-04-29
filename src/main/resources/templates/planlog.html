@@ -34,6 +34,10 @@
   <!-- END CORE CSS FRAMEWORK -->
   <script th:src="@{../staticResources/jquery-2.1.4.js}" type="text/javascript"></script>
   <!-- END CORE CSS FRAMEWORK -->
+
+  <!--弹框-->
+  <link rel="stylesheet" type="text/css" href="https://www.huangwx.cn/css/sweetalert.css">
+  <script type="text/javascript" src="https://www.huangwx.cn/js/sweetalert-dev.js"></script>
   <script>
     $(function () {
       let currpage = 1;
@@ -129,22 +133,28 @@
 
         let operator = e.operator;
         let operateType = e.operateType;
-        if(operateType == 1){
-          operateType = "添加预案";
-        }else if(operateType == 2){
-          operateType = "修改预案";
-        }else if(operateType == 3){
-          operateType = "删除预案";
-        }
         let operateTime = e.operateTime;
         let planId = e.planId;
+        var $operation = "";
+        if(operateType == 1){
+          operateType = "添加预案";
+          $operation = ("<a href='findPlanByPlanId?planid="+planId+"'>查看预案详情</a>");
+        }else if(operateType == 2){
+          operateType = "修改预案";
+          $operation = ("<a href='findPlanByPlanId?planid="+planId+"'>查看预案详情</a>");
+        }else if(operateType == 3){
+          operateType = "删除预案";
+          $operation = ("<a href='#' onclick='isDel()'>查看预案详情</a>");
+
+        }
+
 
         let dataTr = "<tr>"
                 + "<td class='v-align-middle'><span class='muted'>" + operator + "</span>"
                 + "</td><td><span class='muted'>" + operateType + "</span>"
                 + "</td><td class='v-align-middle'>" + operateTime + "</td>"
                 + "</td><td >" + planId + "</td>"
-                + "<td><a href='findPlanByPlanId?planid="+planId+"'>查看预案详情</a></td></tr>";i
+                + "<td>"+$operation+"</td></tr>";
         $tbody.append(dataTr);
       });
 
@@ -159,6 +169,9 @@
       $("#goToPage").prop("min",1);
       $("#goToPage").val(data.currPate);
       $("#totalPage").text("/"+data.totalPate);
+    }
+    function isDel(operator) {
+      swal("该预案已被删除！")
     }
   </script>
 </head>

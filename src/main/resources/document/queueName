@@ -1,0 +1,5 @@
+上报系统发送消息(初报)：receiveMessageFromUploadSystem
+上报系统发送消息(初报)：receiveMessageFromUploadSystem
+上报系统接收消息：sendMessageToUploadSystem                  接收的消息只是一个事件编号的字符串
+从资源方接收消息：sendDispatchMessageToDispatchCommandCenterManagement
+向资源方发送消息：资源方单位的拼音

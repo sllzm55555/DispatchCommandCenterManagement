@@ -14,7 +14,7 @@ public class MyInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
-        boolean bl=false;
+        /*boolean bl=false;
         //从session中获取权限对象
         List<PowerDto> list = (List<PowerDto>) httpServletRequest.getSession().getAttribute("powerList");
         if(null == list){
@@ -23,6 +23,8 @@ public class MyInterceptor implements HandlerInterceptor {
             httpServletRequest.getRequestDispatcher("goToLogin").forward(httpServletRequest, httpServletResponse);
 
         }else {
+            String userName = (String) httpServletRequest.getSession().getAttribute("userName");
+            httpServletRequest.setAttribute("user", userName);
             //获取访问的URI
             String uri = httpServletRequest.getServletPath();
             if(uri.contains("/goto")||uri.contains("/goTo")){
@@ -46,14 +48,14 @@ public class MyInterceptor implements HandlerInterceptor {
 
         //判断URI是否权限对象中存在
 
-        return bl;
+        return bl;*/
+
+        return true;
     }
 
     @Override
     public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
-//        List<PowerDto> powerList = (List<PowerDto>) httpServletRequest.getSession().getAttribute("powerList");
-//        String userName = powerList.get(0).getUserName();
-//        modelAndView.addObject("userName", userName);
+
     }
 
     @Override

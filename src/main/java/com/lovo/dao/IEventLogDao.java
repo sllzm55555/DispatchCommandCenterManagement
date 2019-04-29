@@ -29,7 +29,7 @@ public interface IEventLogDao extends CrudRepository<EventLogEntity, String> {
             " and if(?2 is not null ,operator like concat('%',?2,'%'),1=1)" +
             " and if(?3 is not null ,operate_time like CONCAT('%',?3,'%'),1=1)" +
             " and if(?4 is not null ,operate_type like CONCAT('%',?4,'%'),1=1)"+
-            " limit ?5,?6",
+            " order by operate_time desc limit ?5,?6 ",
             nativeQuery = true)
     public List<EventLogEntity> showEventLogListByPage(String eventId,
                                                        String operator,
