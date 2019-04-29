@@ -7,6 +7,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.socket.*;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -66,7 +67,22 @@ public class MyHandler implements WebSocketHandler {
             session.sendMessage(new TextMessage(message));
         }
     }
-
+//    事件的监听器，destination参数的值是队列的名字
+    @JmsListener(destination = "eventNodealWith")
+//    message就是传送过来的信息
+    public  void receiveQueue4(String message) {
+//        通过键在sessionMap集合里面得到WebSocketSession 对象
+        WebSocketSession session = sessionMap.get("/ws");
+//        如果session 对象不为空并且是开启状态
+        if (session!=null&& session.isOpen()){
+            try {
+//                就把数据传送到页面上
+                session.sendMessage(new TextMessage(message));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     @JmsListener(destination="sb")
     public void receiveQueue3(String message) throws Exception {
 
