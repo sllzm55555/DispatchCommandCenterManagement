@@ -71,11 +71,10 @@ public class LogAspect {
 
         //这个RequestContextHolder是Springmvc提供来获得请求的东西
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-
-        HttpServletRequest request = ((ServletRequestAttributes)requestAttributes).getRequest();
-
-        userName = (String)request.getSession().getAttribute("userName");
-
+        if(requestAttributes != null){
+            HttpServletRequest request = ((ServletRequestAttributes)requestAttributes).getRequest();
+            userName = (String)request.getSession().getAttribute("userName");
+        }
     }
 
     /**
