@@ -1,5 +1,7 @@
 package com.lovo.entity;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 /**
  *  派遣资源实体：派遣资源的进度记录表（表示单个车或者人）
@@ -117,6 +119,8 @@ public class SendProgressEntity {
 
 
     @Id
+    @GenericGenerator(name="spid",strategy = "uuid")
+    @GeneratedValue(generator = "spid")
     @Column(length = 32)
     public String getSendProgressId() {
         return sendProgressId;

@@ -63,12 +63,17 @@ public class EventDealWithController {
         String[] resourceName = request.getParameterValues("resourceName");
         String[] renshu = request.getParameterValues("renshu");
         String[] cheliang = request.getParameterValues("cheliang");
-        String result = sendResourceService.callSendResource(eventId, resourceName, renshu, cheliang);
-        modelAndView.addObject("eventId",eventId);
-        modelAndView.addObject("result",result);
-        modelAndView.setViewName("dealWithIngDetails");
+        int result = sendResourceService.callSendResource(eventId, resourceName, renshu, cheliang);
+        if (result == 0) {
+            modelAndView.addObject("eventId",eventId);
+            modelAndView.setViewName("dealWithIngDetails");
 
-        return modelAndView;
+            return modelAndView;
+        } else {
+            modelAndView.addObject("eventId",eventId);
+            modelAndView.setViewName("scheduleOfResourceDispatch");
+            return modelAndView;
+        }
     }
 
     /**
@@ -81,35 +86,30 @@ public class EventDealWithController {
         SendResourceBean objectSendResourceBean = new SendResourceBean();
         //事件实体
         EventEntity eventEntity = eventService.findEventByEventId(eventId);
-        ResubmitDto hotNewsResubmit = null;
+
         //预案相关
         List<PlanFindDto> planFindDtoList = new ArrayList<>();
-        EventEntity entity = new EventEntity();
+        String eventType = "";
+        String eventLevel = "";
+        //最后一次续报实体，有的话打印这个，没有就是现在事件的等级和类型
+        ResubmitDto hotNewsResubmit = resubmitService.getHotNewsResubmit(eventId,eventPeriod,null);
         //如果为1，则是未处理
-        if (eventPeriod == 1) {
+        if (hotNewsResubmit != null) {
             //最后一次续报，有就显示这个，没有就是现实事件详情
-            hotNewsResubmit = resubmitService.getHotNewsResubmit(eventId, eventPeriod, null);
+            eventType = hotNewsResubmit.getEventType();
+            eventLevel = hotNewsResubmit.getEventLevel();
             objectSendResourceBean.setResubmitDto(hotNewsResubmit);
-        } else if (eventPeriod == 2) {
-            //如果有最新未处理续报，则加入这条续报
-            hotNewsResubmit = resubmitService.getHotNewsResubmit(eventId, eventPeriod, "1");
-            if (hotNewsResubmit != null) {
-                objectSendResourceBean.setResubmitDto(hotNewsResubmit);
-                //显示最新续报的预案信息
-                entity.setEventType(hotNewsResubmit.getEventType());
-                entity.setEventLevel(hotNewsResubmit.getEventLevel());
-            } else {
-                entity.setEventType(eventEntity.getEventType());
-                entity.setEventLevel(eventEntity.getEventLevel());
-            }
-            //如果有派遣信息，则加入
-            List<SendResourcesDto> sendResourcesListByEventId = sendResourceService.getSendResourcesListByEventId(eventId);
-            if (sendResourcesListByEventId != null || sendResourcesListByEventId.size() != 0) {
-                objectSendResourceBean.setSendResourcesDtoList(sendResourcesListByEventId);
-            }
+        } else  {
+            eventType = eventEntity.getEventType();
+            eventLevel = eventEntity.getEventLevel();
+        }
+        //如果有派遣信息，则加入
+        List<SendResourcesDto> sendResourcesListByEventId = sendResourceService.getSendResourcesListByEventId(eventId);
+        if (sendResourcesListByEventId != null) {
+            objectSendResourceBean.setSendResourcesDtoList(sendResourcesListByEventId);
         }
         //预案模板
-        List<String> idByEnevTypeAndEnevLeve = planService.findAllEventIdByEnevTypeAndEnevLeve(entity.getEventType(), entity.getEventLevel());
+        List<String> idByEnevTypeAndEnevLeve = planService.findAllEventIdByEnevTypeAndEnevLeve(eventType, eventLevel);
         for (String s : idByEnevTypeAndEnevLeve) {
             PlanFindDto planFindDto = new PlanFindDto();
             PlanEntity planEntity = planService.findByPlanId(s);
@@ -191,6 +191,7 @@ public class EventDealWithController {
         String eventId = eventSendDto.getId();
         EventEntity eventEntity = eventService.findEventByEventId(eventId);
         int n = sendResourceService.updateByEventEntity_EventIdAndRequestId(eventSendDto.getPerson().getPersonName(),eventSendDto.getPerson().getTel(), eventSendDto.getId(), eventSendDto.getRequestId());
+        System.out.println(n);
         int m = sendResourceService.updateProgress(n,eventSendDto);
 
         System.out.println("保存结果为：" + m);

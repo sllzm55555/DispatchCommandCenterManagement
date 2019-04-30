@@ -31,14 +31,14 @@ public interface ISendResourceService {
     List<SendResourcesDto> getSendResourcesListByEventId(String eventId);
 
     /**
-     * 发送派遣信息
+     * 发送派遣信息0失败 1成功
      *
      * @param eventId      事件id
      * @param resourceName 所有单位url
      * @param renshu       所有单位选择人数
      * @param cheliang     所有单位选择车辆
      */
-    String callSendResource(String eventId, String[] resourceName, String[] renshu, String[] cheliang);
+    int callSendResource(String eventId, String[] resourceName, String[] renshu, String[] cheliang);
 
     /**
      * 保存list
@@ -74,5 +74,5 @@ public interface ISendResourceService {
      * @param eventId
      * @return
      */
-    public int findMaxRequestTime(String eventId);
+    public SendResourceEntity findMaxRequestTime(String eventId);
 }

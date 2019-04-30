@@ -77,6 +77,7 @@ public class PlanServiceImpl implements IPlanService {
             deptDto.setCarNumber(objects[2].toString());
             list.add(deptDto);
         }
+        //这里要循环通过资源的url得到当前可用资源
         return list;
     }
 

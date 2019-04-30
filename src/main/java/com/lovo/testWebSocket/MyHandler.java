@@ -83,23 +83,8 @@
 //            }
 //        }
 //    }
-//    @JmsListener(destination="receiveMessageFromUploadSystem")
+//    @JmsListener(destination="sb")
 //    public void receiveQueue3(String message) throws Exception {
-//
-//        WebSocketSession session = sessionMap.get("/ws");
-//        List<String> list = null;
-//        if(session == null){
-//            //如果没有session,那么只把数据存入数据库(这里模拟一个list来接收)
-//            list = new ArrayList<>();
-//            list.add(message);
-//            return;
-//        }else {
-//            //如果有session，那么直接推送到页面，并且保存到数据库
-//            session.sendMessage(new TextMessage(message));
-//        }
-//    }
-//    @JmsListener(destination="sendDispatchMessageToDispatchCommandCenterManagement")
-//    public void receiveQueue5(String message) throws Exception {
 //
 //        WebSocketSession session = sessionMap.get("/ws02");
 //        List<String> list = null;
@@ -113,7 +98,6 @@
 //            session.sendMessage(new TextMessage(message));
 //        }
 //    }
-//
 //
 //    /**
 //     * 处理要发送的信息，在客户端通过websocket发送的消息都会被拦截，用户根据自己的需要来处理
