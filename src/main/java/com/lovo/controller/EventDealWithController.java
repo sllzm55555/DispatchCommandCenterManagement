@@ -189,10 +189,15 @@ public class EventDealWithController {
         //将接收到的json转为对象
         EventSendDto eventSendDto = JSONObject.parseObject(message,EventSendDto.class);
         String eventId = eventSendDto.getId();
-        EventEntity eventEntity = eventService.findEventByEventId(eventId);
+//        EventEntity eventEntity = eventService.findEventByEventId(eventId);
         int n = sendResourceService.updateByEventEntity_EventIdAndRequestId(eventSendDto.getPerson().getPersonName(),eventSendDto.getPerson().getTel(), eventSendDto.getId(), eventSendDto.getRequestId());
-        System.out.println(n);
-        int m = sendResourceService.updateProgress(n,eventSendDto);
+        System.out.println(n + "保存修改派遣信息");
+        int times = 0;
+        if(eventSendDto.getPerson() != null){
+            //初次派遣，需要添加派遣进度记录
+            times = 1;
+        }
+        int m = sendResourceService.updateProgress(times,eventSendDto);
 
         System.out.println("保存结果为：" + m);
         this.onMessage(message,session);

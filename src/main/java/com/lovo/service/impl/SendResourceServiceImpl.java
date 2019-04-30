@@ -286,7 +286,7 @@ public class SendResourceServiceImpl implements ISendResourceService {
      */
     @Override
     public int updateProgress(int n, EventSendDto eventSendDto) {
-        //1修改成功，则是初次派遣，新建单个资源派遣进度   0修改失败，则是归队信息
+        //1，则是初次派遣，新建单个资源派遣进度   0，则是归队信息
         //所以派遣dto必须写负责人，并且负责人在list里面
         //归队也必须写负责人，负责人可不用写在list里面
         EventEntity eventEntity = eventService.findEventByEventId(eventSendDto.getId());

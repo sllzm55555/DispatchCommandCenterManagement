@@ -14,7 +14,7 @@ public class MyInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
-        /*boolean bl=false;
+        boolean bl=false;
         //从session中获取权限对象
         List<PowerDto> list = (List<PowerDto>) httpServletRequest.getSession().getAttribute("powerList");
         if(null == list){
@@ -48,9 +48,9 @@ public class MyInterceptor implements HandlerInterceptor {
 
         //判断URI是否权限对象中存在
 
-        return bl;*/
+        return bl;
 
-        return true;
+//        return true;
     }
 
     @Override
