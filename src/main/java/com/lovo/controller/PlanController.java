@@ -70,6 +70,11 @@ public class PlanController {
     @RequestMapping("savaplan")
     public ModelAndView savaPlanController(String planname, String planttpe, String planeven, String planDecs,
                                            String presonNum, String vehicle, String planselect) {
+
+        ModelAndView mv = new ModelAndView("plan");
+       if("".equals(planselect)){
+           return mv;
+       }
         //去掉结尾逗号
         presonNum = presonNum.substring(0, presonNum.length() - 1);
         vehicle = vehicle.substring(0, vehicle.length() - 1);
@@ -108,7 +113,7 @@ public class PlanController {
         }
 
 
-        ModelAndView mv = new ModelAndView("plan");
+
         return mv;
     }
 
