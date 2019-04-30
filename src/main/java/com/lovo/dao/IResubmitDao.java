@@ -13,7 +13,7 @@ import java.util.List;
  * @author 阿枫
  * @date 2019-04-19
  */
-public interface IResubmitDao extends CrudRepository<ResourceEntity,String> {
+public interface IResubmitDao extends CrudRepository<ResubmitEntity,String> {
 
 
     /**

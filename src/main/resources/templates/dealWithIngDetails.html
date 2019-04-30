@@ -42,20 +42,42 @@
     <link th:href="@{../staticResources/webarch/css/webarch.css}" rel="stylesheet" type="text/css"/>
     <script th:src="@{../staticResources/jquery-2.1.4.js}"></script>
     <script>
+
+        var websocket;
+
+        if ('WebSocket' in window) {
+            websocket = new WebSocket("ws://127.0.0.1:8388/ResubmitWebsocket");
+        } else if ('MozWebSocket' in window) {
+            websocket = new MozWebSocket("ws://127.0.0.1:8388/ws");
+        } else {
+            websocket = new SockJS("http://127.0.0.1:8388/ws/sockjs");
+        }
+        websocket.onopen = function(event) {
+            alert("WebSocket:已连接");
+        };
+        websocket.onmessage = function(event) {
+            let eventPeriod=2;
+            let eventId=$("input[type=text]").eq(0).val();
+            let reperiod="1";
+            $.getJSON("getAllData",{eventId:eventId,reperiod:reperiod,eventPeriod:eventPeriod},showDetials);
+        };
+
+
         $(function () {
             let eventId=parseInt($("input[type=hidden]").eq(0).val());
             let eventPeriod=parseInt($("input[type=hidden]").eq(1).val());
+            let reperiod=$("#reperiod").val();
             let goSendResource = "<a href=\"/sendResourcesJump?eventId=" + eventId + "&eventPeriod=" + eventPeriod + "\"> <button class=\"btn btn-success btn-cons col-sm-offset-2\" type=\"submit\"><i class=\"icon-ok\"></i>处理续报</button></a>";
             let retureDealWithing = "<a href='progress?eventId=" + eventId + "' <button class=\"btn btn-success btn-cons col-sm-offset-2\" type=\"submit\"><i class=\"icon-ok\"></i>查看调用的资源</button>";
             $("#event1").append(goSendResource);
             $("#event1").append(retureDealWithing);
-            let currPage=1;
-            $.getJSON("getAllData",{eventId:eventId,eventPeriod:eventPeriod},showDetials);
+            $.getJSON("getAllData",{eventId:eventId,eventPeriod:eventPeriod,reperiod:reperiod},showDetials);
             $("input[type=text]").prop("readOnly",true);
             $("input[type=text]").css("border","none");
         })
         function showDetials(data) {
            let th=data.tableBeans;
+           $("#tbody").empty();
            if (th!=null){
                $.each(th,function (i,e) {
                let td="<tr>" +
@@ -64,17 +86,22 @@
                    "<td>"+e.hurtPopulation+"</td>" +
                    "<td>"+e.reportDesc+"</td>" +
                    "<tr>";
-               $("#tbody").append(th);
+               $("#tbody").append(td);
                })
            }
-          let event= data.obj;
-           $("input[type=text]").eq(0).val(event.eventId);
-           $("input[type=text]").eq(1).val(event.eventName);
-           $("input[type=text]").eq(2).val(event.eventTime);
-           $("input[type=text]").eq(3).val(event.eventUploadPeople);
-           $("input[type=text]").eq(4).val(event.eventType);
-           $("input[type=text]").eq(5).val(event.alarmTel);
-           $("input[type=text]").eq(6).val(event.eventLevel);
+
+            let event= data.obj;
+            $("#eventId").val(event.eventId);
+            $("#eventName").text(event.eventName);
+            $("#eventTime").text(event.eventTime);
+            $("#eventUploadPeople").text(event.eventUploadPeople);
+            $("#eventType").text(event.eventType);
+            $("#alarmTel").text(event.alarmTel);
+            $("#eventLevel").text(event.eventLevel);
+            $("#uniqueAttr").text(event.uniqueAttr);
+            $("#alarmAddress").text(event.alarmAddress);
+            $("#alarmPerson").text(event.alarmPerson);
+            $("#hurtPopulation").text(event.hurtPopulation);
         }
     </script>
     <style>
@@ -135,24 +162,58 @@
                             <div class="row">
                                 <div class="col-md-8 col-sm-8 col-xs-8">
                                     <div class="form-group">
-                                        <label class="form-label">事件编号:</label><input type="text"/>
-                                        <label class="form-label">事件名称:</label><input type="text"/>
+                                        <span class="help">事件名称</span>
+                                        <div class="controls">
+                                            <span class="text-right" id="eventName"></span>
+                                        </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label">上报时间:</label><input type="text"/>
-                                        <label class="form-label" id="label1">上报人:</label><input type="text" id="t1"/>
+                                        <span class="help">事件等级</span>
+                                        <div class="controls">
+                                            <span id="eventLevel"></span>
+                                        </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label">事件类型:</label><input type="text"/>
-                                        <label class="form-label" id="label2">上报人电话:</label><input type="text" id="t2"/>
+                                        <span class="help">事件类型</span>
+                                        <div class="controls">
+                                            <span id="eventType"></span>
+                                        </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label">事件等级:</label><input type="text"/>
-                                        <label class="form-label">特殊字段:</label><input type="text"/>
+                                        <span class="help">发生位置</span>
+                                        <div class="controls">
+                                            <span id="alarmAddress"></span>
+                                        </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label">特殊字段:</label><input type="text"/>
-                                        <label class="form-label">特殊字段:</label><input type="text"/>
+                                        <span class="help">上报人员</span>
+                                        <div class="controls">
+                                            <span id="alarmPerson"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="help">联系方式</span>
+                                        <div class="controls">
+                                            <span id="alarmTel"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="help">上报时间</span>
+                                        <div class="controls">
+                                            <span id="eventTime"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="help">伤亡人数</span>
+                                        <div class="controls">
+                                            <span id="hurtPopulation"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="help">事件描述</span>
+                                        <div class="controls">
+                                            <span id="uniqueAttr"></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -179,6 +240,7 @@
                         <input type="hidden" th:value="${eventId}" id="eventId">
 
                         <input type="hidden" value="2">
+                        <input type="hidden" id="reperiod" value="1">
 
                         <a href="/goToDealWithIng"> <button class="btn btn-success btn-cons col-sm-offset-2" type="submit"><i class="icon-ok" id="button1"></i> 返回</button></a>
                         <!--<a href="/sendResourcesJump"> <button class="btn btn-success btn-cons col-sm-offset-2" type="submit"><i class="icon-ok"></i>处理续报</button></a>-->

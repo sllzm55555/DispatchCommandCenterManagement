@@ -51,4 +51,28 @@ public class MQUtil {
             }
         });
     }
+    public void sendEvent(Object data){
+        jmsTemplate.send("eventNodealWith", new MessageCreator() {
+            @Override
+            public TextMessage createMessage(Session session) throws JMSException {
+                TextMessage textMessage = session.createTextMessage();
+                String strJson = JSONObject.toJSONString(data);
+                textMessage.setText(strJson);
+                return textMessage;
+            }
+        });
+    }
+
+    public void sendResubmit(Object data){
+        jmsTemplate.send("resubitDto", new MessageCreator() {
+            @Override
+            public TextMessage createMessage(Session session) throws JMSException {
+                TextMessage textMessage = session.createTextMessage();
+                String strJson = JSONObject.toJSONString(data);
+                textMessage.setText(strJson);
+                return textMessage;
+            }
+        });
+    }
+
 }

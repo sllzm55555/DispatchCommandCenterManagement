@@ -144,6 +144,12 @@
                     </div>
                   </div>
                   <div class="form-group">
+                    <span class="help">上报时间</span>
+                    <div class="controls">
+                      <span th:text="${event.eventTime}"></span>
+                    </div>
+                  </div>
+                  <div class="form-group">
                     <span class="help">伤亡人数</span>
                     <div class="controls">
                       <span th:text="${event.hurtPopulation}"></span>
@@ -153,6 +159,12 @@
                     <span class="help">结束时间</span>
                     <div class="controls">
                       <span th:text="${event.endTime}"></span>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <span class="help">事件描述</span>
+                    <div class="controls">
+                      <span th:text="${event.uniqueAttr}"></span>
                     </div>
                   </div>
                 </div>

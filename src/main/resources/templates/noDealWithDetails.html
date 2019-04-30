@@ -43,6 +43,26 @@
     <script th:src="@{../staticResources/jquery-2.1.4.js}" type="text/javascript"></script>
 
     <script>
+
+        var websocket;
+
+        if ('WebSocket' in window) {
+            websocket = new WebSocket("ws://127.0.0.1:8388/ResubmitWebsocket");
+        } else if ('MozWebSocket' in window) {
+            websocket = new MozWebSocket("ws://127.0.0.1:8388/ws");
+        } else {
+            websocket = new SockJS("http://127.0.0.1:8388/ws/sockjs");
+        }
+        websocket.onopen = function(event) {
+            alert("WebSocket:已连接");
+        };
+        websocket.onmessage = function(event) {
+            var eventPeriod=1;
+            var eventId=$("#eventId").val();
+            var reperiod="1";
+            $.getJSON("getAllData",{eventId:eventId,reperiod:reperiod,eventPeriod:eventPeriod},showList);
+        };
+
         $(function () {
             let eventPeriod=1;
             let eventId=$("#eId").val();
@@ -51,38 +71,51 @@
            $("input[type=text]").prop("readOnly",true);
 
         });
-
+        function goUpdate() {
+            let id=$("#eventId").val()
+            let ePeriod=$("#eventPeriod").val();
+            $("input[name=eId]").val(id);
+            $("input[name=ePeriod]").val(ePeriod);
+            $("#updateEvent").submit();
+        }
 
         function showList(data) {
             let event= data.obj;
             $("#eventId").val(event.eventId);
-            $("#eventName").val(event.eventName);
-            $("#eventTime").val(event.eventTime);
-            $("#eventUploadPeople").val(event.eventUploadPeople);
-            $("#eventType").val(event.eventType);
-            $("#alarmTel").val(event.alarmTel);
-            $("#eventLevel").val(event.eventLevel);
-            $("#uniqueAttr").val(event.uniqueAttr);
+            $("#eventName").text(event.eventName);
+            $("#eventTime").text(event.eventTime);
+            $("#eventUploadPeople").text(event.eventUploadPeople);
+            $("#eventType").text(event.eventType);
+            $("#alarmTel").text(event.alarmTel);
+            $("#eventLevel").text(event.eventLevel);
+            $("#uniqueAttr").text(event.uniqueAttr);
+            $("#alarmAddress").text(event.alarmAddress);
+            $("#alarmPerson").text(event.alarmPerson);
+            $("#hurtPopulation").text(event.hurtPopulation);
 
-            $("#returnA").after("<a href=\"sendResourcesJump?eventId=" + event.eventId + "&eventPeriod=1\"><button class=\"btn btn-success btn-cons col-sm-offset-2\"  type=\"button\"><i class=\"icon-ok\"></i>\n" +
-                "                            处理\n" +
-                "                        </button></a>");
 
 
-            if(data.totalPate==0||data.tableBeans==null||data.tableBeans==undefined){
-                $("#example").css('display','none');
-                return;
-            }
+            // $("#returnA").after("<a href=\"sendResourcesJump?eventId=" + event.eventId + "&eventPeriod=1\"><button class=\"btn btn-success btn-cons col-sm-offset-2\"  type=\"button\"><i class=\"icon-ok\"></i>\n" +
+            //     "                            处理\n" +
+            //     "                        </button></a>");
 
-           $.each(data.tableBeans,function (i,e) {
-             let th="<tr>" +
-                 "<td>"+e.eventType+"</td>" +
-                 "<td>"+e.eventLevel+"</td>" +
-                 "<td>"+e.hurtPopulation+"</td>" +
-                 "<td>"+e.reportDesc+"</td>" +
-                 "</tr>";
+            // if(data.totalPate==0||data.tableBeans==null||data.tableBeans==undefined){
+            //     $("#example").css('display','none');
+            //     return;
+            // }
+
+            $("#tbody").empty();
+            let list=data.tableBeans;
+            for (let i = 0; i <list.length ; i++) {
+                let th="<tr>" +
+                    "<td>"+list[i].eventType+"</td>" +
+                    "<td>"+list[i].eventLevel+"</td>" +
+                    "<td>"+list[i].hurtPopulation+"</td>" +
+                    "<td>"+list[i].reportDesc+"</td>" +
+                    "</tr>";
                 $("#tbody").append(th);
-           });
+            };
+
         }
     </script>
     <style>
@@ -143,24 +176,58 @@
                             <div class="row">
                                 <div class="col-md-8 col-sm-8 col-xs-8">
                                     <div class="form-group">
-                                        <label class="form-label">事件编号:</label><input type="text" id="eventId"></input>
-                                        <label class="form-label">事件名称:</label><input type="text" id="eventName"/>
+                                        <span class="help">事件名称</span>
+                                        <div class="controls">
+                                            <span class="text-right" id="eventName"></span>
+                                        </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label">上报时间:</label><input type="text" id="eventTime" />
-                                        <label class="form-label" id="label1">上报人:</label><input type="text" id="eventUploadPeople" />
+                                        <span class="help">事件等级</span>
+                                        <div class="controls">
+                                            <span id="eventLevel"></span>
+                                        </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label">事件类型:</label><input type="text" id="eventType" />
-                                        <label class="form-label" id="label2">上报人电话:</label><input type="text"  id="alarmTel" />
+                                        <span class="help">事件类型</span>
+                                        <div class="controls">
+                                            <span id="eventType"></span>
+                                        </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label">事件等级:</label><input type="text" id="eventLevel" />
-                                        <label class="form-label">详细情况:</label><input type="text" id="uniqueAttr"/>
+                                        <span class="help">发生位置</span>
+                                        <div class="controls">
+                                            <span id="alarmAddress"></span>
+                                        </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label">特殊字段:</label><input type="text"/>
-                                        <label class="form-label">特殊字段:</label><input type="text"/>
+                                        <span class="help">上报人员</span>
+                                        <div class="controls">
+                                            <span id="alarmPerson"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="help">联系方式</span>
+                                        <div class="controls">
+                                            <span id="alarmTel"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="help">上报时间</span>
+                                        <div class="controls">
+                                            <span id="eventTime"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="help">伤亡人数</span>
+                                        <div class="controls">
+                                            <span id="hurtPopulation"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="help">事件描述</span>
+                                        <div class="controls">
+                                            <span id="uniqueAttr"></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -183,7 +250,7 @@
                             </table>
 
                         </div>
-
+                        <input type="hidden" id="eventId">
                         <input type="hidden" name="eventPeriod" value="1" id="eventPeriod">
                         <input type="hidden" name="eventId" th:value="${eventId}" id="eId">
                         <input type="hidden" name="reperiod" value="1" id="reperiod">
@@ -191,26 +258,15 @@
                           返回
                         </button></a>
 
-                        <button class="btn btn-success btn-cons col-sm-offset-3" type="button" th:onclick="|javascript:goUpdate()|"><i class="icon-ok" id="button3"></i>
-                            处理2
+                        <button class="btn btn-success btn-cons col-sm-offset-3" type="button" onclick="goUpdate()"><i class="icon-ok" id="button3"></i>
+                            处理
                         </button>
-
-                        <div style="display: none">
-                            <form th:action="@{updateEvent}" method="post" id="updateEvent">
+                        <div style="display:none">
+                            <form action="sendResourcesJump" method="post" id="updateEvent">
                                 <input type="text" name="eId"/>
                                 <input type="text" name="ePeriod"/>
                             </form>
                         </div>
-
-                        <script>
-                            function goUpdate() {
-                                let id=$("#eventId").val()
-                                let ePeriod=$("#eventPeriod").val();
-                                $("input[name=eId]").val(id);
-                                $("input[name=ePeriod]").val(ePeriod);
-                                $("#updateEvent").submit();
-                            }
-                        </script>
                     </div>
                 </div>
             </div>

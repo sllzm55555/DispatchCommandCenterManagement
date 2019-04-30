@@ -100,4 +100,9 @@ public class ResubmitServiceImpl implements IResubmitService {
        }
         return re;
     }
+
+    @Override
+    public ResubmitEntity saveResubmit(ResubmitEntity r) {
+        return resubmitDao.save(r);
+    }
 }
