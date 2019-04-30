@@ -2,6 +2,7 @@ package com.lovo.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lovo.dao.ISendResourceDao;
+import com.lovo.dto.ResubmitDto;
 import com.lovo.dto.SendResourceDto;
 import com.lovo.dto.SendResourcesDto;
 import com.lovo.dto.out.CarDto;
@@ -12,11 +13,9 @@ import com.lovo.entity.EventEntity;
 import com.lovo.entity.ResourceEntity;
 import com.lovo.entity.SendProgressEntity;
 import com.lovo.entity.SendResourceEntity;
-import com.lovo.service.IEventService;
-import com.lovo.service.IResourceService;
-import com.lovo.service.ISendProgressService;
-import com.lovo.service.ISendResourceService;
+import com.lovo.service.*;
 import com.lovo.util.MQUtil;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,6 +48,9 @@ public class SendResourceServiceImpl implements ISendResourceService {
     @Autowired
     private ISendProgressService sendProgressService;
 
+    @Autowired
+    private IResubmitService resubmitService;
+
     @Override
     public List<SendResourceDto> findAllSendResourceByEventId(String eventId) {
         return sendResourceDao.findAllSendResourceByEventId(eventId);
@@ -59,6 +61,10 @@ public class SendResourceServiceImpl implements ISendResourceService {
         List<SendResourcesDto> list = new ArrayList<>();
 
         List<Object[]> listByEventId = sendResourceDao.getSendResourcesListByEventId(eventId);
+        if (listByEventId == null || listByEventId.size() <= 0 ) {
+            return null;
+        }
+
         SendResourcesDto sendResourcesDto = new SendResourcesDto();
 
         int n = 0;
@@ -110,6 +116,7 @@ public class SendResourceServiceImpl implements ISendResourceService {
             } else {
                 list.add(sendResourcesDto);
                 sendResourcesDto = new SendResourcesDto();
+                sendResourcesDto.setTime(times);
                 for (int i = 0; i < objects.length; i++) {
                     if ("公安".equals(objects[1])) {
                         if (sendResourcesDto.getNaturePolulation() == 0 && sendResourcesDto.getNatureResource() == 0){
@@ -189,15 +196,22 @@ public class SendResourceServiceImpl implements ISendResourceService {
     }
 
     @Override
-    public String callSendResource(String eventId, String[] resourceName, String[] renshu, String[] cheliang) {
+    public int callSendResource(String eventId, String[] resourceName, String[] renshu, String[] cheliang) {
         EventEntity eventEntity = eventService.findEventByEventId(eventId);
 
 //        List<EventSinkDto> eventSinkDtoList = new ArrayList<>();
         List<SendResourceEntity> sendResourceEntityList = new ArrayList<>();
         //人或车数量大于0才是需要派遣的单位,拼接sendResourceEntity
+        int count = 0;
         for (int i = 0; i < resourceName.length; i++) {
-            int ren = Integer.parseInt(renshu[i]);
-            int che = Integer.parseInt(cheliang[i]);
+            int ren = 0;
+            int che = 0;
+            if (renshu[i] != null && renshu[i].length() > 0) {
+                ren = Integer.parseInt(renshu[i]);
+            }
+            if (cheliang[i] != null && cheliang[i].length() > 0) {
+                che = Integer.parseInt(renshu[i]);
+            }
             if (ren > 0 || che > 0) {
                 String rUrl = resourceName[i];
                 //通过资源名字找到资源
@@ -215,12 +229,23 @@ public class SendResourceServiceImpl implements ISendResourceService {
                 sendResourceEntity.setChargeTel("未指派");
                 sendResourceEntity.setEventEntity(eventEntity);
                 sendResourceEntityList.add(sendResourceEntity);
+                count = count + 1;
             }
+        }
+        if (count < 1) {
+            return 0;
         }
         //保存派遣信息
         sendResourceService.saveSendResource(sendResourceEntityList);
-        //修改事件处理状态
-
+        //如果事件id不为2（1是未处理事件），修改事件处理状态
+        if (eventEntity.getEventPeriod() != 2) {
+            eventService.updateEventData(eventId,2);
+        }
+        //把所有续报状态改成已处理
+        List<ResubmitDto> resubmitDtoList = resubmitService.findAllResubmitListByIdAndPeriod(eventId, eventEntity.getEventPeriod(), null);
+        if (resubmitDtoList != null && resubmitDtoList.size() > 0) {
+            resubmitService.changeResubmitPeriod(eventId);
+        }
         //组装需要发送给各单位的EnevtSinkDto,并发送笑死
         for (int i = 0; i < sendResourceEntityList.size(); i++) {
             EventSinkDto eventSinkDto = new EventSinkDto();
@@ -236,11 +261,11 @@ public class SendResourceServiceImpl implements ISendResourceService {
             eventSinkDto.setPersonNum(sendResourceEntityList.get(i).getRequestPopulation());
             eventSinkDto.setCarNum(sendResourceEntityList.get(i).getRequestResource());
             //循环派遣信息，向每个单位发送派遣信息
-//            mqUtil.sendMQ("",eventSinkDto);
+            mqUtil.sendEventSinkDto(sendResourceEntityList.get(i).getResourceUrl(),eventSinkDto);
+
         }
 
-
-        return "发送完成";
+        return 1;
     }
 
     @Override
@@ -261,7 +286,9 @@ public class SendResourceServiceImpl implements ISendResourceService {
      */
     @Override
     public int updateProgress(int n, EventSendDto eventSendDto) {
-        ///1：当前资源进度未保存，须新建，0：当前资源进度已有，直接修改
+        //1修改成功，则是初次派遣，新建单个资源派遣进度   0修改失败，则是归队信息
+        //所以派遣dto必须写负责人，并且负责人在list里面
+        //归队也必须写负责人，负责人可不用写在list里面
         EventEntity eventEntity = eventService.findEventByEventId(eventSendDto.getId());
         SendResourceEntity sendResourceEntity = sendResourceService.findByEventIdAndRequestId(eventEntity.getEventId(), eventSendDto.getRequestId());
         List<PersonDto> personDtos = eventSendDto.getPersonDtos();
@@ -301,12 +328,17 @@ public class SendResourceServiceImpl implements ISendResourceService {
 
             return 1;
         } else {
-            for (int i = 0 ; i < personDtos.size() ; i++) {
-                sendProgressService.updateReturnTimeByEventIdAndSendProgressId(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(personDtos.get(i).getReturnTime()),personDtos.get(i).getId(),eventEntity.getEventId());
+            if (personDtos != null) {
+                for (int i = 0 ; i < personDtos.size() ; i++) {
+                    sendProgressService.updateReturnTimeByEventIdAndSendProgressId(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(personDtos.get(i).getReturnTime()),personDtos.get(i).getId(),eventEntity.getEventId());
+                }
             }
-            for (int i = 0 ; i < carDtos.size() ; i++) {
-                sendProgressService.updateReturnTimeByEventIdAndSendProgressId(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(carDtos.get(i).getReturnTime()),carDtos.get(i).getId(),eventEntity.getEventId());
+            if (carDtos != null) {
+                for (int i = 0 ; i < carDtos.size() ; i++) {
+                    sendProgressService.updateReturnTimeByEventIdAndSendProgressId(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(carDtos.get(i).getReturnTime()),carDtos.get(i).getId(),eventEntity.getEventId());
+                }
             }
+
             return 0;
         }
     }
@@ -317,7 +349,7 @@ public class SendResourceServiceImpl implements ISendResourceService {
     }
 
     @Override
-    public int findMaxRequestTime(String eventId) {
+    public SendResourceEntity findMaxRequestTime(String eventId) {
         return sendResourceDao.findMaxRequestTime(eventId);
     }
 
@@ -327,7 +359,10 @@ public class SendResourceServiceImpl implements ISendResourceService {
      * @return
      */
     private int getRequestTime(String eventId){
-        int maxRequestTime = sendResourceDao.findMaxRequestTime(eventId);
-        return maxRequestTime;
+        SendResourceEntity sendResourceEntity = sendResourceDao.findMaxRequestTime(eventId);
+        if (sendResourceEntity != null) {
+            return sendResourceEntity.getRequestTimes();
+        }
+        return -1;
     }
 }

@@ -69,6 +69,6 @@ public interface ISendResourceDao extends CrudRepository<SendResourceEntity,Stri
      * @param eventId
      * @return
      */
-    @Query(value = "SELECT sr.request_times FROM t_send_resource sr WHERE sr.fk_event_id =?1 ORDER BY sr.request_times DESC limit 0,1",nativeQuery = true)
-    public int findMaxRequestTime(String eventId);
+    @Query(value = "SELECT * FROM t_send_resource sr WHERE sr.fk_event_id =?1 ORDER BY sr.request_times DESC limit 0,1",nativeQuery = true)
+    public SendResourceEntity findMaxRequestTime(String eventId);
 }

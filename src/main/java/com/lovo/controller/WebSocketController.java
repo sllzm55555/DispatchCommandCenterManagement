@@ -12,6 +12,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 /**
  * @author wt
  */
@@ -36,32 +42,35 @@ public class WebSocketController {
 
     /**
      * 往队列一存入数据
+     *
      * @throws InterruptedException
      */
     @RequestMapping("sendMsg")
     @ResponseBody
     public void sendMsg() throws InterruptedException {
         for (int i = 0; i < 10; i++) {
-            producer.sendMessage("testQueue001", "消息"+i);
+            producer.sendMessage("testQueue001", "消息" + i);
             Thread.sleep(100);
         }
     }
 
     /**
      * 往队列二存入数据
+     *
      * @throws InterruptedException
      */
     @RequestMapping("sendMsg2")
     @ResponseBody
     public void sendMsg2() throws InterruptedException {
         for (int i = 0; i < 10; i++) {
-            producer.sendMessage("sb", "消息"+i);
+            producer.sendMessage("sb", "消息" + i);
             Thread.sleep(100);
         }
     }
+
     @RequestMapping("sendEvent")
     @ResponseBody
-    public void sendMsg3(){
+    public void sendMsg3() {
         try {
 //            {js}
             NoDealWithDto noDealWithDto = new NoDealWithDto();
@@ -79,7 +88,7 @@ public class WebSocketController {
             noDealWithDto.setHurtPopulation(3);
             noDealWithDto.setEventType("火灾");
             String s = JSONObject.toJSONString(noDealWithDto);
-            producer.sendMessage("eventNodealWith",s);
+            producer.sendMessage("eventNodealWith", s);
             Thread.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -89,14 +98,40 @@ public class WebSocketController {
     @RequestMapping("sentTest")
     @ResponseBody
     public void sentTest() {
+        EventSendDto eventSendDto = new EventSendDto();
+        eventSendDto.setId("2");
         PersonDto personDto = new PersonDto();
+        personDto.setId("11111");
         personDto.setPersonName("yaya");
         personDto.setTel("1231324");
-        EventSendDto eventSendDto = new EventSendDto();
-        eventSendDto.setRequestId("eefaccea699c468680ee7ba4da73d311");
-        eventSendDto.setId("2");
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        personDto.setStartTime(timestamp);
+        personDto.setReturnTime(timestamp);
+        List<PersonDto> personDtos = new ArrayList<>();
+        personDtos.add(personDto);
+        eventSendDto.setRequestId("e04f17eafd524f2ba3b7ccdb3b8ea1b9");
+        eventSendDto.setPersonDtos(personDtos);
         eventSendDto.setPerson(personDto);
-        mqUtil.sendEventSinkDto("sendDispatchMessageToDispatchCommandCenterManagement",eventSendDto);
+        mqUtil.sendEventSinkDto("sendDispatchMessageToDispatchCommandCenterManagement", eventSendDto);
+    }
+    @RequestMapping("returnTest")
+    @ResponseBody
+    public void returnTest() {
+        EventSendDto eventSendDto = new EventSendDto();
+        eventSendDto.setId("2");
+        PersonDto personDto = new PersonDto();
+        personDto.setId("11111");
+        personDto.setPersonName("yaya");
+        personDto.setTel("1231324");
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        personDto.setStartTime(timestamp);
+        personDto.setReturnTime(timestamp);
+        List<PersonDto> personDtos = new ArrayList<>();
+        personDtos.add(personDto);
+        eventSendDto.setRequestId("e04f17eafd524f2ba3b7ccdb3b8ea1b9");
+        eventSendDto.setPersonDtos(personDtos);
+        eventSendDto.setPerson(personDto);
+        mqUtil.sendEventSinkDto("sendDispatchMessageToDispatchCommandCenterManagement", eventSendDto);
     }
 
 }
