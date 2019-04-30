@@ -63,10 +63,6 @@ public class UserController {
             rq.getSession().setAttribute("powerList", list);
             rq.getSession().setAttribute("userName", list.get(0).getUserName());
 
-//            for (PowerDto powerDto:list) {
-//                System.out.println(powerDto.getUserName()+",权限有："+powerDto.getPowerUri());
-//
-//            }
         }
         //远程调用用户权限
         return mv;
@@ -82,10 +78,15 @@ public class UserController {
         }
         return userEntity;
     }
+
     @RequestMapping("register")
     public ModelAndView register(UserEntity user){
+        String userName = user.getUsername();
+        String password = user.getPassword();
         ModelAndView modelAndView = new ModelAndView("login");
         userService.register(user);
+
+        restTemplate.getForEntity("http://PremessionManagement/{userName}/{password}/userRegister", String.class,userName,password).getBody();
         return modelAndView;
     }
 
