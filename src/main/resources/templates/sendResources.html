@@ -105,7 +105,7 @@
             /* 判断未处理还是处理中 */
             if ($("#eventPeriod").val() == 1) {
                 /* 未处理 */
-                alert("未处理");
+                // alert("未处理");
             } else {
                 // alert($("#eventPeriod").val());
                 /* 处理中，判断是否有续派 */
@@ -301,7 +301,7 @@
             let $hospital = $("#hospital");
             $.each(data.gongan, function (i, e) {
                 let police = "<tr>\n" +
-                    "                                            <td><label>公安：" + e.rname + "</label><input value=\"" + e.rname + "\" hidden = hidden name='resourceName'>\n" +
+                    "                                            <td><label>公安：" + e.rname + "</label><input value=\"" + e.url + "\" hidden = hidden name='resourceName'>\n" +
                     "                                            <td>人数：<input type=\"number\" name='renshu' value='0' class=\"input\" min='0' max=\"" + e.pnumber + "\">（" + e.pnumber + "/可用）</td>\n" +
                     "                                            <td>车辆：<input type=\"number\" name='cheliang' value='0' class=\"input\" min='0' max=\"" + e.cnumber + "\"> (" + e.cnumber + "/可用)</td>\n" +
                     "                                        </tr>";
@@ -309,7 +309,7 @@
             });
             $.each(data.xiaofang, function (i, e) {
                 let FireControl = "<tr>\n" +
-                    "                                            <td><label>消防：" + e.rname + "</label><input value=\"" + e.rname + "\" hidden='hidden' name='resourceName'>\n" +
+                    "                                            <td><label>消防：" + e.rname + "</label><input value=\"" + e.url + "\" hidden='hidden' name='resourceName'>\n" +
                     "                                            <td>人数：<input type=\"number\" name='renshu' value='0' class=\"input\" min='0' max=\"" + e.pnumber + "\">（" + e.pnumber + "/可用）</td>\n" +
                     "                                            <td>车辆：<input type=\"number\" name='cheliang' value='0' class=\"input\" min='0' max=\"" + e.cnumber + "\"> (" + e.cnumber + "/可用)</td>\n" +
                     "                                        </tr>";
@@ -317,7 +317,7 @@
             });
             $.each(data.yiyuan, function (i, e) {
                 let hospital = "<tr>\n" +
-                    "                                            <td><label>医院：" + e.rname + "</label><input value=\"" + e.rname + "\" hidden='hidden' name='resourceName'>\n" +
+                    "                                            <td><label>医院：" + e.rname + "</label><input value=\"" + e.url + "\" hidden='hidden' name='resourceName'>\n" +
                     "                                            <td>人数：<input type=\"number\" name='renshu' value='0' class=\"input\" min='0' max=\"" + e.pnumber + "\">（" + e.pnumber + "/可用）</td>\n" +
                     "                                            <td>车辆：<input type=\"number\" name='cheliang' value='0' class=\"input\" min='0' max=\"" + e.cnumber + "\"> (" + e.cnumber + "/可用)</td>\n" +
                     "                                        </tr>";
@@ -449,7 +449,7 @@
                                     <button class="btn btn-success btn-cons col-sm-offset-2" type="submit"><i
                                             class="icon-ok"></i> 提交
                                     </button>
-                                    <input type="hidden" th:value="${eventId}" id="eventId"/>
+                                    <input type="hidden" th:value="${eventId}" id="eventId" name="eventId"/>
                                     <input type="hidden" th:value="${eventPeriod}" id="eventPeriod">
                                     <input type="hidden" id="area">
                                 </form>

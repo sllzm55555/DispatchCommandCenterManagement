@@ -37,7 +37,20 @@ public interface IResourceDao extends CrudRepository<ResourceEntity,String> {
             nativeQuery = true)
     List<ResourceEntity> findAll(@Param("rType") String rType,@Param("areaid")String areaid);
 
+    /**
+     * 通过资源的区域和类型（110，120，119）找到所有的资源
+     * @param type
+     * @param areaId
+     * @return
+     */
     @Query(value = "SELECT * from t_resource r WHERE r.dept_type=?1 and r.area_id=?2",nativeQuery = true)
     public List<ResourceEntity> findAllByTypeAndAreaId(String type,String areaId);
+
+    /***
+     * 通过资源url找到该资源
+     * @param url
+     * @return
+     */
+    ResourceEntity findByUrl(String url);
 
 }

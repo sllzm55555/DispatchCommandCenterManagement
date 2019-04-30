@@ -76,14 +76,14 @@ public class EventController {
         return "dealWithEdDetails";
     }
 
-    /***
-     * 资源派遣进度（每个人每个车的具体进度）
-     * @return
-     */
-    @RequestMapping("scheduleOfResourceDispatch")
-    public String gotoScheduleOfResourceDispatch() {
-        return "scheduleOfResourceDispatch";
-    }
+//    /***
+//     * 资源派遣进度（每个人每个车的具体进度）
+//     * @return
+//     */
+//    @RequestMapping("scheduleOfResourceDispatch")
+//    public String gotoScheduleOfResourceDispatch() {
+//        return "scheduleOfResourceDispatch";
+//    }
 
     /**
      * @return 资源调用页面

@@ -53,6 +53,82 @@
 
 
     </style>
+    <script th:src="@{../staticResources/jquery-2.1.4.js}"></script>
+    <script>
+        let webSocket;
+
+        if ('WebSocket' in window) {
+            websocket = new WebSocket("ws://127.0.0.1:8388/websocket");
+        } else if ('MozWebSocket' in window) {
+            websocket = new MozWebSocket("ws://127.0.0.1:8388/websocket");
+        } else {
+            websocket = new SockJS("http://127.0.0.1:8388/ws04/websocket");
+        }
+        websocket.onopen = function(event) {
+            alert("WebSocket:已连接");
+        };
+        websocket.onerror = function(event) {
+            alert("WebSocket:发生错误 ");
+        };
+        //接收服务器发送回来的消息
+        websocket.onmessage = function(event) {
+            // alert(event.data);
+
+            var o=eval("("+event.data+")");
+
+            let eventId = o.id;
+            // alert(eventId);
+            $.getJSON("showProgressByEventId", {eventId: eventId}, showProgress);
+        };
+        websocket.onclose = function(event) {
+            alert("WebSocket:已关闭");
+        };
+
+        $(function () {
+            let eventId = $("#eventId").val();
+            $.getJSON("showProgressByEventId", {eventId: eventId}, showProgress);
+        })
+
+        function showProgress(data) {
+            let $unit = $("#unit tbody");
+            $unit.empty();
+            $.each(data.sendResourceDtoList, function (i, e) {
+                if (e.requestTimes == 0) {
+                    let dataTr = "<tr>\n" +
+                        "                                <td><span class=\"muted\">初次派遣</span></td>\n" +
+                        "                                <td><span class=\"muted\">" + e.resourceName + "</span></td>\n" +
+                        "                                <td><span class=\"muted\">" + e.requestPopulation + "</span></td>\n" +
+                        "                                <td><span class=\"muted\">" + e.requestResource + "</span></td>\n" +
+                        "                                <td><span class=\"muted\">" + e.chargeName + "</span></td>\n" +
+                        "                                <td><span class=\"muted\">" + e.chargeTel + "</span></td>\n" +
+                        "                                </tr>";
+                    $unit.append(dataTr);
+                } else {
+                    let dataTr = "<tr>\n" +
+                        "                                <td><span class=\"muted\">第" + e.requestTimes + "次派遣</span></td>\n" +
+                        "                                <td><span class=\"muted\">" + e.resourceName + "</span></td>\n" +
+                        "                                <td><span class=\"muted\">" + e.requestPopulation + "</span></td>\n" +
+                        "                                <td><span class=\"muted\">" + e.requestResource + "</span></td>\n" +
+                        "                                <td><span class=\"muted\">" + e.chargeName + "</span></td>\n" +
+                        "                                <td><span class=\"muted\">" + e.chargeTel + "</span></td>\n" +
+                        "                                </tr>";
+                    $unit.append(dataTr);
+                }
+            })
+            let $resource = $("#resource");
+            $resource.empty();
+            $.each(data.progressDtoList, function (i, e) {
+                let progresss = " <tr id=\"" + e.progressId + "\">\n" +
+                    "                                <td><span class=\"muted\">" + e.deptName + "</span></td>\n" +
+                    "                                <td><span class=\"muted\">" + e.resourceName + "</span></td>\n" +
+                    "                                <td><span class=\"muted\">" + e.startTime + "</span></td>\n" +
+                    "                                <td><span class=\"muted\">" + e.returnTime + "</span></td>\n" +
+                    "                                </tr>";
+                $resource.append(progresss);
+            })
+        }
+
+    </script>
     <!-- END CORE CSS FRAMEWORK -->
 </head>
 <!-- END HEAD -->
@@ -87,9 +163,8 @@
                             <table class="table table-hover table-condensed" id="unit">
                                 <thead>
                                 <tr>
-                                    <th style="width:8%">是否续派</th>
+                                    <th style="width:8%">派遣班次</th>
                                     <th style="width:8%">单位名称</th>
-                                    <!--<th style="width:8%">单位所在区域</th>-->
                                     <th style="width:8%">调用人数</th>
                                     <th style="width:8%">调用车辆</th>
                                     <th style="width:8%">负责人姓名</th>
@@ -97,15 +172,6 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="sendResource:${allSendResourceByEventId}">
-                                    <td th:text="${sendResource.requestTimes}"></td>
-                                    <td th:text="${sendResource.resourceName}"></td>
-                                    <td th:text="${sendResource.requestPopulation}"></td>
-                                    <td th:text="${sendResource.requestResource}"></td>
-                                    <td th:text="${sendResource.chargeName}"></td>
-                                    <td th:text="${sendResource.chargeTel}"></td>
-                                    <!--<td th:text="${sendResource}"></td>-->
-                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -123,17 +189,16 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="progressDto:${allProgressDto}">
-                                    <td th:text="${progressDto.deptName}"></td>
-                                    <td th:text="${progressDto.resourceName}"></td>
-                                    <td th:text="${progressDto.startTime}"></td>
-                                    <td th:text="${progressDto.returnTime}"></td>
-                                </tr>
                                 </tbody>
                             </table>
                         </div>
                         <p></p>
-                        <a th:href="@{goToDealWithIng}"> <button class="btn btn-success btn-cons col-sm-offset-7" type="submit"><i class="icon-ok" id="button1"></i>返回处理中事件首页</button> </a>
+                        <input type="hidden" th:value="${eventId}" id="eventId">
+                        <a th:href="@{goToDealWithIng}">
+                            <button class="btn btn-success btn-cons col-sm-offset-7" type="submit"><i class="icon-ok"
+                                                                                                      id="button1"></i>返回处理中事件首页
+                            </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -146,21 +211,24 @@
 <script th:src="@{staticResources/assets/plugins/bootstrapv3/js/bootstrap.min.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/jquery-block-ui/jqueryblockui.min.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/jquery-unveil/jquery.unveil.min.js}" type="text/javascript"></script>
-<script th:src="@{staticResources/assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js}" type="text/javascript"></script>
-<script th:src="@{staticResources/assets/plugins/jquery-numberAnimate/jquery.animateNumbers.js}" type="text/javascript"></script>
-<script th:src="@{staticResources/assets/plugins/jquery-validation/js/jquery.validate.min.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js}"
+        type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-numberAnimate/jquery.animateNumbers.js}"
+        type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-validation/js/jquery.validate.min.js}"
+        type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/bootstrap-select2/select2.min.js}" type="text/javascript"></script>
 
 <script th:src="@{staticResources/webarch/js/webarch.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/js/chat.js}" type="text/javascript"></script>
 
-<script th:src="@{staticResources/assets/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js}"
+        type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/jquery-ricksaw-chart/js/raphael-min.js}"></script>
 <script th:src="@{staticResources/assets/plugins/jquery-ricksaw-chart/js/d3.v2.js}"></script>
 <script th:src="@{staticResources/assets/plugins/jquery-ricksaw-chart/js/rickshaw.min.js}"></script>
 <script th:src="@{staticResources/assets/plugins/jquery-sparkline/jquery-sparkline.js}"></script>
 <script th:src="@{staticResources/assets/plugins/skycons/skycons.js}"></script>
-
 
 
 <script th:src="@{staticResources/assets/plugins/owl-carousel/owl.carousel.min.js}" type="text/javascript"></script>
@@ -172,13 +240,16 @@
 <script th:src="@{staticResources/assets/plugins/jquery-metrojs/MetroJs.min.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/js/dashboard_v2.js}" type="text/javascript"></script>
 
-<script th:src="@{staticResources/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js}"
+        type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/jquery-block-ui/jqueryblockui.js}" type="text/javascript"></script>
 <script th:src="@{staticResources/assets/plugins/jquery-morris-chart/js/morris.min.js}"></script>
 <script th:src="@{staticResources/assets/plugins/jquery-easy-pie-chart/js/jquery.easypiechart.min.js}"></script>
 <script th:src="@{staticResources/assets/plugins/jquery-slider/jquery.sidr.min.js}" type="text/javascript}"></script>
-<script th:src="@{staticResources/assets/plugins/jquery-jvectormap/js/jquery-jvectormap-1.2.2.min.js}" type="text/javascript"></script>
-<script th:src="@{staticResources/assets/plugins/jquery-jvectormap/js/jquery-jvectormap-us-lcc-en.js}" type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-jvectormap/js/jquery-jvectormap-1.2.2.min.js}"
+        type="text/javascript"></script>
+<script th:src="@{staticResources/assets/plugins/jquery-jvectormap/js/jquery-jvectormap-us-lcc-en.js}"
+        type="text/javascript"></script>
 
 <script th:src="@{staticResources/assets/plugins/jquery-flot/jquery.flot.min.js}"></script>
 <script th:src="@{staticResources/assets/plugins/jquery-flot/jquery.flot.animator.min.js}"></script>

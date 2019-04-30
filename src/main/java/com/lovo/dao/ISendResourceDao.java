@@ -3,6 +3,7 @@ package com.lovo.dao;
 import com.lovo.dto.SendResourceDto;
 import com.lovo.dto.SendResourcesSingleDto;
 import com.lovo.entity.SendResourceEntity;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -39,6 +40,35 @@ public interface ISendResourceDao extends CrudRepository<SendResourceEntity,Stri
             " LEFT JOIN t_event e ON e.event_id = sr.fk_event_id" +
             " WHERE " +
             " r.dept_url = sr.resource_url" +
-            " AND e.event_id = ?1",nativeQuery = true)
+            " AND e.event_id = ?1" +
+            " ORDER BY\n" +
+            " sr.request_times ASC",nativeQuery = true)
     List<Object[]> getSendResourcesListByEventId(String eventId);
+
+    /**
+     * 通过事件id，派遣编号修改单条派遣信息的负责人和负责人电话
+     * @param eventId
+     * @param requestId
+     * @return
+     */
+    @Modifying
+    @Query(value = "UPDATE t_send_resource sr SET sr.charge_name=?1,sr.charge_tel =?2 " +
+            "WHERE request_id =?4 AND fk_event_id =?3",nativeQuery = true)
+    public int updateByEventEntity_EventIdAndRequestId(String chargeName,String chargeTel,String eventId, String requestId);
+
+    /**
+     * 通过事件id和派遣编号的到资源派遣信息
+     * @param eventId
+     * @param requestId
+     * @return
+     */
+    public SendResourceEntity findByEventEntity_EventIdAndRequestId(String eventId, String requestId);
+
+    /**
+     * 找到该事件的当前派遣次数
+     * @param eventId
+     * @return
+     */
+    @Query(value = "SELECT sr.request_times FROM t_send_resource sr WHERE sr.fk_event_id =?1 ORDER BY sr.request_times DESC limit 0,1",nativeQuery = true)
+    public int findMaxRequestTime(String eventId);
 }
