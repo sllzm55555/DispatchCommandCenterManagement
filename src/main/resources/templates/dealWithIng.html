@@ -44,11 +44,11 @@
       $("#tbody").empty();
       $.each(data.list,function (i,e) {
         let th="<tr>" +
-                "<td>"+e.eventId+"</td>" +
-                "<td>"+e.eventName+"</td>" +
-                "<td>"+e.alarmAddress+"</td>" +
-                "<td>"+e.eventTime+"</td>" +
-                "<td>"+e.uniqueAttr+"</td>" +
+                "<td class='v-align-middle'>" + e.eventId + "</td>" +
+                "<td><span class='muted'>" + e.eventName + "</span></td>" +
+                "<td><span class='muted'>" + e.eventType + "</span></td>" +
+                "<td><span class='muted'>" + e.alarmAddress + "</span></td>" +
+                "<td><span class='muted'>" + e.eventTime + "</span></td>" +
                 "<td><a href='jump?eventId="+e.eventId+"'>查看详情</a></td>" +
                 "</tr>";
         $("#tbody").append(th);

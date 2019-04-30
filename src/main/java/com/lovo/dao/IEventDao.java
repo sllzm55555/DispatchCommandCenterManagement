@@ -34,6 +34,7 @@ public interface IEventDao extends CrudRepository<EventEntity,String> {
             "  and if(?2 is not null,e.event_type like concat('%',?2,'%') ,1=1) " +
             "  and if(?3 is not null,e.event_time >= ?3,1=1)" +
             "  and if(?6 is not null,e.event_period=?6,1=1) " +
+            "  order by e.event_time desc" +
             "  limit ?4,?5 ",nativeQuery = true)
     public List<EventEntity> findEventEntitiesByCondition(String eventId,
                                                           String eventType,

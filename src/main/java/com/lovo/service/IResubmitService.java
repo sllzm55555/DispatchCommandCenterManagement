@@ -57,5 +57,10 @@ public interface IResubmitService {
      */
     public ResubmitDto getHotNewsResubmit(String eventId,int eventPeriod,String reperiod);
 
-
+    /**
+     * 添加续报
+     * @param r 续报实体
+     * @return 成功返回实体，失败返回null;
+     */
+    public ResubmitEntity saveResubmit(ResubmitEntity r);
 }

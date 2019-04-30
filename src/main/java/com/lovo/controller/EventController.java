@@ -1,5 +1,8 @@
 package com.lovo.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.lovo.dto.NeedResubmitDto;
+import com.lovo.dto.NoDealWithDto;
 import com.lovo.dto.ResubmitDto;
 import com.lovo.entity.EventEntity;
 import com.lovo.entity.EventPageBean;
@@ -9,21 +12,29 @@ import com.lovo.service.impl.EventServiceImpl;
 import com.lovo.service.impl.ResubmitServiceImpl;
 import com.lovo.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.websocket.*;
+import javax.websocket.server.ServerEndpoint;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 /***
  * 事件页面跳转controller
  * @author lin
  */
+@ServerEndpoint("/EventWebSocket")
 @Controller
 public class EventController {
 
@@ -32,6 +43,93 @@ public class EventController {
 
     @Autowired
     ResubmitServiceImpl resubmitService;
+
+    private static CopyOnWriteArraySet<EventController> websocket=new CopyOnWriteArraySet<EventController>();
+
+    private Session sessionn;
+
+
+    @OnOpen
+    public void onOpen(Session sessionn){
+        this.sessionn=sessionn;
+        websocket.add(this);
+    }
+
+    //    事件的监听器，destination参数的值是队列的名字
+    @JmsListener(destination = "eventNodealWith")
+//    message就是传送过来的信息
+    public  void receiveQueue4(String message) {
+
+                NoDealWithDto event = JSONObject.parseObject(message, NoDealWithDto.class);
+
+                EventEntity e=new EventEntity();
+                e.setEventId(event.getEventId());
+                e.setEventName(event.getEventName());
+                e.setHurtPopulation(event.getHurtPopulation());
+                e.setUniqueAttr(event.getUniqueAttr());
+                e.setAlarmPerson(event.getAlarmPerson());
+                e.setEventArea(event.getEventArea());
+                e.setAlarmTel(event.getAlarmTel());
+                e.setEventTime(event.getEventTime());
+                e.setAlarmAddress(event.getAlarmAddress());
+                e.setEventPeriod(event.getEventPeriod());
+                e.setEventUploadPeople(event.getEventUploadPeople());
+                e.setEndTime(null);
+                e.setEventType(event.getEventType());
+                e.setEventLevel(event.getEventLevel());
+                 eventService.saveEvent(e);
+                this.onMessage(message,sessionn);
+
+    }
+
+    /**
+     * 收到客户端消息后调用的方法
+     * @param message   客户端发送的消息
+     * @param session
+     */
+    @OnMessage
+    public void onMessage(String message, Session session) {
+        System.out.println("来自客户端的消息：" + message);
+        for (EventController item : websocket) {
+            try {
+                item.sendMessage(message);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /***
+     * 实现服务器主动推送
+     * @param message
+     * @throws IOException
+     */
+    public void sendMessage(String message) throws IOException {
+        this.sessionn.getBasicRemote().sendText(message);
+    }
+
+    /**
+     * 连接关闭调用的方法
+     */
+    @OnClose
+    public void onClose() {
+        //从set中删除
+        websocket.remove(this);
+        System.out.println("连接关闭");
+    }
+
+    /**
+     *
+     * @param session
+     * @param error
+     */
+    @OnError
+    public void onError(Session session, Throwable error) {
+        System.out.println( "发生错误" );
+        error.printStackTrace();
+    }
+
+
     /**
      *  处理中事件首页
      * @return
@@ -158,7 +256,7 @@ public class EventController {
         if (null==eventTime){
             eventTime="";
         }
-        List<EventEntity> eventList = eventService.findEventEntitiesByCondition(eventId, eventType, eventTime, currPage, 1,eventPeriod);
+        List<EventEntity> eventList = eventService.findEventEntitiesByCondition(eventId, eventType, eventTime, currPage, 5,eventPeriod);
         int totalNumber = eventService.getTotalNumber(eventId, eventType, eventTime,eventPeriod);
         EventPageBean page=new EventPageBean();
         page.setList(eventList);

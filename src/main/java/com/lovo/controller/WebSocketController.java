@@ -2,9 +2,11 @@ package com.lovo.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lovo.activeMQ.Producer;
+import com.lovo.dto.NeedResubmitDto;
 import com.lovo.dto.NoDealWithDto;
 import com.lovo.dto.out.EventSendDto;
 import com.lovo.dto.out.PersonDto;
+import com.lovo.util.DateUtil;
 import com.lovo.util.MQUtil;
 import netscape.javascript.JSObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,10 +73,9 @@ public class WebSocketController {
     @RequestMapping("sendEvent")
     @ResponseBody
     public void sendMsg3() {
-        try {
 //            {js}
             NoDealWithDto noDealWithDto = new NoDealWithDto();
-            noDealWithDto.setEventId("10");
+            noDealWithDto.setEventId("15");
             noDealWithDto.setAlarmAddress("红瓦寺街道");
             noDealWithDto.setAlarmPerson("老赵");
             noDealWithDto.setAlarmTel("1232123122");
@@ -82,17 +83,13 @@ public class WebSocketController {
             noDealWithDto.setEventLevel("1级");
             noDealWithDto.setEventName("小区火灾");
             noDealWithDto.setEventPeriod(1);
-            noDealWithDto.setEventTime("2019-01-10 12:23:32");
+            noDealWithDto.setEventTime("2019-07-29 12:23:32");
             noDealWithDto.setEventUploadPeople("小李");
             noDealWithDto.setUniqueAttr("小区电路老化起火");
             noDealWithDto.setHurtPopulation(3);
             noDealWithDto.setEventType("火灾");
-            String s = JSONObject.toJSONString(noDealWithDto);
-            producer.sendMessage("eventNodealWith", s);
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+            mqUtil.sendEvent(noDealWithDto);
+
     }
 
     @RequestMapping("sentTest")
@@ -133,5 +130,23 @@ public class WebSocketController {
         eventSendDto.setPerson(personDto);
         mqUtil.sendEventSinkDto("sendDispatchMessageToDispatchCommandCenterManagement", eventSendDto);
     }
+    @RequestMapping("sendResubmit")
+    @ResponseBody
+    public void sendResubmit(){
+        NeedResubmitDto ne=new NeedResubmitDto();
+        ne.setReportTime(DateUtil.getNowTime());
+        ne.setReportTel("1111111112");
+        ne.setReportPeople("张三");
+
+        ne.setEventId("15");
+        ne.setReportId("8");
+        ne.setReportDesc("详细的记录");
+        ne.setHurtPopulation("0");
+        ne.setEventLevel("2");
+        mqUtil.sendResubmit(ne);
+    }
+
+
+
 
 }

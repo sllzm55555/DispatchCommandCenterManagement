@@ -47,6 +47,32 @@
     <script th:src="@{../staticResources/jquery-2.1.4.js}" type="text/javascript"></script>
 
     <script>
+        // if ('WebSocket' in window) {
+        //     websocket = new WebSocket("ws://127.0.0.1:8388/noDealWithEvent");
+        // }
+        // websocket.onmessage = function(event) {
+        // //     let currPage = 1;
+        // //     let eventPeriod = 1;
+        // //     $.getJSON("showEvent", {currPage: currPage, eventPeriod: eventPeriod}, showList);
+        // };
+        var websocket;
+
+        if ('WebSocket' in window) {
+            websocket = new WebSocket("ws://127.0.0.1:8388/EventWebSocket");
+        } else if ('MozWebSocket' in window) {
+            websocket = new MozWebSocket("ws://127.0.0.1:8388/ws");
+        } else {
+            websocket = new SockJS("http://127.0.0.1:8388/ws/sockjs");
+        }
+        websocket.onopen = function(event) {
+            alert("WebSocket:已连接");
+        };
+        websocket.onmessage = function(event) {
+                let currPage = 1;
+                let eventPeriod = 1;
+                $.getJSON("showEvent", {currPage: currPage, eventPeriod: eventPeriod}, showList);
+            };
+
         $(function () {
             let currPage = 1;
             let eventPeriod = 1;
@@ -170,10 +196,8 @@
                     "<td class='v-align-middle'>" + e.eventId + "</td>" +
                     "<td><span class='muted'>" + e.eventName + "</span></td>" +
                     "<td><span class='muted'>" + e.eventType + "</span></td>" +
-                    "<td><span class='muted'>" + e.eventLevel + "</span></td>" +
                     "<td><span class='muted'>" + e.alarmAddress + "</span></td>" +
                     "<td><span class='muted'>" + e.eventTime + "</span></td>" +
-                    // "<td><a th:href='@{/"+e.eventId+"/goToNoDealWithDetails}'>查看详情</a></td>" +
                     "<td><a href='transfer?eventId=" + e.eventId + "&eventPeriod=1'>查看详情</a></td>" +
                     "</tr>";
                 $("#tbody").append(th);
@@ -236,7 +260,6 @@
                                     <th style="width:8%">事件编号</th>
                                     <th style="width:8%" data-hide="phone,tablet">事件名称</th>
                                     <th style="width:10%">事件类型</th>
-                                    <th style="width:10%" data-hide="phone,tablet">事件等级</th>
                                     <th style="width:10%" data-hide="phone,tablet">事件位置</th>
                                     <th style="width:10%" data-hide="phone,tablet">上报时间</th>
                                     <th style="width:5%" data-hide="phone,tablet">操作</th>
