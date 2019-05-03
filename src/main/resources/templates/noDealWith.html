@@ -65,7 +65,6 @@
             websocket = new SockJS("http://127.0.0.1:8388/ws/sockjs");
         }
         websocket.onopen = function(event) {
-            alert("WebSocket:已连接");
         };
         websocket.onmessage = function(event) {
                 let currPage = 1;

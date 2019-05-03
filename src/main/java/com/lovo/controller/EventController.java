@@ -56,7 +56,7 @@ public class EventController {
     }
 
     //    事件的监听器，destination参数的值是队列的名字
-    @JmsListener(destination = "eventNodealWith")
+    @JmsListener(destination = "receiveMessageFromUploadSystem")
 //    message就是传送过来的信息
     public  void receiveQueue4(String message) {
 

@@ -30,7 +30,7 @@ public class ResubmitController {
         websocket.add(this);
     }
 
-    @JmsListener(destination = "resubitDto")
+    @JmsListener(destination = "receiveMessageFromUploadSystem")
 //    message就是传送过来的信息
     public  void receiveQueue6(String message) {
 //        通过键在sessionMap集合里面得到WebSocketSession 对象

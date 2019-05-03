@@ -65,10 +65,8 @@
             websocket = new SockJS("http://127.0.0.1:8388/ws04/websocket");
         }
         websocket.onopen = function(event) {
-            alert("WebSocket:已连接");
         };
         websocket.onerror = function(event) {
-            alert("WebSocket:发生错误 ");
         };
         //接收服务器发送回来的消息
         websocket.onmessage = function(event) {
@@ -81,7 +79,6 @@
             $.getJSON("showProgressByEventId", {eventId: eventId}, showProgress);
         };
         websocket.onclose = function(event) {
-            alert("WebSocket:已关闭");
         };
 
         $(function () {

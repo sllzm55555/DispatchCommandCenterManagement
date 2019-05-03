@@ -49,7 +49,7 @@ public class UserController {
     @RequestMapping("login")
     public ModelAndView testLogin(String username, String password, HttpServletRequest rq){
         ModelAndView mv=new ModelAndView("dealWithIng");
-        PowerDtoReslut pdresult = restTemplate.getForEntity("http://SpringBoot01/{userName}/{password}/PowerDtoReslut", PowerDtoReslut.class,username,password).getBody();
+        PowerDtoReslut pdresult = restTemplate.getForEntity("http://PremessionManagement/{userName}/{password}/PowerDtoReslut", PowerDtoReslut.class,username,password).getBody();
         //用户信息
         List<PowerDto> list = pdresult.getDto();
 

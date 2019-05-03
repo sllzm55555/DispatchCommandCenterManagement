@@ -29,7 +29,7 @@ public class MyInterceptor implements HandlerInterceptor {
             String uri = httpServletRequest.getServletPath();
             if(uri.contains("/goto")||uri.contains("/goTo")){
                 for (PowerDto p : list) {
-                    if(p.getPowerUri().equals(uri)){
+                    if(uri.equals(p.getPowerUri())){
                         bl=true;//找到了访问的uri
                         return bl;
                     }

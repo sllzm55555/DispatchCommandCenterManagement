@@ -10,6 +10,7 @@ import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,6 +48,9 @@ public class EventDealWithController {
 
     @Autowired
     private IAreaService areaService;
+
+    @Autowired
+    RestTemplate restTemplate;
 
     //concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。
     private static CopyOnWriteArraySet<EventDealWithController> webSocketSet = new CopyOnWriteArraySet<EventDealWithController>();
@@ -167,6 +171,37 @@ public class EventDealWithController {
         List<ResourceEntity> gonganList = resourceService.findAllByTypeAndAreaId("公安", areaEntity.getAreaId());
         List<ResourceEntity> xiaofangList = resourceService.findAllByTypeAndAreaId("消防", areaEntity.getAreaId());
         List<ResourceEntity> yiyuanList = resourceService.findAllByTypeAndAreaId("医院", areaEntity.getAreaId());
+
+
+        //远程调用资源方的方法，得到每个单位的可用人数并设置进list中
+        /*if(gonganList != null){
+            for (int i = 0; i < gonganList.size(); i++) {
+                String url = gonganList.get(i).getUrl();
+                String body = restTemplate.getForEntity("http://" + url + "/getResourceStatisticsJson", String.class).getBody();
+                ResourceStatisticsDto resourceStatisticsDto = JSONObject.parseObject(body, ResourceStatisticsDto.class);
+                gonganList.get(i).setPnumber(Integer.parseInt(resourceStatisticsDto.getPRescuingNum()));
+                gonganList.get(i).setCnumber(Integer.parseInt(resourceStatisticsDto.getCVacantNum()));
+            }
+        }
+        *//*if(xiaofangList != null){
+            for (int i = 0; i < xiaofangList.size(); i++) {
+                String url = xiaofangList.get(i).getUrl();
+                String body = restTemplate.getForEntity("http://" + url + "/getResourceStatisticsJson", String.class).getBody();
+                ResourceStatisticsDto resourceStatisticsDto = JSONObject.parseObject(body, ResourceStatisticsDto.class);
+                xiaofangList.get(i).setPnumber(Integer.parseInt(resourceStatisticsDto.getPRescuingNum()));
+                xiaofangList.get(i).setCnumber(Integer.parseInt(resourceStatisticsDto.getCVacantNum()));
+            }
+        }*//*
+        if(yiyuanList != null){
+            for (int i = 0; i < yiyuanList.size(); i++) {
+                String url = yiyuanList.get(i).getUrl();
+                String body = restTemplate.getForEntity("http://" + url + "/getResourceStatisticsJson", String.class).getBody();
+                ResourceStatisticsDto resourceStatisticsDto = JSONObject.parseObject(body, ResourceStatisticsDto.class);
+                yiyuanList.get(i).setPnumber(Integer.parseInt(resourceStatisticsDto.getPRescuingNum()));
+                yiyuanList.get(i).setCnumber(Integer.parseInt(resourceStatisticsDto.getCVacantNum()));
+            }
+        }*/
+
         areaDto.setGongan(gonganList);
         areaDto.setXiaofang(xiaofangList);
         areaDto.setYiyuan(yiyuanList);
@@ -190,7 +225,10 @@ public class EventDealWithController {
         EventSendDto eventSendDto = JSONObject.parseObject(message,EventSendDto.class);
         String eventId = eventSendDto.getId();
 //        EventEntity eventEntity = eventService.findEventByEventId(eventId);
-        int n = sendResourceService.updateByEventEntity_EventIdAndRequestId(eventSendDto.getPerson().getPersonName(),eventSendDto.getPerson().getTel(), eventSendDto.getId(), eventSendDto.getRequestId());
+        int n = sendResourceService.updateByEventEntity_EventIdAndRequestId(eventSendDto.getPerson().getPersonName(),
+                                                                            eventSendDto.getPerson().getTel(),
+                                                                            eventSendDto.getId(),
+                                                                            eventSendDto.getRequestId());
         System.out.println(n + "保存修改派遣信息");
         int times = 0;
         if(eventSendDto.getPerson() != null){

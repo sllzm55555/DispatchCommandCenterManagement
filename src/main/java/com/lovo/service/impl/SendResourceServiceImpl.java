@@ -210,7 +210,7 @@ public class SendResourceServiceImpl implements ISendResourceService {
                 ren = Integer.parseInt(renshu[i]);
             }
             if (cheliang[i] != null && cheliang[i].length() > 0) {
-                che = Integer.parseInt(renshu[i]);
+                che = Integer.parseInt(cheliang[i]);
             }
             if (ren > 0 || che > 0) {
                 String rUrl = resourceName[i];

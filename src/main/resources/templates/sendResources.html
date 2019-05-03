@@ -185,9 +185,9 @@
             /* 预案模块 */
             let $plan = $("#plan");
             let planFindDtoList = data.planFindDtoList;
-            let plan = "                                         <label class=\"form-label\">事件类型:</label><input type=\"text\" class=\"input\" value=\"" + eventEntity.eventType + "\" disabled='true'/>\n" +
+            let plan = "                                         <label class=\"form-label\">事件类型:</label><input style=\"width: 150px\" type=\"text\" class=\"input\" value=\"" + eventEntity.eventType + "\" disabled='true'/>\n" +
                 "                                                <label class=\"form-label\">事件等级:</label><input type=\"text\" class=\"input\" value=\"" + eventEntity.eventLevel + "\" disabled='true'/>\n" +
-                "                                                <label class=\"form-label\">事发区域:</label><input style=\"width: 220px\" type=\"text\" class=\"input\" value=\"" + eventEntity.eventArea + "\" disabled='true'/>\n" +
+                "                                                <label class=\"form-label\">事发区域:</label><input style=\"width: 120px\" type=\"text\" class=\"input\" value=\"" + eventEntity.eventArea + "\" disabled='true'/>\n" +
                 "                                                <label class=\"form-label\">当前预案:</label>\n" +
                 "                                                <select name=\"chooicePlan\" id=\"select1\" class=\"select\" onchange='changePlan()'>\n" +
                 "                                                </select>";
@@ -444,7 +444,7 @@
                                         </table>
                                     </div>
 
-                                    <button class="btn btn-success btn-cons col-sm-offset-2" type="button"><i
+                                    <button class="btn btn-success btn-cons col-sm-offset-2" onclick="history.back()" type="button"><i
                                             class="icon-ok"></i> 返回
                                     </button>
                                     <button class="btn btn-success btn-cons col-sm-offset-2" type="submit"><i
