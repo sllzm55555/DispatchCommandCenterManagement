@@ -62,7 +62,7 @@ public class EventServiceImpl implements IEventService {
         List<EventEntity> all = eventDao.findAllEventEntitiesNumberByCondition(eventId, eventType, eventTime,eventPeriod);
        int totalpage=0;
        totalpage=all.size();
-       totalpage=totalpage%1==0?(totalpage/1):(totalpage/1+1);
+       totalpage=totalpage%5==0?(totalpage/5):(totalpage/5+1);
         return totalpage;
     }
 
