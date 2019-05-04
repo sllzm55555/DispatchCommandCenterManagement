@@ -1,0 +1,10 @@
+上报系统发送消息(初报)：uploadEventMessage
+上报系统发送消息(续报)：FollowUpEventMessage
+上报系统接收消息：sendMessageToUploadSystem                  接收的消息只是一个事件编号的字符串
+从资源方接收消息：sendDispatchMessageToDispatchCommandCenterManagement
+向资源方发送消息：资源方单位的拼音
+
+
+资源调度方的事件类型只有 地震 洪水 火灾 暴动 四种
+上报系统提交的事件级别默认是1
+地理位置 必须是 成都市武侯区 成都市金牛区（资源方没有资源）... 这种格式
