@@ -56,7 +56,8 @@ public class EventController {
     }
 
     //    事件的监听器，destination参数的值是队列的名字
-    @JmsListener(destination = "receiveMessageFromUploadSystem")
+    //    初报
+    @JmsListener(destination = "uploadEventMessage")
 //    message就是传送过来的信息
     public  void receiveQueue4(String message) {
 
@@ -72,7 +73,7 @@ public class EventController {
                 e.setAlarmTel(event.getAlarmTel());
                 e.setEventTime(event.getEventTime());
                 e.setAlarmAddress(event.getAlarmAddress());
-                e.setEventPeriod(event.getEventPeriod());
+                e.setEventPeriod(1);
                 e.setEventUploadPeople(event.getEventUploadPeople());
                 e.setEndTime(null);
                 e.setEventType(event.getEventType());
