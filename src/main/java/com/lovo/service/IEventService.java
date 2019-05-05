@@ -68,6 +68,6 @@ public interface IEventService {
      */
     public int updateEventData(String eventId,int eventPeriod);
 
-    public int endEvent(String eventId, Timestamp timestamp);
+    public int endEvent(String eventId, String timestamp);
 
 }

@@ -107,10 +107,11 @@ public interface IEventDao extends CrudRepository<EventEntity,String> {
             " where t.event_id=?1",nativeQuery = true)
     public int updateEventPeriod(String eventId,int eventPeriod);
 
-    @Query(value = "UPDATE t_event AS e" +
+    @Modifying
+    @Query(value = "UPDATE t_event AS e " +
             "SET e.end_time=?2," +
-            " e.event_period = 3" +
+            "e.event_period=3 " +
             "WHERE " +
             "e.event_id=?1",nativeQuery = true)
-    public int endEvent(String eventId, Timestamp timestamp);
+    public int endEvent(String eventId, String timestamp);
 }

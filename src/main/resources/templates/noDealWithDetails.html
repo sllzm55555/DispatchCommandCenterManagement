@@ -73,8 +73,8 @@
         function goUpdate() {
             let id=$("#eventId").val()
             let ePeriod=$("#eventPeriod").val();
-            $("input[name=eId]").val(id);
-            $("input[name=ePeriod]").val(ePeriod);
+            $("input[name=eventId]").val(id);
+            $("input[name=eventPeriod]").val(ePeriod);
             $("#updateEvent").submit();
         }
 
@@ -251,7 +251,7 @@
                         </div>
                         <input type="hidden" id="eventId">
                         <input type="hidden" name="eventPeriod" value="1" id="eventPeriod">
-                        <input type="hidden" name="eventId" th:value="${eventId}" id="eId">
+                        <input type="hidden" name="eId" th:value="${eventId}" id="eId">
                         <input type="hidden" name="reperiod" value="1" id="reperiod">
                         <p></p>
                         <a href="goNoDealWith" id="returnA"> <button class="btn btn-success btn-cons col-sm-offset-3" type="button"><i class="icon-ok" id="button1"></i>
@@ -263,8 +263,8 @@
                         </button>
                         <div style="display:none">
                             <form action="sendResourcesJump" method="post" id="updateEvent">
-                                <input type="text" name="eId"/>
-                                <input type="text" name="ePeriod"/>
+                                <input type="text" name="eventId"/>
+                                <input type="text" name="eventPeriod"/>
                             </form>
                         </div>
                     </div>

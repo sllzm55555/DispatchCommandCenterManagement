@@ -5,6 +5,7 @@ import com.lovo.dto.ResubmitDto;
 import com.lovo.entity.EventEntity;
 import com.lovo.service.IEventService;
 import com.lovo.service.IResubmitService;
+import com.lovo.util.MQUtil;
 import com.lovo.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,8 @@ public class EventServiceImpl implements IEventService {
     private IEventDao eventDao;
     @Autowired
     private IResubmitService resubmitService;
+    @Autowired
+    private MQUtil mqUtil;
 
 
     @Transactional
@@ -92,9 +95,15 @@ public class EventServiceImpl implements IEventService {
         return event;
     }
 
+    @Transactional
     @Override
-    public int endEvent(String eventId, Timestamp timestamp) {
-        return eventDao.endEvent(eventId, timestamp);
+    public int endEvent(String eventId, String timestamp) {
+        int n = eventDao.endEvent(eventId, timestamp);
+        if (n != 0) {
+            mqUtil.sendMessageToUploadSystem(eventId);
+        }
+
+        return n;
     }
 
     @Transactional

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
@@ -135,7 +136,7 @@ public class EventDealWithController {
      * 资源调用页面跳转
      * @return
      */
-    @RequestMapping("sendResourcesJump")
+    @RequestMapping(value = "sendResourcesJump",method = RequestMethod.POST)
     public ModelAndView sendResourcesJump(String  eventId,String eventPeriod) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("eventId",eventId);

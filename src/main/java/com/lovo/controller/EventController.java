@@ -27,6 +27,7 @@ import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -307,15 +308,16 @@ public class EventController {
         return str;
     }
 
+    @RequestMapping("endEvent")
     public ModelAndView endEvent(String eventId) {
         ModelAndView modelAndView = new ModelAndView();
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        int n = eventService.endEvent(eventId, timestamp);
-        modelAndView.setViewName("goToPageDealWithEd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateStr = dateFormat.format(new Date());
+        int n = eventService.endEvent(eventId, dateStr);
+        RedirectView goToPageDealWithEd = new RedirectView("goToPageDealWithEd");
+        modelAndView.setView(goToPageDealWithEd);
         return modelAndView;
     }
-
-
-
 }
 
