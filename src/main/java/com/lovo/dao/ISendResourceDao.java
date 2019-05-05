@@ -48,20 +48,20 @@ public interface ISendResourceDao extends CrudRepository<SendResourceEntity,Stri
     /**
      * 通过事件id，派遣编号修改单条派遣信息的负责人和负责人电话
      * @param eventId
-     * @param requestId
      * @return
      */
     @Modifying
     @Query(value = "UPDATE t_send_resource sr SET sr.charge_name=?1,sr.charge_tel =?2 " +
-            "WHERE request_id =?4 AND fk_event_id =?3",nativeQuery = true)
-    public int updateByEventEntity_EventIdAndRequestId(String chargeName,String chargeTel,String eventId, String requestId);
+            "WHERE fk_event_id =?3",nativeQuery = true)
+    public int updateByEventEntity_EventIdAndRequestId(String chargeName,String chargeTel,String eventId/*, String requestId*/);
 
     /**
      * 通过事件id和派遣编号的到资源派遣信息
      * @param eventId
-     * @param requestId
      * @return
      */
+    public SendResourceEntity findByEventEntity_EventId(String eventId/*, String requestId*/);
+
     public SendResourceEntity findByEventEntity_EventIdAndRequestId(String eventId, String requestId);
 
     /**

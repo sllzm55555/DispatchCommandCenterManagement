@@ -239,7 +239,7 @@ public class SendResourceServiceImpl implements ISendResourceService {
         sendResourceService.saveSendResource(sendResourceEntityList);
         //如果事件id不为2（1是未处理事件），修改事件处理状态
         if (eventEntity.getEventPeriod() != 2) {
-            eventService.updateEventData(eventId,2);
+            eventService.updateEventPeriod(eventId);
         }
         //把所有续报状态改成已处理
         List<ResubmitDto> resubmitDtoList = resubmitService.findAllResubmitListByIdAndPeriod(eventId, eventEntity.getEventPeriod(), null);
@@ -274,8 +274,8 @@ public class SendResourceServiceImpl implements ISendResourceService {
     }
 
     @Override
-    public int updateByEventEntity_EventIdAndRequestId(String chargeName, String chargeTel, String eventId, String requestId) {
-        int n = sendResourceDao.updateByEventEntity_EventIdAndRequestId(chargeName, chargeTel, eventId, requestId);
+    public int updateByEventEntity_EventIdAndRequestId(String chargeName, String chargeTel, String eventId/*, String requestId*/) {
+        int n = sendResourceDao.updateByEventEntity_EventIdAndRequestId(chargeName, chargeTel, eventId/*, requestId*/);
         return n;
     }
 
@@ -290,7 +290,14 @@ public class SendResourceServiceImpl implements ISendResourceService {
         //所以派遣dto必须写负责人，并且负责人在list里面
         //归队也必须写负责人，负责人可不用写在list里面
         EventEntity eventEntity = eventService.findEventByEventId(eventSendDto.getId());
-        SendResourceEntity sendResourceEntity = sendResourceService.findByEventIdAndRequestId(eventEntity.getEventId(), eventSendDto.getRequestId());
+        SendResourceEntity sendResourceEntity = null;
+        List<SendResourceEntity> list = null;
+
+        if(eventSendDto.getRequestId() == null){
+            sendResourceEntity = sendResourceService.findByEventId(eventEntity.getEventId());
+        }else {
+            sendResourceEntity = sendResourceService.findByEventIdAndRequestId(eventEntity.getEventId(), eventSendDto.getRequestId());
+        }
         List<PersonDto> personDtos = eventSendDto.getPersonDtos();
         List<CarDto> carDtos = eventSendDto.getCarDtos();
         if (n == 1) {
@@ -301,7 +308,9 @@ public class SendResourceServiceImpl implements ISendResourceService {
                     sendProgressEntity.setDeptName(sendResourceEntity.getResourceName());
                     sendProgressEntity.setResourceName(personDtos.get(i).getPersonName());
                     sendProgressEntity.setStartTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(personDtos.get(i).getStartTime()));
-                    sendProgressEntity.setReturnTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(personDtos.get(i).getReturnTime()));
+                    if(personDtos.get(i).getReturnTime() != null){
+                        sendProgressEntity.setReturnTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(personDtos.get(i).getReturnTime()));
+                    }
                     sendProgressEntity.setResourceId(personDtos.get(i).getId());
                     sendProgressEntity.setSendResourceEntity(sendResourceEntity);
                     sendProgressEntity.setEventEntity(eventEntity);
@@ -314,7 +323,9 @@ public class SendResourceServiceImpl implements ISendResourceService {
                     sendProgressEntity.setDeptName(sendResourceEntity.getResourceName());
                     sendProgressEntity.setResourceName(carDtos.get(i).getCarNum());
                     sendProgressEntity.setStartTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(carDtos.get(i).getStartTime()));
-                    sendProgressEntity.setReturnTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(carDtos.get(i).getReturnTime()));
+                    if(carDtos.get(i).getReturnTime() != null){
+                        sendProgressEntity.setReturnTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(carDtos.get(i).getReturnTime()));
+                    }
                     sendProgressEntity.setResourceId(carDtos.get(i).getId());
                     sendProgressEntity.setSendResourceEntity(sendResourceEntity);
                     sendProgressEntity.setEventEntity(eventEntity);
@@ -330,12 +341,18 @@ public class SendResourceServiceImpl implements ISendResourceService {
         } else {
             if (personDtos != null) {
                 for (int i = 0 ; i < personDtos.size() ; i++) {
-                    sendProgressService.updateReturnTimeByEventIdAndSendProgressId(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(personDtos.get(i).getReturnTime()),personDtos.get(i).getId(),eventEntity.getEventId());
+                    sendProgressService.updateReturnTimeByEventIdAndSendProgressId
+                            (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(personDtos.get(i).getReturnTime()),
+                                    personDtos.get(i).getId(),
+                                    eventEntity.getEventId());
                 }
             }
             if (carDtos != null) {
                 for (int i = 0 ; i < carDtos.size() ; i++) {
-                    sendProgressService.updateReturnTimeByEventIdAndSendProgressId(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(carDtos.get(i).getReturnTime()),carDtos.get(i).getId(),eventEntity.getEventId());
+                    sendProgressService.updateReturnTimeByEventIdAndSendProgressId(
+                            new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(carDtos.get(i).getReturnTime()),
+                            carDtos.get(i).getId(),
+                            eventEntity.getEventId());
                 }
             }
 
@@ -344,8 +361,8 @@ public class SendResourceServiceImpl implements ISendResourceService {
     }
 
     @Override
-    public SendResourceEntity findByEventIdAndRequestId(String eventId, String requestId) {
-        return sendResourceDao.findByEventEntity_EventIdAndRequestId(eventId, requestId);
+    public SendResourceEntity findByEventId(String eventId) {
+        return sendResourceDao.findByEventEntity_EventId(eventId);
     }
 
     @Override
@@ -364,5 +381,10 @@ public class SendResourceServiceImpl implements ISendResourceService {
             return sendResourceEntity.getRequestTimes();
         }
         return -1;
+    }
+
+    @Override
+    public SendResourceEntity findByEventIdAndRequestId(String eventId, String requestId) {
+        return sendResourceDao.findByEventEntity_EventIdAndRequestId(eventId, requestId);
     }
 }

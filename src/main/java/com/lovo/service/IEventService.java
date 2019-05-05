@@ -62,12 +62,13 @@ public interface IEventService {
      *  改变事件受伤人数，灾害等级，事件进度
      * @param eventId 事件Id
      * @param eventPeriod 事件的进行状态
-     * @param reperiod  续报的处理阶段
      * @return 修改成功返回1，失败返回0，没有进行修改返回-1
      *
      */
     public int updateEventData(String eventId,int eventPeriod);
 
     public int endEvent(String eventId, String timestamp);
+
+    public int updateEventPeriod(String eventId);
 
 }

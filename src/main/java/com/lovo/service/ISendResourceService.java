@@ -50,10 +50,9 @@ public interface ISendResourceService {
      * @param chargeName
      * @param chargeTel
      * @param eventId
-     * @param requestId
      * @return
      */
-    public int updateByEventEntity_EventIdAndRequestId(String chargeName, String chargeTel, String eventId, String requestId);
+    public int updateByEventEntity_EventIdAndRequestId(String chargeName, String chargeTel, String eventId/*, String requestId*/);
 
     /**
      * 修改进度
@@ -67,6 +66,8 @@ public interface ISendResourceService {
      *
      * 通过事件id和派遣编号查找对应的派遣信息
      */
+    public SendResourceEntity findByEventId(String eventId/*, String requestId*/);
+
     public SendResourceEntity findByEventIdAndRequestId(String eventId, String requestId);
 
     /**

@@ -10,6 +10,7 @@ import com.lovo.entity.PageBean;
 import com.lovo.entity.ResubmitEntity;
 import com.lovo.service.impl.EventServiceImpl;
 import com.lovo.service.impl.ResubmitServiceImpl;
+import com.lovo.util.MQUtil;
 import com.lovo.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
@@ -259,7 +260,7 @@ public class EventController {
         if (null==eventTime){
             eventTime="";
         }
-        List<EventEntity> eventList = eventService.findEventEntitiesByCondition(eventId, eventType, eventTime, currPage, 5,eventPeriod);
+        List<EventEntity> eventList = eventService.findEventEntitiesByCondition(eventId, eventType, eventTime, currPage, 10,eventPeriod);
         int totalNumber = eventService.getTotalNumber(eventId, eventType, eventTime,eventPeriod);
         EventPageBean page=new EventPageBean();
         page.setList(eventList);

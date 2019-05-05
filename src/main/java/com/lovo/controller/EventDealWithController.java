@@ -136,7 +136,7 @@ public class EventDealWithController {
      * 资源调用页面跳转
      * @return
      */
-    @RequestMapping(value = "sendResourcesJump",method = RequestMethod.POST)
+    @RequestMapping(value = "sendResourcesJump")
     public ModelAndView sendResourcesJump(String  eventId,String eventPeriod) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("eventId",eventId);
@@ -184,7 +184,7 @@ public class EventDealWithController {
                 gonganList.get(i).setCnumber(Integer.parseInt(resourceStatisticsDto.getCVacantNum()));
             }
         }
-        *//*if(xiaofangList != null){
+        if(xiaofangList != null){
             for (int i = 0; i < xiaofangList.size(); i++) {
                 String url = xiaofangList.get(i).getUrl();
                 String body = restTemplate.getForEntity("http://" + url + "/getResourceStatisticsJson", String.class).getBody();
@@ -192,7 +192,7 @@ public class EventDealWithController {
                 xiaofangList.get(i).setPnumber(Integer.parseInt(resourceStatisticsDto.getPRescuingNum()));
                 xiaofangList.get(i).setCnumber(Integer.parseInt(resourceStatisticsDto.getCVacantNum()));
             }
-        }*//*
+        }
         if(yiyuanList != null){
             for (int i = 0; i < yiyuanList.size(); i++) {
                 String url = yiyuanList.get(i).getUrl();
@@ -226,14 +226,16 @@ public class EventDealWithController {
         EventSendDto eventSendDto = JSONObject.parseObject(message,EventSendDto.class);
         String eventId = eventSendDto.getId();
 //        EventEntity eventEntity = eventService.findEventByEventId(eventId);
-        int n = sendResourceService.updateByEventEntity_EventIdAndRequestId(eventSendDto.getPerson().getPersonName(),
-                                                                            eventSendDto.getPerson().getTel(),
-                                                                            eventSendDto.getId(),
-                                                                            eventSendDto.getRequestId());
-        System.out.println(n + "保存修改派遣信息");
+        if(eventSendDto.getPerson()!= null){
+
+            int n = sendResourceService.updateByEventEntity_EventIdAndRequestId(eventSendDto.getPerson().getPersonName(),
+                    eventSendDto.getPerson().getTel(),
+                    eventId/*,
+                    eventSendDto.getRequestId()*/);
+        }
         int times = 0;
         if(eventSendDto.getPerson() != null){
-            //初次派遣，需要添加派遣进度记录
+            //派遣，需要添加派遣进度记录
             times = 1;
         }
         int m = sendResourceService.updateProgress(times,eventSendDto);

@@ -65,6 +65,7 @@
             websocket = new SockJS("http://127.0.0.1:8388/ws04/websocket");
         }
         websocket.onopen = function(event) {
+            alert("ok!")
         };
         websocket.onerror = function(event) {
         };
@@ -113,9 +114,16 @@
                         "                                </tr>";
                     $unit.append(dataTr);
                 }
-            })
+            });
             let $resource = $("#resource");
+            let $th = $("<tr>" +
+                "<th>单位名称</th>" +
+                "<th>人名(车牌号)</th>" +
+                "<th>出发时间</th>" +
+                "<th>归队时间</th>" +
+                "</tr>");
             $resource.empty();
+            $resource.append($th);
             $.each(data.progressDtoList, function (i, e) {
                 let progresss = " <tr id=\"" + e.progressId + "\">\n" +
                     "                                <td><span class=\"muted\">" + e.deptName + "</span></td>\n" +

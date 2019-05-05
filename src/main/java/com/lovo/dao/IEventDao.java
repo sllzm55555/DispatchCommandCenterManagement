@@ -114,4 +114,7 @@ public interface IEventDao extends CrudRepository<EventEntity,String> {
             "WHERE " +
             "e.event_id=?1",nativeQuery = true)
     public int endEvent(String eventId, String timestamp);
+
+
+
 }

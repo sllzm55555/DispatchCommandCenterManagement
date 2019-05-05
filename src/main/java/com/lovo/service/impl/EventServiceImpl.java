@@ -34,7 +34,7 @@ public class EventServiceImpl implements IEventService {
     private MQUtil mqUtil;
 
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public List<EventEntity> findEventEntitiesByCondition(String eventId, String eventType, String eventTime, int pageNo, int pageSize,int eventPeriod ) {
 
@@ -79,7 +79,7 @@ public class EventServiceImpl implements IEventService {
 
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public int changeEventEndTime(Date date, String eventId) {
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String format = sdf.format(date);
@@ -95,7 +95,7 @@ public class EventServiceImpl implements IEventService {
         return event;
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public int endEvent(String eventId, String timestamp) {
         int n = eventDao.endEvent(eventId, timestamp);
@@ -106,7 +106,7 @@ public class EventServiceImpl implements IEventService {
         return n;
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public int updateEventData(String eventId,int eventPeriod) {
         int n=0;
@@ -124,5 +124,13 @@ public class EventServiceImpl implements IEventService {
             n = eventDao.updateEventData(eventId, r.getHurtPopulation(), r.getEventLevel(), eventPeriod);
         }
         return n;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public int updateEventPeriod(String eventId) {
+        EventEntity eventEntity = eventDao.findEventByEventId(eventId);
+        eventEntity.setEventPeriod(2);
+        return 1;
     }
 }

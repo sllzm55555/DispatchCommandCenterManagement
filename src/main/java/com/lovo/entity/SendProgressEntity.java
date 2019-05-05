@@ -81,7 +81,7 @@ public class SendProgressEntity {
         this.sendResourceEntity = sendResourceEntity;
     }
 
-    @Column(columnDefinition="TIMESTAMP")
+    @Column(columnDefinition="DateTime")
     public String getReturnTime() {
         return returnTime;
     }
@@ -90,7 +90,7 @@ public class SendProgressEntity {
         this.returnTime = returnTime;
     }
 
-    @Column(columnDefinition="TIMESTAMP")
+    @Column(columnDefinition="DateTime")
     public String getStartTime() {
         return startTime;
     }
