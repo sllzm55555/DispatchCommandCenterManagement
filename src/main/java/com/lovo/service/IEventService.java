@@ -2,6 +2,7 @@ package com.lovo.service;
 
 import com.lovo.entity.EventEntity;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -66,5 +67,7 @@ public interface IEventService {
      *
      */
     public int updateEventData(String eventId,int eventPeriod);
+
+    public int endEvent(String eventId, Timestamp timestamp);
 
 }

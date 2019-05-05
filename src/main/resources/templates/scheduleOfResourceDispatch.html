@@ -83,6 +83,8 @@
 
         $(function () {
             let eventId = $("#eventId").val();
+            let urlStr = "endEvent?eventId=" + eventId;
+            $("#dealEnd").attr('href',urlStr);
             $.getJSON("showProgressByEventId", {eventId: eventId}, showProgress);
         })
 
@@ -191,6 +193,11 @@
                         </div>
                         <p></p>
                         <input type="hidden" th:value="${eventId}" id="eventId">
+                        <a id="dealEnd">
+                            <button class="btn btn-success btn-cons col-sm-offset-2" type="submit"><i class="icon-ok"
+                                                                                                      id="button2"></i>事件处理完成
+                            </button>
+                        </a>
                         <a th:href="@{goToDealWithIng}">
                             <button class="btn btn-success btn-cons col-sm-offset-5" type="submit"><i class="icon-ok"
                                                                                                       id="button1"></i>返回处理中事件首页

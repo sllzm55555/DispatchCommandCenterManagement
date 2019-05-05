@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -89,6 +90,11 @@ public class EventServiceImpl implements IEventService {
         EventEntity   event = eventDao.save(e);
 
         return event;
+    }
+
+    @Override
+    public int endEvent(String eventId, Timestamp timestamp) {
+        return eventDao.endEvent(eventId, timestamp);
     }
 
     @Transactional

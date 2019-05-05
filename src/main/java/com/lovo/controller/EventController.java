@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -306,6 +307,13 @@ public class EventController {
         return str;
     }
 
+    public ModelAndView endEvent(String eventId) {
+        ModelAndView modelAndView = new ModelAndView();
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        int n = eventService.endEvent(eventId, timestamp);
+        modelAndView.setViewName("goToPageDealWithEd");
+        return modelAndView;
+    }
 
 
 

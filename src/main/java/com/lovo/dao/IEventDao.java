@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -105,4 +106,11 @@ public interface IEventDao extends CrudRepository<EventEntity,String> {
             " t.event_period =?2 " +
             " where t.event_id=?1",nativeQuery = true)
     public int updateEventPeriod(String eventId,int eventPeriod);
+
+    @Query(value = "UPDATE t_event AS e" +
+            "SET e.end_time=?2," +
+            " e.event_period = 3" +
+            "WHERE " +
+            "e.event_id=?1",nativeQuery = true)
+    public int endEvent(String eventId, Timestamp timestamp);
 }
