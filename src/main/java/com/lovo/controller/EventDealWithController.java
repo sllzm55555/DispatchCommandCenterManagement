@@ -230,8 +230,8 @@ public class EventDealWithController {
 
             int n = sendResourceService.updateByEventEntity_EventIdAndRequestId(eventSendDto.getPerson().getPersonName(),
                     eventSendDto.getPerson().getTel(),
-                    eventId/*,
-                    eventSendDto.getRequestId()*/);
+                    eventId,
+                    eventSendDto.getRequestId());
         }
         int times = 0;
         if(eventSendDto.getPerson() != null){

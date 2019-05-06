@@ -52,7 +52,7 @@ public interface ISendResourceService {
      * @param eventId
      * @return
      */
-    public int updateByEventEntity_EventIdAndRequestId(String chargeName, String chargeTel, String eventId/*, String requestId*/);
+    public int updateByEventEntity_EventIdAndRequestId(String chargeName, String chargeTel, String eventId, String requestId);
 
     /**
      * 修改进度

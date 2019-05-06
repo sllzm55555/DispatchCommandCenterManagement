@@ -211,7 +211,7 @@
                   </thead>
                   <tbody>
                   <tr th:each="sendResources,trState:${event.sendResourceEntitySet}">
-                    <td class="v-align-middle" th:text="${sendResources.deptEntity.deptName}"></td>
+                    <td class="v-align-middle" th:text="${sendResources.resourceName}"></td>
                     <td class="v-align-middle"><span class="muted" th:text="${sendResources.chargeName}"></span></td>
                     <td><span class="muted" th:text="${sendResources.chargeTel}"></span></td>
                     <td class="v-align-middle" th:text="${sendResources.requestTimes + 1}"></td>

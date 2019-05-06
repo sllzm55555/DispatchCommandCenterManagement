@@ -47,11 +47,11 @@
         var websocket;
 
         if ('WebSocket' in window) {
-            websocket = new WebSocket("ws://127.0.0.1:8388/ResubmitWebsocket");
+            websocket = new WebSocket("ws://192.168.1.102:8388/ResubmitWebsocket");
         } else if ('MozWebSocket' in window) {
-            websocket = new MozWebSocket("ws://127.0.0.1:8388/ws");
+            websocket = new MozWebSocket("ws://192.168.1.102:8388/ws");
         } else {
-            websocket = new SockJS("http://127.0.0.1:8388/ws/sockjs");
+            websocket = new SockJS("http://192.168.1.102:8388/ws/sockjs");
         }
         websocket.onopen = function(event) {
         };
@@ -254,7 +254,7 @@
                         <input type="hidden" name="eId" th:value="${eventId}" id="eId">
                         <input type="hidden" name="reperiod" value="1" id="reperiod">
                         <p></p>
-                        <a href="goNoDealWith" id="returnA"> <button class="btn btn-success btn-cons col-sm-offset-3" type="button"><i class="icon-ok" id="button1"></i>
+                        <a href="goToNoDealWith" id="returnA"> <button class="btn btn-success btn-cons col-sm-offset-3" type="button"><i class="icon-ok" id="button1"></i>
                           返回
                         </button></a>
 

@@ -75,13 +75,12 @@ public class MQUtil {
         });
     }
 
-    public void sendMessageToUploadSystem(Object data){
+    public void sendMessageToUploadSystem(String data){
         jmsTemplate.send("sendMessageToUploadSystem", new MessageCreator() {
             @Override
             public TextMessage createMessage(Session session) throws JMSException {
                 TextMessage textMessage = session.createTextMessage();
-                String strJson = JSONObject.toJSONString(data);
-                textMessage.setText(strJson);
+                textMessage.setText(data);
                 return textMessage;
             }
         });

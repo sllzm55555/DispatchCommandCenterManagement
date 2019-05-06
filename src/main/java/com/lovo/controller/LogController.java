@@ -23,7 +23,7 @@ public class LogController {
     /**
      * 每个分页显示8条数据
      */
-    private Integer pageSize = 8;
+    private Integer pageSize = 10;
 
     /**
      * 页面跳转 到事件操作日志

@@ -58,14 +58,13 @@
         let webSocket;
 
         if ('WebSocket' in window) {
-            websocket = new WebSocket("ws://127.0.0.1:8388/websocket");
+            websocket = new WebSocket("ws://192.168.1.102:8388/websocket");
         } else if ('MozWebSocket' in window) {
-            websocket = new MozWebSocket("ws://127.0.0.1:8388/websocket");
+            websocket = new MozWebSocket("ws://192.168.1.102:8388/websocket");
         } else {
-            websocket = new SockJS("http://127.0.0.1:8388/ws04/websocket");
+            websocket = new SockJS("http://192.168.1.102:8388/ws04/websocket");
         }
         websocket.onopen = function(event) {
-            alert("ok!")
         };
         websocket.onerror = function(event) {
         };
@@ -125,11 +124,15 @@
             $resource.empty();
             $resource.append($th);
             $.each(data.progressDtoList, function (i, e) {
+                let returnTime = e.returnTime;
+                if(returnTime == null){
+                    returnTime = "未归队";
+                }
                 let progresss = " <tr id=\"" + e.progressId + "\">\n" +
                     "                                <td><span class=\"muted\">" + e.deptName + "</span></td>\n" +
                     "                                <td><span class=\"muted\">" + e.resourceName + "</span></td>\n" +
                     "                                <td><span class=\"muted\">" + e.startTime + "</span></td>\n" +
-                    "                                <td><span class=\"muted\">" + e.returnTime + "</span></td>\n" +
+                    "                                <td><span class=\"muted\">" + returnTime + "</span></td>\n" +
                     "                                </tr>";
                 $resource.append(progresss);
             })

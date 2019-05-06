@@ -64,26 +64,26 @@ public class EventController {
 //    message就是传送过来的信息
     public  void receiveQueue4(String message) {
 
-                NoDealWithDto event = JSONObject.parseObject(message, NoDealWithDto.class);
+        NoDealWithDto event = JSONObject.parseObject(message, NoDealWithDto.class);
 
-                EventEntity e=new EventEntity();
-                e.setEventId(event.getEventId());
-                e.setEventName(event.getEventName());
-                e.setHurtPopulation(event.getHurtPopulation());
-                e.setUniqueAttr(event.getUniqueAttr());
-                e.setAlarmPerson(event.getAlarmPerson());
-                e.setEventArea(event.getEventArea());
-                e.setAlarmTel(event.getAlarmTel());
-                e.setEventTime(event.getEventTime());
-                e.setAlarmAddress(event.getAlarmAddress());
-                e.setEventPeriod(1);
-                e.setEventUploadPeople(event.getEventUploadPeople());
-                e.setEndTime(null);
-                e.setEventType(event.getEventType());
-                e.setEventLevel(event.getEventLevel());
-                 eventService.saveEvent(e);
-                this.onMessage(message,sessionn);
-
+        EventEntity e=new EventEntity();
+        e.setEventId(event.getEventId());
+        e.setEventName(event.getEventName());
+        e.setHurtPopulation(event.getHurtPopulation());
+        e.setUniqueAttr(event.getUniqueAttr());
+        e.setAlarmPerson(event.getAlarmPerson());
+        e.setEventArea(event.getEventArea());
+        e.setAlarmTel(event.getAlarmTel());
+        e.setEventTime(event.getEventTime());
+        e.setAlarmAddress(event.getAlarmAddress());
+        e.setEventPeriod(1);
+        e.setEventUploadPeople(event.getEventUploadPeople());
+        e.setEndTime(null);
+        e.setEventType(event.getEventType());
+        e.setEventLevel(event.getEventLevel());
+        eventService.saveEvent(e);
+        System.out.println(e.getEventId());
+        this.onMessage(message,sessionn);
     }
 
     /**

@@ -274,8 +274,8 @@ public class SendResourceServiceImpl implements ISendResourceService {
     }
 
     @Override
-    public int updateByEventEntity_EventIdAndRequestId(String chargeName, String chargeTel, String eventId/*, String requestId*/) {
-        int n = sendResourceDao.updateByEventEntity_EventIdAndRequestId(chargeName, chargeTel, eventId/*, requestId*/);
+    public int updateByEventEntity_EventIdAndRequestId(String chargeName, String chargeTel, String eventId, String requestId) {
+        int n = sendResourceDao.updateByEventEntity_EventIdAndRequestId(chargeName, chargeTel, eventId, requestId);
         return n;
     }
 
@@ -291,10 +291,9 @@ public class SendResourceServiceImpl implements ISendResourceService {
         //归队也必须写负责人，负责人可不用写在list里面
         EventEntity eventEntity = eventService.findEventByEventId(eventSendDto.getId());
         SendResourceEntity sendResourceEntity = null;
-        List<SendResourceEntity> list = null;
 
         if(eventSendDto.getRequestId() == null){
-            sendResourceEntity = sendResourceService.findByEventId(eventEntity.getEventId());
+            sendResourceEntity = sendResourceService.findByEventIdAndRequestId(eventEntity.getEventId(), eventSendDto.getRequestId());
         }else {
             sendResourceEntity = sendResourceService.findByEventIdAndRequestId(eventEntity.getEventId(), eventSendDto.getRequestId());
         }

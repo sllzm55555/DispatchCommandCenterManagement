@@ -153,6 +153,8 @@
             //记录数据信息（当前页数和总页数）
             $("#pageNum").val(pageNum);
             $("#pageAll").val(pageAll);
+            $("#span").text("/"+pageAll);
+            $("#number").val(pageNum);
         }
     </script>
 </head>
@@ -223,7 +225,7 @@
                                 <button class="btn btn-info btn-cons" type="button" value="next"><i class="icon-ok"></i> 下一页</button>
                                 <button class="btn btn-info btn-cons" type="button" value="last"><i class="icon-ok"></i> 尾页</button>
                                 <input type="text" class="form-control" placeholder="您要跳转的页码"
-                                       style="width: 120px;display: inline-block" id="number"/>
+                                       style="width: 120px;display: inline-block" id="number"/><span id="span"></span>
                                 <button class="btn btn-info btn-cons" type="button" value="change"><i class="icon-ok"></i>跳转</button>
                             </div>
                         </div>

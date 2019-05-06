@@ -52,8 +52,8 @@ public interface ISendResourceDao extends CrudRepository<SendResourceEntity,Stri
      */
     @Modifying
     @Query(value = "UPDATE t_send_resource sr SET sr.charge_name=?1,sr.charge_tel =?2 " +
-            "WHERE fk_event_id =?3",nativeQuery = true)
-    public int updateByEventEntity_EventIdAndRequestId(String chargeName,String chargeTel,String eventId/*, String requestId*/);
+            "WHERE request_id=?4 and fk_event_id =?3",nativeQuery = true)
+    public int updateByEventEntity_EventIdAndRequestId(String chargeName,String chargeTel,String eventId, String requestId);
 
     /**
      * 通过事件id和派遣编号的到资源派遣信息
